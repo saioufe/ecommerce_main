@@ -19,7 +19,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  persistent_bottom_nav_bar: ^1.5.5
+  badges: ^1.1.1
+  page_transition: "^1.1.5"
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -41,8 +43,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+    - assets/
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -56,7 +58,25 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family:  ecommerceIcons
+      fonts:
+        - asset: assets/icons/EcommerceIcons.ttf
+    - family: tajawal
+      fonts:
+         - asset: assets/fonts/Tajawal-Regular.ttf
+         - asset: assets/fonts/Tajawal-Bold.ttf
+           weight: 600
+         - asset: assets/fonts/Tajawal-Bold.ttf
+           weight: 700
+         - asset: assets/fonts/Tajawal-ExtraBold.ttf
+           weight: 800
+         - asset: assets/fonts/Tajawal-Medium.ttf
+           weight: 500
+         - asset: assets/fonts/Tajawal-Light.ttf
+           weight: 300
+         - asset: assets/fonts/Tajawal-ExtraLight.ttf
+           weight: 200
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
