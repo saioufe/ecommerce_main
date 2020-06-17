@@ -1,7 +1,11 @@
 // import 'package:a_alkarar_lab/screens/main-screen.dart';
 // import 'package:a_alkarar_lab/screens/news-pressed-screen.dart';
+import 'package:ecommerce_template/providers/dummyData.dart';
 import 'package:ecommerce_template/screens/main-screen.dart';
+import 'package:ecommerce_template/screens/pressed-product.dart';
+import 'package:ecommerce_template/screens/some-page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 //import 'package:onesignal_flutter/onesignal_flutter.dart';
 //import 'package:flutter_downloader/flutter_downloader.dart';
 // import 'package:provider/provider.dart';
@@ -25,45 +29,46 @@ void main() async {
 //       .promptUserForPushNotificationPermission(fallbackToSettings: true);
 
   runApp(
-      // MultiProvider(
-      //     providers: [
-      //       ChangeNotifierProvider.value(
-      //         value: AllProvider(),
-      //       ),
-      //     ],
-      //     child:
-
-      MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: 'Haider alkarar Lab',
-    theme: ThemeData(
-      fontFamily: 'tajawal',
-      canvasColor: Color(0xFFecedf1),
-      primaryColor: Color.fromRGBO(121, 75, 145, 1),
-      accentColor: Color.fromRGBO(255, 189, 67, 1),
-      bottomAppBarColor: Color(0xff313e4b),
-      appBarTheme: AppBarTheme(
-        color: Color(0xFF37d2b3),
-        textTheme: TextTheme(
-          title: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: DummyData(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Haider alkarar Lab',
+        theme: ThemeData(
+          fontFamily: 'tajawal',
+          canvasColor: Color.fromRGBO(243, 248, 253, 1),
+          primaryColor: Color.fromRGBO(55, 195, 134, 1),
+          accentColor: Color.fromRGBO(255, 189, 67, 1),
+          bottomAppBarColor: Color(0xff313e4b),
+          appBarTheme: AppBarTheme(
+            color: Color(0xFF37d2b3),
+            textTheme: TextTheme(
+              title: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
+        home: MainScreen(0),
+        // SplashScreen.navigate(
+        //   name: 'assets/images/hairderLab.flr',
+        //   next: (_) => MainScreen(0),
+        //   until: () => Future.delayed(Duration(seconds: 1)),
+        //   startAnimation: 'Untitled',
+        //   backgroundColor: Colors.white,
+        //   endAnimation: '1',
+        // ),
+
+        routes: {
+          SomePage.routeName: (ctx) => SomePage(),
+          PressedProduct.routeName: (ctx) => PressedProduct(),
+        },
       ),
     ),
-    home: MainScreen(0),
-    // SplashScreen.navigate(
-    //   name: 'assets/images/hairderLab.flr',
-    //   next: (_) => MainScreen(0),
-    //   until: () => Future.delayed(Duration(seconds: 1)),
-    //   startAnimation: 'Untitled',
-    //   backgroundColor: Colors.white,
-    //   endAnimation: '1',
-    // ),
-    // routes: {
-    //   NewsPressedScreen.routeName: (ctx) => NewsPressedScreen(),
-    //   MainScreen.routeName: (ctx) => MainScreen(0),
-    // },
-  ));
+  );
 }

@@ -5,7 +5,7 @@ class CategoriesHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top:40.0),
+      padding: EdgeInsets.only(top: 40.0),
       child: Column(
         children: <Widget>[
           Container(
@@ -20,13 +20,13 @@ class CategoriesHomeScreen extends StatelessWidget {
                   },
                   child: Row(
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Icon(
-                          Icons.keyboard_arrow_left,
-                          size: 18,
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 8.0),
+                      //   child: Icon(
+                      //     Icons.keyboard_arrow_left,
+                      //     size: 18,
+                      //   ),
+                      // ),
                       Text(
                         // lang.translation['MoreTitle']
                         //     [Languages.selectedLanguage],
@@ -55,7 +55,7 @@ class CategoriesHomeScreen extends StatelessWidget {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            height:100,
+            height: 100,
             child: GridView.builder(
               //physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -69,17 +69,17 @@ class CategoriesHomeScreen extends StatelessWidget {
               itemCount: 6,
               itemBuilder: (context, index) {
                 return Container(
-                  
                   margin: EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).canvasColor,
+                    color: Colors.white,
                     borderRadius: BorderRadius.all(
                       Radius.circular(18),
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                        color:
-                            Theme.of(context).bottomAppBarColor.withOpacity(0.2),
+                        color: Theme.of(context)
+                            .bottomAppBarColor
+                            .withOpacity(0.2),
                         offset: Offset(2.0, 3.0),
                         blurRadius: 1.4,
                       ),
@@ -88,9 +88,13 @@ class CategoriesHomeScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Icon(EcommerceIcons.shirt,size: 50,),
+                      Icon(
+                        EcommerceIcons.wallet,
+                        size: 50,
+                        color: Theme.of(context).primaryColor,
+                      ),
                       Text(
-                        "التامين",
+                        "category",
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         textDirection: TextDirection.rtl,

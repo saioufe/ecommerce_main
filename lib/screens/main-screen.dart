@@ -50,46 +50,57 @@ class _TabsScreenState extends State<MainScreen> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
+        translucencyPercentage: 85,
         icon: Icon(EcommerceIcons.user),
         title: ("profile"),
         activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey.withOpacity(0.5),
-        isTranslucent: false,
+        inactiveColor: Colors.grey,
+        isTranslucent: true,
       ),
       PersistentBottomNavBarItem(
+        translucencyPercentage: 85,
         icon: Badge(
           animationType: BadgeAnimationType.scale,
-          badgeColor: Theme.of(context).accentColor,
+          badgeColor: Theme.of(context).primaryColor,
           animationDuration: Duration(milliseconds: 100),
-          badgeContent: Text('3'),
+          badgeContent: Container(
+              padding: EdgeInsets.only(top: 5),
+              child: Text(
+                '1',
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              )),
           position: BadgePosition.topLeft(),
           child: Icon(EcommerceIcons.shopping_cart),
         ),
         title: ("cart"),
         activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey.withOpacity(0.5),
-        isTranslucent: false,
+        inactiveColor: Colors.grey,
+        isTranslucent: true,
       ),
       PersistentBottomNavBarItem(
+        translucencyPercentage: 85,
         icon: Icon(EcommerceIcons.magnifying_glass),
         title: ("search"),
         activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey.withOpacity(0.5),
-        isTranslucent: false,
+        inactiveColor: Colors.grey,
+        isTranslucent: true,
       ),
       PersistentBottomNavBarItem(
+        translucencyPercentage: 85,
         icon: Icon(EcommerceIcons.tag),
         title: ("categories"),
         activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey.withOpacity(0.5),
-        isTranslucent: false,
+        inactiveColor: Colors.grey,
+        isTranslucent: true,
       ),
       PersistentBottomNavBarItem(
+        translucencyPercentage: 85,
         icon: Icon(EcommerceIcons.shop),
         title: ("Home"),
         activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey.withOpacity(0.5),
-        isTranslucent: false,
+        inactiveColor: Colors.grey,
+        isTranslucent: true,
       ),
     ];
   }
@@ -97,7 +108,8 @@ class _TabsScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
-        navBarHeight: 80,
+
+        //navBarHeight: 80,
         navBarCurveRadius: 15,
         iconSize: 22,
         navBarCurve: NavBarCurve.upperCorners,
