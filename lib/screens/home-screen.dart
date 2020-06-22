@@ -2,6 +2,7 @@ import 'package:ecommerce_template/Templates/news-home-template.dart';
 import 'package:ecommerce_template/ecommerce_icons_icons.dart';
 import 'package:ecommerce_template/models/News.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
+import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:ecommerce_template/widgets/categories-home-screen.dart';
 import 'package:ecommerce_template/Templates/category-home-template.dart';
 import 'package:ecommerce_template/Templates/product-history-template.dart';
@@ -272,7 +273,7 @@ class HomeScreen extends StatelessWidget {
           SizedBox(
             height: sizeBetweenWidgets,
           ),
-                    SizedBox(
+          SizedBox(
             height: 50,
           ),
         ],

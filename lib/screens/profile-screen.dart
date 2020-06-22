@@ -1,5 +1,10 @@
 import 'package:badges/badges.dart';
+import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/screens/aboutus-screen.dart';
+import 'package:ecommerce_template/screens/favorite-screen.dart';
+import 'package:ecommerce_template/screens/languages.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../ecommerce_icons_icons.dart';
 
@@ -14,6 +19,7 @@ bool darkTheme = false;
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    final allPro = Provider.of<AllProviders>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -84,6 +90,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SettingTemplate(
                 title: "المفضلات",
+                onTap: () {
+                  setState(() {
+                    allPro.NavBarShow(false);
+                  });
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FavoriteScreen(),
+                      ));
+                },
                 lastWidget: Icon(
                   Icons.keyboard_arrow_left,
                   color: Theme.of(context).bottomAppBarColor,
@@ -146,6 +163,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 icon: Icons.language,
                 notiNumber: 0,
+                onTap: () {
+                  setState(() {
+                    allPro.NavBarShow(false);
+                  });
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LanguagesScreen(),
+                      ));
+                },
               ),
               Divider(
                 indent: 50,
@@ -162,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     });
                   },
                 ),
-                icon: Icons.wb_sunny,
+                icon: Icons.brightness_2,
                 notiNumber: 0,
               ),
               Divider(
@@ -177,6 +204,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 icon: Icons.info_outline,
                 notiNumber: 0,
+                onTap: () {
+                  setState(() {
+                    allPro.NavBarShow(false);
+                  });
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AboutUsScreen(),
+                      ));
+                },
               ),
               Divider(
                 indent: 50,

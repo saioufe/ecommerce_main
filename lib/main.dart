@@ -1,9 +1,9 @@
 // import 'package:a_alkarar_lab/screens/main-screen.dart';
 // import 'package:a_alkarar_lab/screens/news-pressed-screen.dart';
+import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
 import 'package:ecommerce_template/screens/main-screen.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
-import 'package:ecommerce_template/screens/some-page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -33,6 +33,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider.value(
           value: DummyData(),
+        ),
+        ChangeNotifierProvider.value(
+          value: AllProviders(),
         ),
       ],
       child: MaterialApp(
@@ -65,7 +68,6 @@ void main() async {
         // ),
 
         routes: {
-          SomePage.routeName: (ctx) => SomePage(),
           PressedProduct.routeName: (ctx) => PressedProduct(),
         },
       ),

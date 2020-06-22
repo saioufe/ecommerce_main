@@ -1,10 +1,11 @@
 import 'package:ecommerce_template/ecommerce_icons_icons.dart';
 import 'package:ecommerce_template/models/Product.dart';
+import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
-import 'package:ecommerce_template/screens/some-page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:like_button/like_button.dart';
+import 'package:provider/provider.dart';
 
 class ProductMainTemplate extends StatefulWidget {
   final Product product;
@@ -15,12 +16,24 @@ class ProductMainTemplate extends StatefulWidget {
 }
 
 class _ProductMainTemplateState extends State<ProductMainTemplate> {
+
+
   @override
   Widget build(BuildContext context) {
+    final allPro = Provider.of<AllProviders>(context);
     return InkWell(
       onTap: () {
-        Navigator.of(context)
-            .pushNamed(SomePage.routeName, arguments: widget.product);
+        setState(() {
+          allPro.NavBarShow(false);
+        });
+
+        // Navigator.of(context)
+        //     .pushNamed(PressedProduct.routeName, arguments: widget.product);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PressedProduct(product: widget.product),
+            ));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(10)),
