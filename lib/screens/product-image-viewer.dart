@@ -1,16 +1,45 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/models/Product.dart';
+import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ProductImageViewer extends StatelessWidget {
+class ProductImageViewer extends StatefulWidget {
   final List<String> pics;
   final Product product;
   final int currentIndex;
   ProductImageViewer({this.pics, this.product, this.currentIndex});
 
   @override
+  _ProductImageViewerState createState() => _ProductImageViewerState();
+}
+
+class _ProductImageViewerState extends State<ProductImageViewer> {
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent) {
+    print("BACK BUTTON!"); // Do some stuff.
+
+    Provider.of<AllProviders>(context, listen: false).NavBarShow(false);
+
+    Navigator.pop(context);
+    return true;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    int currentIndex2 = currentIndex;
+    int currentIndex2 = widget.currentIndex;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -22,7 +51,7 @@ class ProductImageViewer extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Center(
             child: Text(
-              product.title,
+              widget.product.title,
               style: TextStyle(fontSize: 20),
             ),
           ),
@@ -30,7 +59,7 @@ class ProductImageViewer extends StatelessWidget {
       ),
       body: ExtendedImageGesturePageView.builder(
         itemBuilder: (BuildContext context, int index) {
-          var item = pics[index];
+          var item = widget.pics[index];
           Widget image = ExtendedImage.network(
             item,
             initGestureConfigHandler: (s) {
@@ -58,7 +87,7 @@ class ProductImageViewer extends StatelessWidget {
             return image;
           }
         },
-        itemCount: pics.length,
+        itemCount: widget.pics.length,
         onPageChanged: (int index) {
           currentIndex2 = index;
           //    rebuild.add(index);

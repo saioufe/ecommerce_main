@@ -22,6 +22,7 @@ class SimilarItems extends StatelessWidget {
                 width: 200,
                 child: ProductMainTemplate(
                   product: dummyData.products[0],
+                  isMain: true,
                 ),
               ),
               SizedBox(
@@ -32,6 +33,7 @@ class SimilarItems extends StatelessWidget {
                 height: 400,
                 child: ProductMainTemplate(
                   product: dummyData.products[1],
+                  isMain: true,
                 ),
               ),
               SizedBox(
@@ -42,6 +44,7 @@ class SimilarItems extends StatelessWidget {
                 height: 400,
                 child: ProductMainTemplate(
                   product: dummyData.products[2],
+                  isMain: true,
                 ),
               ),
               SizedBox(
@@ -52,6 +55,7 @@ class SimilarItems extends StatelessWidget {
                 height: 400,
                 child: ProductMainTemplate(
                   product: dummyData.products[3],
+                  isMain: true,
                 ),
               ),
               SizedBox(
@@ -62,6 +66,7 @@ class SimilarItems extends StatelessWidget {
                 height: 400,
                 child: ProductMainTemplate(
                   product: dummyData.products[4],
+                  isMain: true,
                 ),
               ),
               // ProductMainTemplate(

@@ -34,6 +34,8 @@ dependencies:
   back_button_interceptor: ^4.2.4
   groovin_widgets: ^1.5.0+1
   shimmer: ^1.1.1
+  solid_bottom_sheet: ^0.1.9
+  onesignal_flutter: ^2.4.1
 
 
   

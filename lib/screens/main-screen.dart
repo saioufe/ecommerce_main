@@ -3,9 +3,11 @@ import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/screens/cart-screen.dart';
 import 'package:ecommerce_template/screens/categories-screen.dart';
 import 'package:ecommerce_template/screens/home-screen.dart';
+import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:ecommerce_template/screens/profile-screen.dart';
 import 'package:ecommerce_template/screens/search-screen.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:persistent_bottom_nav_bar/models/persisten-bottom-nav-item.widget.dart';
 import 'package:persistent_bottom_nav_bar/models/persistent-bottom-nav-bar-styles.widget.dart';
@@ -34,6 +36,17 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    OneSignal.shared.setNotificationReceivedHandler((notification) {
+      String data = notification.payload.additionalData['id'].toString();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PressedProduct(
+              isMain: true,
+            ),
+          ));
+      print("this is the data and the payload for the notification : $data");
+    });
 
     _controller = PersistentTabController(initialIndex: 4);
   }

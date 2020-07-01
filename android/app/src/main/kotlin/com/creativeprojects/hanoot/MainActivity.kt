@@ -1,4 +1,4 @@
-package com.example.ecommerce_template
+package com.creativeprojects.hanoot
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

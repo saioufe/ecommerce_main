@@ -14,7 +14,8 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 class PressedProduct extends StatefulWidget {
   static const routeName = '/pressed-product';
   final Product product;
-  PressedProduct({this.product});
+  final bool isMain;
+  PressedProduct({this.product, @required this.isMain});
 
   @override
   _PressedProductState createState() => _PressedProductState();
@@ -49,7 +50,10 @@ class _PressedProductState extends State<PressedProduct> {
 
   bool myInterceptor(bool stopDefaultButtonEvent) {
     print("BACK BUTTON!"); // Do some stuff.
-    Provider.of<AllProviders>(context, listen: false).NavBarShow(true);
+    if (widget.isMain == false) {
+      Provider.of<AllProviders>(context, listen: false).NavBarShow(true);
+    }
+
     Navigator.pop(context);
     return true;
   }
@@ -83,8 +87,10 @@ class _PressedProductState extends State<PressedProduct> {
     return WillPopScope(
       onWillPop: () {
         print("sas");
+        if (widget.isMain == false) {
+          allPro.NavBarShow(true);
+        }
 
-        allPro.NavBarShow(true);
         return Future.value(true);
       },
       child: Scaffold(

@@ -3,6 +3,8 @@ import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/screens/aboutus-screen.dart';
 import 'package:ecommerce_template/screens/favorite-screen.dart';
 import 'package:ecommerce_template/screens/languages.dart';
+import 'package:ecommerce_template/screens/login-screen.dart';
+import 'package:ecommerce_template/screens/order-history-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,20 +37,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ],
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                width: MediaQuery.of(context).size.width,
+                height: 60,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 20),
+                        child: SizedBox(),
+                      ),
+                      flex: 0,
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                " saif maher mohammed",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      flex: 3,
+                    ),
+                    Expanded(
+                      child: Icon(
+                        EcommerceIcons.user,
+                        color: Theme.of(context).bottomAppBarColor,
+                      ),
+                      flex: 1,
+                    ),
+                  ],
+                ),
+              ),
               SettingTemplate(
                 title: "تسجيل الدخول",
                 lastWidget: Icon(
                   Icons.keyboard_arrow_left,
                   color: Theme.of(context).bottomAppBarColor,
                 ),
-                icon: EcommerceIcons.user,
                 notiNumber: 0,
+                onTap: () {
+                  setState(() {
+                    allPro.NavBarShow(false);
+                  });
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ));
+                },
               ),
               Divider(
                 indent: 50,
@@ -56,19 +110,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SettingTemplate(
                 title: "تسجيل الخروج",
-                lastWidget: Icon(
-                  Icons.keyboard_arrow_left,
-                  color: Theme.of(context).bottomAppBarColor,
-                ),
-                icon: null,
-                notiNumber: 0,
-              ),
-              Divider(
-                indent: 50,
-                endIndent: 50,
-              ),
-              SettingTemplate(
-                title: "تعديل الحساب",
                 lastWidget: Icon(
                   Icons.keyboard_arrow_left,
                   color: Theme.of(context).bottomAppBarColor,
@@ -120,6 +161,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 icon: EcommerceIcons.shopping_cart,
                 notiNumber: 6,
+                onTap: () {
+                  setState(() {
+                    allPro.NavBarShow(false);
+                  });
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrderHistoryScreen(),
+                      ));
+                },
               ),
               Divider(
                 indent: 50,

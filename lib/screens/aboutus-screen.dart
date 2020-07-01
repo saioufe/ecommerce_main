@@ -41,6 +41,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           iconTheme: IconThemeData(color: Colors.white),
           actions: <Widget>[
             Container(
@@ -74,7 +75,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   ),
                 ),
                 child: Text(
-                  "من نحن من نحن من نحن من نحن من نحن من نحن من نحن من نحن من نحن من نحن من نحن من نحن v من نحن من نحن v من نحن من نحن من نحن من نحن من نحن من نحن من نحن من نحن",
+                  "شركة حانوت المحدودة للتجارة العامة والتسويق الالكتروني , مختصون في تجارة وبيع كافة انواع المنتجات للمستهلك العام بانسب الاسعار",
                   textAlign: TextAlign.justify,
                   textDirection: TextDirection.rtl,
                   style: TextStyle(

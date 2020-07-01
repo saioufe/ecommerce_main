@@ -9,7 +9,8 @@ import 'package:provider/provider.dart';
 
 class ProductHistoryTemplate extends StatefulWidget {
   final Product product;
-  ProductHistoryTemplate({this.product});
+  final bool isMain;
+  ProductHistoryTemplate({this.product, @required this.isMain});
   @override
   _ProductHistoryTemplateState createState() => _ProductHistoryTemplateState();
 }
@@ -29,7 +30,10 @@ class _ProductHistoryTemplateState extends State<ProductHistoryTemplate> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PressedProduct(product: widget.product),
+              builder: (context) => PressedProduct(
+                product: widget.product,
+                isMain: widget.isMain,
+              ),
             ));
       },
       child: ClipRRect(

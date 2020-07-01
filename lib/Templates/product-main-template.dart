@@ -9,15 +9,14 @@ import 'package:provider/provider.dart';
 
 class ProductMainTemplate extends StatefulWidget {
   final Product product;
-  ProductMainTemplate({@required this.product});
+  final bool isMain;
+  ProductMainTemplate({@required this.product, @required this.isMain});
 
   @override
   _ProductMainTemplateState createState() => _ProductMainTemplateState();
 }
 
 class _ProductMainTemplateState extends State<ProductMainTemplate> {
-
-
   @override
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
@@ -32,7 +31,10 @@ class _ProductMainTemplateState extends State<ProductMainTemplate> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PressedProduct(product: widget.product),
+              builder: (context) => PressedProduct(
+                product: widget.product,
+                isMain: widget.isMain,
+              ),
             ));
       },
       child: ClipRRect(

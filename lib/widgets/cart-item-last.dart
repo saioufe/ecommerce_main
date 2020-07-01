@@ -113,6 +113,17 @@ class CartItemLast extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Container(
+                          padding: EdgeInsets.only(top: 8, left: 5, right: 5),
+                          decoration: BoxDecoration(
+                              color: Colors.white, shape: BoxShape.rectangle),
+                          child: Center(
+                              child: Text(
+                            " x 1 ",
+                            style: TextStyle(fontSize: 13),
+                            textAlign: TextAlign.center,
+                          )),
+                        ),
                       ],
                     ),
                   ],

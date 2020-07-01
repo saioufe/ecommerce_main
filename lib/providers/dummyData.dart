@@ -70,75 +70,103 @@ class DummyData extends ChangeNotifier {
 
   List<News> _news = [
     News(
-      id: "1",
+      id: "11",
       title: "اهمية السؤال قبل الطلب عندما تكون في حيرة من امرك",
       desc:
           "شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع",
       image: "post1.png",
+      date: "12/2/2020",
     ),
     News(
-      id: "2",
+      id: "22",
       title: "طريقة التسوق بلطريقة المثالية",
       desc:
           "شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع",
       image: "post2.png",
+      date: "12/2/2020",
     ),
     News(
-      id: "3",
+      id: "33",
       title: "تعرف على الخصائص الكاملة لتطبيق مشاريع ابداعية للتسوق الجديد",
       desc:
           "شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع شرح عن الموضوع",
       image: "post3.png",
+      date: "12/2/2020",
     ),
   ];
 
   List<Category> _categories = [
     Category(
-      id: "1",
+      id: "111",
       name: "ملابس رجالية",
       image: "category2.jpg",
+      subCategories: ["احذية", "قمصان", "تي شيرت", "قبعات"],
     ),
     Category(
-      id: "2",
+      id: "222",
       name: "ملابس نسائية",
       image: "category1.jpg",
+      subCategories: [],
     ),
     Category(
-      id: "3",
+      id: "333",
       name: "احذية",
       image: "category3.jpeg",
+      subCategories: ["سبورت", "تران شوز", "رسمي"],
     ),
     Category(
-      id: "4",
+      id: "444",
       name: "هواتف ذكية",
       image: "category4.jpg",
+      subCategories: ["سامسونك", "ايفون", "هواوي", "LG"],
     ),
     Category(
-      id: "5",
+      id: "555",
       name: "قرطاسية",
       image: "category5.jpeg",
+      subCategories: ["دفاتر", "اقلام", "كتب", "ملصقات"],
     ),
     Category(
-      id: "6",
+      id: "666",
       name: "بطاقات",
       image: "category6.jpg",
+      subCategories: ["itunes", "Xbox Live", "PSN", "Zain Cash"],
     ),
     Category(
-      id: "7",
+      id: "777",
       name: "اثاث",
       image: "category7.jpg",
+      subCategories: ["مكتبي", "مطبخ", "غرف نوم", "استقبال"],
     ),
     Category(
-      id: "8",
+      id: "888",
       name: "طعام",
       image: "category8.jpg",
+      subCategories: ["سوشي", "هندي", "عراقي", "لبناني"],
     ),
     Category(
-      id: "9",
+      id: "999",
       name: "العاب الفيديو",
       image: "category9.jpg",
+      subCategories: [
+        "PlayStation 4",
+        "Xbox One",
+        "nintendo switch",
+        "PC",
+        "Xbox One",
+        "nintendo switch",
+        "PC",
+        "Xbox One",
+        "nintendo switch",
+        "PC"
+      ],
     ),
   ];
+  int selectedCat = 0;
+  void setCat(int index) {
+    selectedCat = index;
+    notifyListeners();
+  }
 
   List<Product> get products {
     return _products;

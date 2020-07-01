@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "636054665982",
+    "firebase_url": "https://hanoot-cecce.firebaseio.com",
+    "project_id": "hanoot-cecce",
+    "storage_bucket": "hanoot-cecce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636054665982:android:de01d1b296af177e1683af",
+        "android_client_info": {
+          "package_name": "com.creativeprojects.hanoot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "636054665982-kejk48nrgcqgend6deifuvficsc5k3ku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALx2B2rFGuzWTrGU0Wzqy8MvEyi-733Z0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "636054665982-kejk48nrgcqgend6deifuvficsc5k3ku.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

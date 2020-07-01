@@ -5,6 +5,7 @@ import 'package:ecommerce_template/providers/dummyData.dart';
 import 'package:ecommerce_template/screens/main-screen.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 //import 'package:onesignal_flutter/onesignal_flutter.dart';
 //import 'package:flutter_downloader/flutter_downloader.dart';
@@ -14,19 +15,21 @@ import 'package:provider/provider.dart';
 
 void main() async {
 //Remove this method to stop OneSignal Debugging
-//   WidgetsFlutterBinding.ensureInitialized();
-//   OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+  WidgetsFlutterBinding.ensureInitialized();
+  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
-//   OneSignal.shared.init("34a10f05-fcb0-464e-bc8a-262bdb922960", iOSSettings: {
-//     OSiOSSettings.autoPrompt: false,
-//     OSiOSSettings.inAppLaunchUrl: false
-//   });
-//   OneSignal.shared
-//       .setInFocusDisplayType(OSNotificationDisplayType.notification);
+  OneSignal.shared.init("0ae33daf-adcb-40b4-a128-f7a3fa6b2ea9", iOSSettings: {
+    OSiOSSettings.autoPrompt: false,
+    OSiOSSettings.inAppLaunchUrl: false
+  });
+  OneSignal.shared
+      .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
-// // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 6)
-//   await OneSignal.shared
-//       .promptUserForPushNotificationPermission(fallbackToSettings: true);
+// The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 6)
+  await OneSignal.shared
+      .promptUserForPushNotificationPermission(fallbackToSettings: true);
+      
+
 
   runApp(
     MultiProvider(
@@ -40,7 +43,7 @@ void main() async {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Haider alkarar Lab',
+        title: 'Ecommerce Creative Projects',
         theme: ThemeData(
           fontFamily: 'tajawal',
           canvasColor: Color.fromRGBO(243, 248, 253, 1),
@@ -68,7 +71,7 @@ void main() async {
         // ),
 
         routes: {
-          PressedProduct.routeName: (ctx) => PressedProduct(),
+          //PressedProduct.routeName: (ctx) => PressedProduct(),
         },
       ),
     ),

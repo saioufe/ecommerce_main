@@ -42,6 +42,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           iconTheme: IconThemeData(color: Colors.white),
           actions: <Widget>[
             Container(
@@ -65,8 +66,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  FavoriteItemTemplate(),
-                  FavoriteItemTemplate(),
                   FavoriteItemTemplate(),
                   FavoriteItemTemplate(),
                 ],

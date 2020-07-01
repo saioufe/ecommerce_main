@@ -43,6 +43,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           iconTheme: IconThemeData(color: Colors.white),
           actions: <Widget>[
             Container(

@@ -102,12 +102,11 @@ class _PaymentSecondPayAddressState extends State<PaymentSecondPayAddress> {
                   ),
                 ),
               ),
-              onPressed: null,
-              // () {
-              //   widget.c.animateToPage(2,
-              //       duration: Duration(milliseconds: 300),
-              //       curve: Curves.easeIn);
-              // },
+              onPressed: () {
+                widget.c.animateToPage(2,
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeIn);
+              },
               color: Theme.of(context).primaryColor,
             ),
           ],

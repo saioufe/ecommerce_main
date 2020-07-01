@@ -161,7 +161,9 @@ class HomeScreen extends StatelessWidget {
                     itemCount: dummyData.products.length,
                     itemBuilder: (ctx, index) {
                       return ProductHistoryTemplate(
-                          product: dummyData.products[index]);
+                        product: dummyData.products[index],
+                        isMain: false,
+                      );
                     },
                   ),
                 ),
@@ -212,7 +214,7 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.white,
                 child: Column(
                     children: dummyData.news.map((item) {
-                  return NewsHomeTemplate(
+                  return PostsHomeTemplate(
                     news: News(
                       id: item.id,
                       title: item.title,
@@ -261,7 +263,9 @@ class HomeScreen extends StatelessWidget {
                       itemCount: dummyData.products.length,
                       itemBuilder: (context, index) {
                         return ProductMainTemplate(
-                            product: dummyData.products[index]);
+                          product: dummyData.products[index],
+                          isMain: false,
+                        );
                       },
                     ),
                   ),
