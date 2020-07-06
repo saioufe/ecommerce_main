@@ -1,4 +1,5 @@
-import 'package:ecommerce_template/models/Product.dart';
+import 'package:ecommerce_template/models/Product-show.dart';
+import 'package:ecommerce_template/models/product_question.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/screens/product-image-viewer.dart';
 import 'package:ecommerce_template/widgets/product-color-size-section.dart';
@@ -13,19 +14,22 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 class PressedProduct extends StatefulWidget {
   static const routeName = '/pressed-product';
-  final Product product;
+  final ProductShow product;
+  final bool pressedWithProductId;
+  final int productid;
   final bool isMain;
-  PressedProduct({this.product, @required this.isMain});
+  PressedProduct(
+      {this.product,
+      @required this.isMain,
+      this.pressedWithProductId,
+      this.productid});
 
   @override
   _PressedProductState createState() => _PressedProductState();
 }
 
-List<String> pics = [
-  'https://ae01.alicdn.com/kf/H7b76671f35dd43b5bbd659c5ab6633f1J.jpg?width=750&height=1237&hash=1987',
-  'https://ae01.alicdn.com/kf/H9ade6066e8ba4627a28c2ad92815dd02f.jpg?width=750&height=1588&hash=2338',
-  'https://ae01.alicdn.com/kf/Ha9c01d1f33f241a4864007384e0e308cp.jpg?width=750&height=839&hash=1589',
-];
+List<String> pics = [];
+List<ProductQuestion> questions = [];
 int currentIndex = 0;
 
 Future<bool> requestPop() {
@@ -38,6 +42,18 @@ class _PressedProductState extends State<PressedProduct> {
 
   @override
   void initState() {
+    AllProviders.selectedSize = '';
+    AllProviders.selectedColor = '';
+    AllProviders.selectedQuintity2 = 1;
+    AllProviders.getOnceImage = false;
+    AllProviders.getOnceQuestion = false;
+    if (AllProviders.dataOfflineAllProductsQuestion != null) {
+      AllProviders.dataOfflineAllProductsQuestion = null;
+    }
+    if (AllProviders.dataOfflineAllProductsColors != null) {
+      AllProviders.dataOfflineAllProductsColors = null;
+    }
+
     super.initState();
     BackButtonInterceptor.add(myInterceptor);
   }
@@ -49,6 +65,9 @@ class _PressedProductState extends State<PressedProduct> {
   }
 
   bool myInterceptor(bool stopDefaultButtonEvent) {
+    if (AllProviders.dataOfflineAllProductsColors != null) {
+      AllProviders.dataOfflineAllProductsColors = null;
+    }
     print("BACK BUTTON!"); // Do some stuff.
     if (widget.isMain == false) {
       Provider.of<AllProviders>(context, listen: false).NavBarShow(true);
@@ -77,8 +96,23 @@ class _PressedProductState extends State<PressedProduct> {
 
   @override
   Widget build(BuildContext context) {
-    final product = ModalRoute.of(context).settings.arguments as Product;
-    final allPro = Provider.of<AllProviders>(context);
+    final product = ModalRoute.of(context).settings.arguments as ProductShow;
+    final allPro = Provider.of<AllProviders>(context, listen: false);
+
+    if (AllProviders.getOnceImage != true) {
+      if (allPro.allProductsImages != null) {
+        allPro.allProductsImages.clear();
+        pics.clear();
+      }
+      allPro.fetchDataProductImages(widget.product.id).then((value) {
+        allPro.allProductsImages.reversed.map((image) {
+          pics.add("${AllProviders.hostName}/images/products/${image.image}");
+          print(image.image);
+        }).toList();
+      });
+      AllProviders.getOnceImage = true;
+    }
+
     //final loadedNews = Provider.of<OthersProvider>(context).findById(productId);
     //final List<String> texts = loadedNews.text.split("*");
     //final Widget test = loadedNews.test;
@@ -86,11 +120,12 @@ class _PressedProductState extends State<PressedProduct> {
     //final lang = Provider.of<Languages>(context, listen: false);
     return WillPopScope(
       onWillPop: () {
-        print("sas");
         if (widget.isMain == false) {
           allPro.NavBarShow(true);
         }
-
+        if (AllProviders.dataOfflineAllProductsColors != null) {
+          AllProviders.dataOfflineAllProductsColors = null;
+        }
         return Future.value(true);
       },
       child: Scaffold(
@@ -227,9 +262,9 @@ class _PressedProductState extends State<PressedProduct> {
                   ),
                 ),
                 SimilarItems(),
-                SizedBox(
-                  height: 25,
-                ),
+                // SizedBox(
+                //   height: 25,
+                // ),
               ]),
             ),
           ],

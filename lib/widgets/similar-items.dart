@@ -18,57 +18,58 @@ class SimilarItems extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Container(
-                width: 200,
-                child: ProductMainTemplate(
-                  product: dummyData.products[0],
-                  isMain: true,
-                ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Container(
-                width: 200,
-                height: 400,
-                child: ProductMainTemplate(
-                  product: dummyData.products[1],
-                  isMain: true,
-                ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Container(
-                width: 200,
-                height: 400,
-                child: ProductMainTemplate(
-                  product: dummyData.products[2],
-                  isMain: true,
-                ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Container(
-                width: 200,
-                height: 400,
-                child: ProductMainTemplate(
-                  product: dummyData.products[3],
-                  isMain: true,
-                ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
-              Container(
-                width: 200,
-                height: 400,
-                child: ProductMainTemplate(
-                  product: dummyData.products[4],
-                  isMain: true,
-                ),
-              ),
+              // Container(
+              //   width: 200,
+              //   height: 250,
+              //   child: ProductMainTemplate(
+              //     product: dummyData.products[0],
+              //     isMain: true,
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: 15,
+              // ),
+              // Container(
+              //   width: 200,
+              //   height: 250,
+              //   child: ProductMainTemplate(
+              //     product: dummyData.products[1],
+              //     isMain: true,
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: 15,
+              // ),
+              // Container(
+              //   width: 200,
+              //   height: 250,
+              //   child: ProductMainTemplate(
+              //     product: dummyData.products[2],
+              //     isMain: true,
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: 15,
+              // ),
+              // Container(
+              //   width: 200,
+              //   height: 250,
+              //   child: ProductMainTemplate(
+              //     product: dummyData.products[3],
+              //     isMain: true,
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: 15,
+              // ),
+              // Container(
+              //   width: 200,
+              //   height: 250,
+              //   child: ProductMainTemplate(
+              //     product: dummyData.products[4],
+              //     isMain: true,
+              //   ),
+              // ),
               // ProductMainTemplate(
             ],
           )),

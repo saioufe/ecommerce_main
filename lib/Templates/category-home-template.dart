@@ -54,7 +54,8 @@ class _CategoryHomeTemplateState extends State<CategoryHomeTemplate> {
                     tag: widget.category.id,
                     child: Image.asset(
                       "assets/images/${widget.category.image}",
-                      height: 150,
+                      height: 190,
+                      width: 200,
                       //color: Colors.grey,
                       fit: BoxFit.cover,
                     ),

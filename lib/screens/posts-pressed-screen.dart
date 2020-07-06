@@ -19,6 +19,7 @@ class _PostPressedScreenState extends State<PostPressedScreen> {
   void initState() {
     super.initState();
     BackButtonInterceptor.add(myInterceptor);
+    print(widget.postData.date.toString());
   }
 
   @override
@@ -62,19 +63,15 @@ class _PostPressedScreenState extends State<PostPressedScreen> {
               iconTheme: IconThemeData(color: Colors.white),
               flexibleSpace: FlexibleSpaceBar(
                 background: Hero(
-                    tag: widget.postData.id,
-                    child: Image.asset(
-                      "assets/images/${widget.postData.image}",
-                      fit: BoxFit.cover,
-                    )
-                    // FadeInImage(
-                    //   placeholder: AssetImage('assets/images/slider1.png'),
-                    //   height: MediaQuery.of(context).size.height * 0.35,
-                    //   image: NetworkImage(
-                    //       "${AllProvider.hostName}/images/posts/${postData.postImage}"),
-                    //   fit: BoxFit.cover,
-                    // ),
-                    ),
+                  tag: widget.postData.id,
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/images/slider1.png'),
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    image: NetworkImage(
+                        "${AllProviders.hostName}/images/posts/${widget.postData.image}"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
             SliverList(
@@ -112,7 +109,8 @@ class _PostPressedScreenState extends State<PostPressedScreen> {
                               children: <Widget>[
                                 Text(
                                   widget.postData.title,
-                                  textAlign: TextAlign.right,
+                                  maxLines: 3,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontFamily: 'tajawal',
                                       color:
@@ -133,7 +131,7 @@ class _PostPressedScreenState extends State<PostPressedScreen> {
                         ),
                         Divider(),
                         Text(
-                          widget.postData.desc,
+                          widget.postData.text,
                           textAlign: TextAlign.justify,
                           textDirection: TextDirection.rtl,
                           style: TextStyle(

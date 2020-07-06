@@ -1,4 +1,6 @@
+import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SizeProductBox extends StatefulWidget {
   final String sizeText;
@@ -11,10 +13,14 @@ class _SizeProductBoxState extends State<SizeProductBox> {
   bool borderOn = true;
   @override
   Widget build(BuildContext context) {
+    final allposts = Provider.of<AllProviders>(context, listen: true);
+
     return InkWell(
       onTap: () {
         setState(() {
           borderOn = !borderOn;
+          allposts.isAnySizeSelected(widget.sizeText);
+          allposts.setPriceAndQuantity(widget.sizeText);
         });
       },
       child: AnimatedContainer(
@@ -30,7 +36,7 @@ class _SizeProductBoxState extends State<SizeProductBox> {
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(4)),
           border: Border.all(
-            color: borderOn
+            color: AllProviders.selectedSize != widget.sizeText
                 ? Colors.grey.withOpacity(0.1)
                 : Theme.of(context).primaryColor,
             width: 2,
@@ -38,13 +44,15 @@ class _SizeProductBoxState extends State<SizeProductBox> {
         ),
         child: Center(
           child: Container(
-            padding: EdgeInsets.only(top: 8 , left:5 , right: 5),
+            padding: EdgeInsets.only(top: 8, left: 5, right: 5),
             decoration:
                 BoxDecoration(color: Colors.white, shape: BoxShape.rectangle),
             child: Center(
                 child: Text(
               widget.sizeText,
-              style: TextStyle(fontSize:borderOn ?  19 : 22),
+              style: TextStyle(
+                  fontSize:
+                      AllProviders.selectedSize != widget.sizeText ? 19 : 22),
               textAlign: TextAlign.center,
             )),
           ),

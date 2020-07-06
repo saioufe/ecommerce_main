@@ -46,9 +46,11 @@ class _PostsHomeTemplateState extends State<PostsHomeTemplate> {
               margin: EdgeInsets.only(left: 10),
               child: Hero(
                 tag: widget.news.id,
-                child: Image.asset(
-                  "assets/images/${widget.news.image}",
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/images/placeholder.png'),
                   width: 100,
+                  image: NetworkImage(
+                      "${AllProviders.hostName}/images/posts/${widget.news.image}"),
                   fit: BoxFit.fitWidth,
                 ),
               ),

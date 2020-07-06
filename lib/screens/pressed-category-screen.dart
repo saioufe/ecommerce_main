@@ -156,12 +156,12 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
                           crossAxisSpacing: 5.0,
                           mainAxisSpacing: 5.0,
                         ),
-                        itemCount: dummyData.products.length,
+                        //itemCount: dummyData.products.length,
                         itemBuilder: (context, index) {
-                          return ProductMainTemplate(
-                            product: dummyData.products[index],
-                            isMain: true,
-                          );
+                          // return ProductMainTemplate(
+                          //   product: dummyData.products[index],
+                          //   isMain: true,
+                          // );
                         },
                       ),
                     ),

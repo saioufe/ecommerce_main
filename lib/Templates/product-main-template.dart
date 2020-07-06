@@ -1,5 +1,5 @@
 import 'package:ecommerce_template/ecommerce_icons_icons.dart';
-import 'package:ecommerce_template/models/Product.dart';
+import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
 
 class ProductMainTemplate extends StatefulWidget {
-  final Product product;
+  final ProductShow product;
   final bool isMain;
   ProductMainTemplate({@required this.product, @required this.isMain});
 
@@ -56,16 +56,20 @@ class _ProductMainTemplateState extends State<ProductMainTemplate> {
           child: Column(
             children: <Widget>[
               Container(
+                color: Colors.white,
                 child: Stack(children: <Widget>[
                   Hero(
                     tag: widget.product.id,
-                    child: Image.asset(
-                      "assets/images/${widget.product.images}",
-                      height: 200,
-                      fit: BoxFit.fitHeight,
+                    child: FadeInImage(
+                      placeholder: AssetImage('assets/images/placeholder.png'),
+                      height: 120,
+                      width: 200,
+                      image: NetworkImage(
+                          "${AllProviders.hostName}/images/products/${widget.product.image}"),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  widget.product.hasDiscount == true
+                  widget.product.discount != '0'
                       ? Container(
                           padding: EdgeInsets.all(6),
                           decoration: BoxDecoration(
@@ -75,7 +79,7 @@ class _ProductMainTemplateState extends State<ProductMainTemplate> {
                                 topLeft: Radius.circular(10),
                               )),
                           child: Text(
-                            widget.product.discount,
+                            "${widget.product.discountPercentage.toStringAsFixed(1)} %",
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
@@ -130,7 +134,7 @@ class _ProductMainTemplateState extends State<ProductMainTemplate> {
                       padding: EdgeInsets.all(5),
                       margin: EdgeInsets.only(top: 10),
                       child: Text(
-                        widget.product.hasDiscount == false
+                        widget.product.discount == '0'
                             ? "${widget.product.price} IQD"
                             : "${widget.product.discount} IQD",
                         style: TextStyle(

@@ -2,6 +2,7 @@
 // import 'package:a_alkarar_lab/screens/news-pressed-screen.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/main-screen.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +29,6 @@ void main() async {
 // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 6)
   await OneSignal.shared
       .promptUserForPushNotificationPermission(fallbackToSettings: true);
-      
-
 
   runApp(
     MultiProvider(
@@ -39,6 +38,9 @@ void main() async {
         ),
         ChangeNotifierProvider.value(
           value: AllProviders(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Languages(),
         ),
       ],
       child: MaterialApp(

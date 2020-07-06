@@ -1,5 +1,5 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:ecommerce_template/models/Product.dart';
+import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 class ProductImageViewer extends StatefulWidget {
   final List<String> pics;
-  final Product product;
+  final ProductShow product;
   final int currentIndex;
   ProductImageViewer({this.pics, this.product, this.currentIndex});
 

@@ -1,5 +1,5 @@
 import 'package:ecommerce_template/ecommerce_icons_icons.dart';
-import 'package:ecommerce_template/models/Product.dart';
+import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
 
 class ProductHistoryTemplate extends StatefulWidget {
-  final Product product;
+  final ProductShow product;
   final bool isMain;
   ProductHistoryTemplate({this.product, @required this.isMain});
   @override
@@ -58,7 +58,7 @@ class _ProductHistoryTemplateState extends State<ProductHistoryTemplate> {
                 width: 300,
                 height: 300,
                 child: Image.asset(
-                  "assets/images/${widget.product.images}",
+                  "assets/images/${widget.product.image}",
                   fit: BoxFit.cover,
                 ),
               ),
@@ -66,7 +66,7 @@ class _ProductHistoryTemplateState extends State<ProductHistoryTemplate> {
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   color: Colors.black.withOpacity(0.4),
-                  height: 100,
+                  height: 70,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[

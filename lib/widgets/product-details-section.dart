@@ -1,12 +1,15 @@
-import 'package:ecommerce_template/models/Product.dart';
+import 'package:ecommerce_template/models/Product-show.dart';
+import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsPressed extends StatelessWidget {
-  final Product product;
+  final ProductShow product;
   ProductDetailsPressed({this.product});
   @override
   Widget build(BuildContext context) {
+    final allposts = Provider.of<AllProviders>(context, listen: true);
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(20),
@@ -35,7 +38,7 @@ class ProductDetailsPressed extends StatelessWidget {
                   Container(
                     child: Center(
                       child: Text(
-                        "${product.price} IQD",
+                        allposts.getThePrice(product),
                         textAlign: TextAlign.right,
                         style: TextStyle(
                             fontFamily: 'tajawal',
@@ -46,43 +49,47 @@ class ProductDetailsPressed extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        child: Center(
-                          child: Text(
-                            "${product.discount} IQD",
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              fontFamily: 'tajawal',
-                              color: Theme.of(context).bottomAppBarColor,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 19,
-                              decoration: TextDecoration.lineThrough,
-                              decorationThickness: 10,
+                  allposts.selectedPercentage != 0.0
+                      ? Row(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.all(5),
+                              child: Center(
+                                child: Text(
+                                  allposts.selectedDiscount == ''
+                                      ? "${product.price} IQD"
+                                      : "${allposts.selectedPrice}",
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                    fontFamily: 'tajawal',
+                                    color: Theme.of(context).bottomAppBarColor,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 19,
+                                    decoration: TextDecoration.lineThrough,
+                                    decorationThickness: 10,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 4),
-                        margin: EdgeInsets.only(bottom: 8),
-                        color: Colors.redAccent.withOpacity(0.3),
-                        child: Center(
-                          child: Text(
-                            "-20%",
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                            Container(
+                              padding: EdgeInsets.only(top: 4),
+                              margin: EdgeInsets.only(bottom: 8),
+                              color: Colors.redAccent.withOpacity(0.3),
+                              child: Center(
+                                child: Text(
+                                  "${allposts.selectedPercentage.toStringAsFixed(1)}%",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                          ],
+                        )
+                      : SizedBox(),
                 ],
               ),
               LikeButton(

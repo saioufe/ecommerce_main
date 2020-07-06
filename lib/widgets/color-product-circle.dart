@@ -1,4 +1,6 @@
+import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ColorProductCircle extends StatefulWidget {
   final Color color;
@@ -13,14 +15,19 @@ class _ColorProductCircleState extends State<ColorProductCircle> {
 
   @override
   Widget build(BuildContext context) {
+    final allposts = Provider.of<AllProviders>(context, listen: true);
+
     return InkWell(
       onTap: () {
         setState(() {
           borderOn = !borderOn;
+
+          allposts.isAnyColorSelected(widget.color.toString());
+
+          AllProviders.selectedSize = '';
         });
       },
       child: AnimatedContainer(
-        
         duration: Duration(milliseconds: 200),
         decoration: BoxDecoration(
           // boxShadow: <BoxShadow>[
@@ -32,7 +39,9 @@ class _ColorProductCircleState extends State<ColorProductCircle> {
           // ],
           shape: BoxShape.circle,
           border: Border.all(
-            color: borderOn ? Colors.grey.withOpacity(0.1) : Theme.of(context).primaryColor,
+            color: AllProviders.selectedColor != widget.color.toString()
+                ? Colors.grey.withOpacity(0.1)
+                : Theme.of(context).primaryColor,
             width: 4,
           ),
         ),
