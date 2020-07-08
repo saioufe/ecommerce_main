@@ -10,6 +10,14 @@ class ProductDetailsPressed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final allposts = Provider.of<AllProviders>(context, listen: true);
+
+    Future<bool> onLikeButtonTapped(bool isLiked) async {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        allposts.setFavoriteProduct(product, isLiked);
+      });
+      return !isLiked;
+    }
+
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(20),
@@ -94,7 +102,8 @@ class ProductDetailsPressed extends StatelessWidget {
               ),
               LikeButton(
                 size: 30,
-                isLiked: product.favorite,
+                isLiked: allposts.favoriteList[product.id],
+                onTap: onLikeButtonTapped,
                 circleColor: CircleColor(
                     start: Theme.of(context).primaryColor,
                     end: Theme.of(context).primaryColor),

@@ -1,7 +1,9 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/application.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutUsScreen extends StatefulWidget {
   @override
@@ -30,143 +32,201 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final allPro = Provider.of<AllProviders>(context);
+    final allPro = Provider.of<AllProviders>(context ,listen: false);
+    final application = Provider.of<ApplicationProvider>(context , listen: false);
 
     return WillPopScope(
       onWillPop: () {
-        print("sas");
 
         allPro.NavBarShow(true);
         return Future.value(true);
       },
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          iconTheme: IconThemeData(color: Colors.white),
-          actions: <Widget>[
-            Container(
-              margin: EdgeInsets.all(16),
-              child: Text(
-                "من نحن",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-        body: Container(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: <Widget>[
-              Text("من نحن"),
-              Divider(
-                endIndent: 100,
-                indent: 100,
-              ),
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            iconTheme: IconThemeData(color: Colors.white),
+            actions: <Widget>[
               Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(12),
+                margin: EdgeInsets.all(16),
+                child: Text(
+                  "من نحن",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
                   ),
                 ),
-                child: Text(
-                  "شركة حانوت المحدودة للتجارة العامة والتسويق الالكتروني , مختصون في تجارة وبيع كافة انواع المنتجات للمستهلك العام بانسب الاسعار",
-                  textAlign: TextAlign.justify,
-                  textDirection: TextDirection.rtl,
-                  style: TextStyle(
-                      fontSize: 23,
-                      color: Theme.of(context).bottomAppBarColor,
-                      fontWeight: FontWeight.w600),
-                ),
               ),
-              Divider(),
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    Text("وسائل التوصل"),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Divider(
-                      endIndent: 100,
-                      indent: 100,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () {},
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: Image.asset(
-                              "assets/images/facebook.png",
-                              height: 50,
-                              width: 50,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: Image.asset(
-                              "assets/images/instagram.png",
-                              height: 50,
-                              width: 50,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: Image.asset(
-                              "assets/images/youtube.png",
-                              height: 50,
-                              width: 50,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: Image.asset(
-                              "assets/images/twitter.png",
-                              height: 50,
-                              width: 50,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              )
             ],
           ),
-        ),
-      ),
+          body: FutureBuilder(
+              future: application.fetchDataAboutUs(),
+              builder: (ctx, authResultSnap) {
+                if (authResultSnap.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (authResultSnap.hasError) {
+                  Center(
+                    child: Text("تفقد من الاتصال بلانترنت"),
+                  );
+                  return RaisedButton(
+                    onPressed: () {
+                      setState(() {
+                        //other.getUserLocation();
+                      });
+                      print(authResultSnap.error.toString());
+                    },
+                    child: Text("تفقد من الاتصال بلانترنت",
+                        style: TextStyle(color: Colors.black)),
+                  );
+                } else {
+                  return Container(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: <Widget>[
+                        Text("من نحن"),
+                        Divider(
+                          endIndent: 100,
+                          indent: 100,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
+                            ),
+                          ),
+                          child: Text(
+                            application.aboutus,
+                            textAlign: TextAlign.justify,
+                            textDirection: TextDirection.rtl,
+                            style: TextStyle(
+                                fontSize: 23,
+                                color: Theme.of(context).bottomAppBarColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        Divider(),
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Text("وسائل التواصل"),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Divider(
+                                endIndent: 100,
+                                indent: 100,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  application.facebook != ''
+                                      ? InkWell(
+                                          onTap: () async {
+                                            final url = application.facebook;
+                                            if (await canLaunch(url)) {
+                                              await launch(url);
+                                            } else {
+                                              throw 'Could not launch $url';
+                                            }
+                                          },
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                            clipBehavior: Clip.antiAlias,
+                                            child: Image.asset(
+                                              "assets/images/facebook.png",
+                                              height: 50,
+                                              width: 50,
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                  application.insta != ''
+                                      ? InkWell(
+                                          onTap: () async {
+                                            final url = application.insta;
+                                            if (await canLaunch(url)) {
+                                              await launch(url);
+                                            } else {
+                                              throw 'Could not launch $url';
+                                            }
+                                          },
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                            clipBehavior: Clip.antiAlias,
+                                            child: Image.asset(
+                                              "assets/images/instagram.png",
+                                              height: 50,
+                                              width: 50,
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                  application.youtube != ''
+                                      ? InkWell(
+                                          onTap: () async {
+                                            final url = application.youtube;
+                                            if (await canLaunch(url)) {
+                                              await launch(url);
+                                            } else {
+                                              throw 'Could not launch $url';
+                                            }
+                                          },
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                            clipBehavior: Clip.antiAlias,
+                                            child: Image.asset(
+                                              "assets/images/youtube.png",
+                                              height: 50,
+                                              width: 50,
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                  application.twitter != ''
+                                      ? InkWell(
+                                          onTap: () async {
+                                            final url = application.twitter;
+                                            if (await canLaunch(url)) {
+                                              await launch(url);
+                                            } else {
+                                              throw 'Could not launch $url';
+                                            }
+                                          },
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                            clipBehavior: Clip.antiAlias,
+                                            child: Image.asset(
+                                              "assets/images/twitter.png",
+                                              height: 50,
+                                              width: 50,
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                }
+              })),
     );
   }
 }

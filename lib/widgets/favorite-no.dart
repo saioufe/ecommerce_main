@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CartNoProducts extends StatelessWidget {
+class FavoriteNoProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

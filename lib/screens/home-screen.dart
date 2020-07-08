@@ -4,6 +4,7 @@ import 'package:ecommerce_template/models/News.dart';
 import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
+import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/news-screen.dart';
 import 'package:ecommerce_template/screens/posts-pressed-screen.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final allposts = Provider.of<AllProviders>(context, listen: false);
-
+    Provider.of<UserProvider>(context, listen: false).checkLogin();
     double sizeBetweenWidgets = 20;
     final dummyData = Provider.of<DummyData>(context);
     return SingleChildScrollView(
@@ -355,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return Container(
                             width: MediaQuery.of(context).size.width / 1.1,
                             //height: MediaQuery.of(context).size.height / 4.1,
-                            child: GridView.count(
+                            child: GridView.count( 
                                 crossAxisCount: 2,
                                 childAspectRatio: 0.7 / 1,
                                 physics: NeverScrollableScrollPhysics(),
@@ -370,7 +371,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         titleEngilsh: item.titleEngilsh,
                                         description: item.description,
                                         descriptionEnglish:
-                                            item.descriptionEnglish,
+                                        item.descriptionEnglish,
                                         price: item.price,
                                         discount: item.discount,
                                         favorite: item.favorite,

@@ -1,5 +1,6 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+  TextEditingController phoneController = new TextEditingController();
+
   ScrollController controller = ScrollController();
   bool isRegister = false;
   void initState() {
@@ -30,8 +38,25 @@ class _LoginScreenState extends State<LoginScreen> {
     return true;
   }
 
+  void showInSnackBar(String value) {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    _scaffoldKey.currentState?.removeCurrentSnackBar();
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(
+        value,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+        ),
+      ),
+      backgroundColor: Colors.blue,
+      duration: Duration(seconds: 3),
+    ));
+  }
+
   final kHintTextStyle = TextStyle(
-    color: Colors.white54,
+    color: Color.fromRGBO(55, 195, 134, 1),
     fontFamily: 'OpenSans',
   );
 
@@ -42,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
   );
 
   final kBoxDecorationStyle = BoxDecoration(
-    color: Color.fromRGBO(55, 195, 134, 1),
+    color: Colors.white,
     borderRadius: BorderRadius.circular(10.0),
     boxShadow: [
       BoxShadow(
@@ -69,9 +94,10 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            controller: nameController,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -79,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.supervised_user_circle,
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
               ),
               hintText: 'ادخل الاسم كامل',
               hintStyle: kHintTextStyle,
@@ -104,9 +130,10 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            controller: emailController,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -114,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.email,
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
               ),
               hintText: 'ادخل بريدك الالكتروني',
               hintStyle: kHintTextStyle,
@@ -139,9 +166,10 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            controller: passwordController,
             obscureText: true,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -149,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
               ),
               hintText: 'ادخل كلمة السر',
               hintStyle: kHintTextStyle,
@@ -174,9 +202,11 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            controller: phoneController,
             obscureText: true,
+            keyboardType: TextInputType.number,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -184,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.phone_android,
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
               ),
               hintText: 'ادخل رقم الهاتف',
               hintStyle: kHintTextStyle,
@@ -237,37 +267,84 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildLoginBtn() {
+  bool isLoading = false;
+  Widget _buildLoginBtn(UserProvider uPro, AllProviders allprov) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
-      child: RaisedButton(
-          elevation: 5.0,
-          onPressed: () {},
-          padding: EdgeInsets.all(15.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          color: Colors.white,
-          child: isRegister == false
-              ? Text(
-                  'تسجيل الدخول',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    letterSpacing: 1.5,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              : Text(
-                  'تسجيل',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    letterSpacing: 1.5,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )),
+      child: isLoading == false
+          ? RaisedButton(
+              elevation: 5.0,
+              onPressed:  () {
+                if (isRegister == true) {
+                  if (nameController.text == "" ||
+                      emailController.text == "" ||
+                      passwordController.text == "" ||
+                      phoneController.text == "") {
+                    showInSnackBar("يرجى ملئ جميع الحقول");
+                  } else if (emailController.text.indexOf("@") == -1) {
+                    showInSnackBar("يرجى ادخال بريد الكتروني صحيح");
+                  } else {
+                    isLoading = true;
+                    uPro
+                        .register(
+                          nameController.text,
+                          emailController.text,
+                          passwordController.text,
+                          phoneController.text,
+                          context,
+                          showInSnackBar,
+                          allprov,
+                        )
+                        .then((value) => isLoading = false);
+                  }
+                  //  uPro.register(name, email, password, phone, context, pageController);
+
+                } else {
+                  if (emailController.text == "" ||
+                      passwordController.text == "") {
+                    showInSnackBar("يرجى ملئ جميع الحقول");
+                  } else if (emailController.text.indexOf("@") == -1) {
+                    showInSnackBar("يرجى ادخال بريد الكتروني صحيح");
+                  } else {
+                    isLoading = true;
+                    uPro
+                        .login(
+                          emailController.text,
+                          passwordController.text,
+                          context,
+                          showInSnackBar,
+                          allprov,
+                        )
+                        .then((value) => isLoading = false);
+                  }
+                }
+              },
+              padding: EdgeInsets.all(15.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              color: Colors.white,
+              child: isRegister == false
+                  ? Text(
+                      'تسجيل الدخول',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        letterSpacing: 1.5,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : Text(
+                      'تسجيل',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        letterSpacing: 1.5,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ))
+          : CircularProgressIndicator(),
     );
   }
 
@@ -341,6 +418,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
       onTap: () {
         setState(() {
+          nameController.text = '';
+          emailController.text = '';
+          phoneController.text = '';
+          passwordController.text = '';
+
           isRegister = true;
           controller.animateTo(0.0,
               duration: Duration(milliseconds: 300), curve: Curves.easeIn);
@@ -375,6 +457,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
       onTap: () {
         setState(() {
+          nameController.text = '';
+          emailController.text = '';
+          phoneController.text = '';
+          passwordController.text = '';
           isRegister = false;
           controller.animateTo(0.0,
               duration: Duration(milliseconds: 300), curve: Curves.easeInBack);
@@ -408,12 +494,14 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
+    final userProvider = Provider.of<UserProvider>(context);
     return WillPopScope(
       onWillPop: () {
         allPro.NavBarShow(true);
         return Future.value(true);
       },
       child: Scaffold(
+        key: _scaffoldKey,
         extendBodyBehindAppBar: true,
         appBar: new AppBar(
           iconTheme: IconThemeData(color: Colors.white),
@@ -482,12 +570,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         _buildPasswordTF(),
                         SizedBox(height: 30.0),
                         isRegister == true ? _buildPhone() : SizedBox(),
-                        isRegister == false
-                            ? _buildForgotPasswordBtn()
-                            : SizedBox(),
+                        // isRegister == false
+                        //     ? _buildForgotPasswordBtn()
+                        //     : SizedBox(),
                         SizedBox(height: 20.0),
                         _buildRememberMeCheckbox(),
-                        _buildLoginBtn(),
+                        _buildLoginBtn(userProvider, allPro),
                         //_buildSignInWithText(),
                         // _buildSocialBtnRow(),
                         isRegister == false

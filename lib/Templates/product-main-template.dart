@@ -19,7 +19,16 @@ class ProductMainTemplate extends StatefulWidget {
 class _ProductMainTemplateState extends State<ProductMainTemplate> {
   @override
   Widget build(BuildContext context) {
-    final allPro = Provider.of<AllProviders>(context);
+    final allPro = Provider.of<AllProviders>(context, listen: false);
+
+    Future<bool> onLikeButtonTapped(bool isLiked) async {
+      print(widget.product.id);
+      Future.delayed(const Duration(milliseconds: 500), () {
+        allPro.setFavoriteProduct(widget.product, isLiked);
+      });
+      return !isLiked;
+    }
+
     return InkWell(
       onTap: () {
         setState(() {
@@ -111,7 +120,7 @@ class _ProductMainTemplateState extends State<ProductMainTemplate> {
                   children: <Widget>[
                     LikeButton(
                       size: 30,
-                      isLiked: widget.product.favorite,
+                      isLiked: allPro.favoriteList[widget.product.id],
                       circleColor: CircleColor(
                           start: Theme.of(context).primaryColor,
                           end: Theme.of(context).primaryColor),
@@ -119,6 +128,7 @@ class _ProductMainTemplateState extends State<ProductMainTemplate> {
                         dotPrimaryColor: Theme.of(context).primaryColor,
                         dotSecondaryColor: Theme.of(context).primaryColor,
                       ),
+                      onTap: onLikeButtonTapped,
                       likeBuilder: (bool isLiked) {
                         return Icon(
                           Icons.favorite,

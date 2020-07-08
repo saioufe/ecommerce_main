@@ -5,6 +5,7 @@ import 'package:ecommerce_template/models/produc-colors-quantity-sizes.dart';
 import 'package:ecommerce_template/models/product_images.dart';
 import 'package:ecommerce_template/models/product_question.dart';
 import 'package:ecommerce_template/models/slider.dart';
+import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/widgets/size-product-box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,6 @@ class AllProviders extends ChangeNotifier {
     }
     newsDataOffline = data;
     data.forEach((newsId) {
-      print(newsId["date"]);
       loadedPosts.add(News(
         id: newsId["id"],
         title: newsId["title"],
@@ -65,10 +65,10 @@ class AllProviders extends ChangeNotifier {
   List<SliderModel> loadedSlider;
   List<dynamic> dataOfflineSlider;
   Future<void> fetchDataSliders() async {
+    print(":s");
     final response = await http.post('$hostName/get-sliders-flutter.php');
 
     data4 = json.decode(response.body);
-    // print(response.body);
     final List<SliderModel> loadedSlider = [];
     if (data4 == null) {
       return;
@@ -82,6 +82,38 @@ class AllProviders extends ChangeNotifier {
     });
     _slider = loadedSlider;
     notifyListeners();
+  }
+
+  int numOfFavorite = 0;
+  Map<String, bool> favoriteList = new Map<String, bool>();
+  Future<void> fetchFavorites() async {
+    numOfFavorite = 0;
+    productFavoritesIds = [];
+    final response =
+        await http.post('$hostName/get-favorites-products.php', body: {
+      'userId': UserProvider.userId.toString(),
+    });
+
+    dataAllProductFavorite = json.decode(response.body);
+
+    dataAllProductFavorite.forEach((newsId) {
+      productFavoritesIds.add(
+        newsId['product_id'],
+      );
+    });
+
+    allProducts.forEach((element) {
+      if (productFavoritesIds.contains(element.id)) {
+        favoriteList[element.id] = true;
+        numOfFavorite += 1;
+      } else {
+        favoriteList[element.id] = false;
+      }
+    });
+    notifyListeners();
+    // favoriteList.forEach((key, value) {
+    //   print("product id : $key      value : $value");
+    // });
   }
 
   List<ProductShow> _allProducts = [];
@@ -109,8 +141,6 @@ class AllProviders extends ChangeNotifier {
             double.parse(newsId['discount']) - double.parse(newsId['price']);
         double second = first / double.parse(newsId['price']);
         percentage = second * 100;
-
-        print(percentage);
       }
       loadedAllProducts.add(ProductShow(
         id: newsId['id'],
@@ -119,7 +149,7 @@ class AllProviders extends ChangeNotifier {
         titleEngilsh: newsId['titleEnglish'],
         description: newsId['description'],
         descriptionEnglish: newsId['descriptionEnglish'],
-        favorite: newsId["favorite"] == "0" ? false : true,
+        //favorite: productFavoritesIds.contains(newsId['id']) ? true : false,
         mainCategory: newsId['mainCategory'],
         subCategories: newsId['subCategories'].toString().split(","),
         price: newsId['price'],
@@ -128,6 +158,7 @@ class AllProviders extends ChangeNotifier {
         isQuestion: newsId['isQuestion'],
       ));
     });
+    fetchFavorites();
     _allProducts = loadedAllProducts;
     notifyListeners();
   }
@@ -226,7 +257,6 @@ class AllProviders extends ChangeNotifier {
     selectedPercentage = 0.0;
     selectedProductId = productId;
 
-    print(selectedProductId);
     colors.forEach((item) {
       if (item.product_id == productId) {
         colorsForProduct.add(item);
@@ -362,5 +392,52 @@ class AllProviders extends ChangeNotifier {
     _colors = loadedAllProductsColors;
 
     notifyListeners();
+  }
+
+  List dataAllProductFavorite = [];
+  List<String> productFavoritesIds = [];
+  String like;
+
+  Future<void> setFavoriteProduct(ProductShow productShow, bool isLiked) async {
+    if (UserProvider.userId != null) {
+      productFavoritesIds = [];
+      if (isLiked == true) {
+        like = "true";
+      } else {
+        like = "false";
+      }
+      final response =
+          await http.post('$hostName/set-favorite-product.php', body: {
+        'userId': UserProvider.userId.toString(),
+        'productId': productShow.id,
+        'title': productShow.title,
+        'titleEnglish': productShow.titleEngilsh,
+        'description': productShow.description,
+        'descriptionEnglish': productShow.descriptionEnglish,
+        'mainCategory': productShow.mainCategory,
+        'subCategories': productShow.subCategories[0],
+        'image': productShow.image,
+        'price': productShow.price,
+        'discount': productShow.discount,
+        'discountPercentage': productShow.discountPercentage.toString(),
+        'isQuestion': productShow.isQuestion,
+        'isLiked': like,
+      });
+
+      dataAllProductFavorite = json.decode(response.body);
+
+      dataAllProductFavorite.forEach((newsId) {
+        productFavoritesIds.add(
+          newsId['product_id'],
+        );
+      });
+      fetchFavorites();
+    }
+
+    // productFavoritesIds.forEach((value) {
+    //   print(value);
+    // });
+
+    // print(dataAllProductFavorite);
   }
 }

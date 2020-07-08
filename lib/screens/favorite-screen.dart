@@ -1,6 +1,7 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/Templates/favorite-item-template.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/widgets/favorite-no.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -58,21 +59,31 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.only(top: 20, bottom: 40),
-            width: MediaQuery.of(context).size.width,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  FavoriteItemTemplate(),
-                  FavoriteItemTemplate(),
-                ],
+        body: allPro.numOfFavorite == 0
+            ? Center(
+                child: FavoriteNoProducts(),
+              )
+            : SingleChildScrollView(
+                child: Container(
+                  margin: EdgeInsets.only(top: 20, bottom: 40),
+                  width: MediaQuery.of(context).size.width,
+                  //height: MediaQuery.of(context).size.height,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: allPro.allProducts.map((element) {
+                        if (allPro.favoriteList[element.id] == true) {
+                          return FavoriteItemTemplate(
+                            product: element,
+                          );
+                        } else {
+                          return SizedBox();
+                        }
+                      }).toList(),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       ),
     );
   }

@@ -1,8 +1,10 @@
 // import 'package:a_alkarar_lab/screens/main-screen.dart';
 // import 'package:a_alkarar_lab/screens/news-pressed-screen.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/application.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
 import 'package:ecommerce_template/providers/languages.dart';
+import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/main-screen.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +43,12 @@ void main() async {
         ),
         ChangeNotifierProvider.value(
           value: Languages(),
+        ),
+        ChangeNotifierProvider.value(
+          value: UserProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: ApplicationProvider(),
         ),
       ],
       child: MaterialApp(

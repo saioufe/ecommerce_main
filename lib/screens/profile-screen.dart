@@ -1,16 +1,21 @@
 import 'package:badges/badges.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/aboutus-screen.dart';
 import 'package:ecommerce_template/screens/favorite-screen.dart';
 import 'package:ecommerce_template/screens/languages.dart';
 import 'package:ecommerce_template/screens/login-screen.dart';
 import 'package:ecommerce_template/screens/order-history-screen.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.widget.dart';
 import 'package:provider/provider.dart';
 
 import '../ecommerce_icons_icons.dart';
 
 class ProfileScreen extends StatefulWidget {
+  final PersistentTabController controller;
+
+  ProfileScreen({this.controller});
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -20,8 +25,15 @@ bool darkTheme = false;
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
+    final userPro = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -43,80 +55,90 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                width: MediaQuery.of(context).size.width,
-                height: 60,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 20),
-                        child: SizedBox(),
-                      ),
-                      flex: 0,
-                    ),
-                    Expanded(
+              UserProvider.isLogin == true
+                  ? Container(
+                      margin: EdgeInsets.only(top: 10),
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Expanded(
                             child: Container(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                " saif maher mohammed",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                              ),
+                              margin: EdgeInsets.only(left: 20),
+                              child: SizedBox(),
                             ),
+                            flex: 0,
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      UserProvider.userName,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            flex: 3,
+                          ),
+                          Expanded(
+                            child: Icon(
+                              EcommerceIcons.user,
+                              color: Theme.of(context).bottomAppBarColor,
+                            ),
+                            flex: 1,
                           ),
                         ],
                       ),
-                      flex: 3,
-                    ),
-                    Expanded(
-                      child: Icon(
-                        EcommerceIcons.user,
+                    )
+                  : SizedBox(),
+              UserProvider.isLogin == false
+                  ? SettingTemplate(
+                      icon: Icons.account_box,
+                      title: "تسجيل الدخول",
+                      lastWidget: Icon(
+                        Icons.keyboard_arrow_left,
                         color: Theme.of(context).bottomAppBarColor,
                       ),
-                      flex: 1,
-                    ),
-                  ],
-                ),
-              ),
-              SettingTemplate(
-                title: "تسجيل الدخول",
-                lastWidget: Icon(
-                  Icons.keyboard_arrow_left,
-                  color: Theme.of(context).bottomAppBarColor,
-                ),
-                notiNumber: 0,
-                onTap: () {
-                  setState(() {
-                    allPro.NavBarShow(false);
-                  });
+                      notiNumber: 0,
+                      onTap: () {
+                        setState(() {
+                          allPro.NavBarShow(false);
+                        });
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
-                      ));
-                },
-              ),
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ));
+                      },
+                    )
+                  : SizedBox(),
               Divider(
                 indent: 50,
                 endIndent: 50,
               ),
-              SettingTemplate(
-                title: "تسجيل الخروج",
-                lastWidget: Icon(
-                  Icons.keyboard_arrow_left,
-                  color: Theme.of(context).bottomAppBarColor,
-                ),
-                icon: null,
-                notiNumber: 0,
-              ),
+              UserProvider.isLogin == true
+                  ? SettingTemplate(
+                      title: "تسجيل الخروج",
+                      lastWidget: Icon(
+                        Icons.keyboard_arrow_left,
+                        color: Theme.of(context).bottomAppBarColor,
+                      ),
+                      icon: null,
+                      notiNumber: 0,
+                      onTap: () {
+                        userPro.signOutEmail(widget.controller);
+                      },
+                    )
+                  : SizedBox(),
               Container(
                 margin: EdgeInsets.only(right: 25, top: 15, bottom: 15),
                 alignment: Alignment.centerRight,
@@ -147,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Theme.of(context).bottomAppBarColor,
                 ),
                 icon: Icons.favorite,
-                notiNumber: 2,
+                notiNumber: allPro.numOfFavorite,
               ),
               Divider(
                 indent: 50,
