@@ -1,9 +1,17 @@
+import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/widgets/cart-item.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class PaymentFirstItems extends StatelessWidget {
+class PaymentFirstItems extends StatefulWidget {
   PageController c;
   PaymentFirstItems({this.c});
+
+  @override
+  _PaymentFirstItemsState createState() => _PaymentFirstItemsState();
+}
+
+class _PaymentFirstItemsState extends State<PaymentFirstItems> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -11,9 +19,15 @@ class PaymentFirstItems extends StatelessWidget {
         width: MediaQuery.of(context).size.width / 1.1,
         child: Column(
           children: <Widget>[
-
-            CartItem(),
-
+            Consumer<CartProvider>(
+              builder: (ctx, data, _) {
+                return Column(
+                  children: data.loadedAllCartItems.map((item) {
+                    return CartItem(item);
+                  }).toList(),
+                );
+              },
+            ),
             SizedBox(
               height: 100,
             ),
@@ -32,7 +46,7 @@ class PaymentFirstItems extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                c.animateToPage(1,
+                widget.c.animateToPage(1,
                     duration: Duration(milliseconds: 300),
                     curve: Curves.easeIn);
               },

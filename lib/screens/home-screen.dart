@@ -3,6 +3,7 @@ import 'package:ecommerce_template/ecommerce_icons_icons.dart';
 import 'package:ecommerce_template/models/News.dart';
 import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
 import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/news-screen.dart';
@@ -13,6 +14,7 @@ import 'package:ecommerce_template/Templates/category-home-template.dart';
 import 'package:ecommerce_template/Templates/product-history-template.dart';
 import 'package:ecommerce_template/Templates/product-main-template.dart';
 import 'package:ecommerce_template/widgets/slider-widget.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -26,6 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final allposts = Provider.of<AllProviders>(context, listen: false);
+    final cartPro = Provider.of<CartProvider>(context, listen: false);
+
     Provider.of<UserProvider>(context, listen: false).checkLogin();
     double sizeBetweenWidgets = 20;
     final dummyData = Provider.of<DummyData>(context);
@@ -333,7 +337,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               allposts.dataOfflineAllProducts == null
                   ? FutureBuilder(
-                      future: allposts.fetchDataAllProducts(),
+                      future: allposts.fetchDataAllProducts().then((value) {
+                        cartPro.getCartItems();
+                      }),
                       builder: (ctx, authResultSnap) {
                         if (authResultSnap.connectionState ==
                             ConnectionState.waiting) {
@@ -356,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return Container(
                             width: MediaQuery.of(context).size.width / 1.1,
                             //height: MediaQuery.of(context).size.height / 4.1,
-                            child: GridView.count( 
+                            child: GridView.count(
                                 crossAxisCount: 2,
                                 childAspectRatio: 0.7 / 1,
                                 physics: NeverScrollableScrollPhysics(),
@@ -371,7 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         titleEngilsh: item.titleEngilsh,
                                         description: item.description,
                                         descriptionEnglish:
-                                        item.descriptionEnglish,
+                                            item.descriptionEnglish,
                                         price: item.price,
                                         discount: item.discount,
                                         favorite: item.favorite,

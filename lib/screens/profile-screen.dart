@@ -1,14 +1,19 @@
 import 'package:badges/badges.dart';
+import 'package:ecommerce_template/app_themes.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/theme_manager.dart';
 import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/aboutus-screen.dart';
 import 'package:ecommerce_template/screens/favorite-screen.dart';
 import 'package:ecommerce_template/screens/languages.dart';
 import 'package:ecommerce_template/screens/login-screen.dart';
 import 'package:ecommerce_template/screens/order-history-screen.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.widget.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../ecommerce_icons_icons.dart';
 
@@ -22,11 +27,21 @@ class ProfileScreen extends StatefulWidget {
 
 bool notification = false;
 bool darkTheme = false;
+int preferredTheme;
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    SharedPreferences.getInstance().then((prefs) {
+      preferredTheme = prefs.getInt("theme_preference") ?? 0;
+      if (preferredTheme == 0) {
+        darkTheme = false;
+      } else {
+        darkTheme = true;
+      }
+    });
+
     super.initState();
   }
 
@@ -34,6 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
     final userPro = Provider.of<UserProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -55,6 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Center(
           child: Column(
             children: <Widget>[
+                      
               UserProvider.isLogin == true
                   ? Container(
                       margin: EdgeInsets.only(top: 10),
@@ -79,8 +96,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Text(
                                       UserProvider.userName,
                                       style: TextStyle(
-                                        fontSize: 18,
-                                      ),
+                                          fontSize: 18,
+                                          color: Theme.of(context)
+                                              .bottomAppBarColor),
                                     ),
                                   ),
                                 ),
@@ -124,6 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Divider(
                 indent: 50,
                 endIndent: 50,
+                color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               UserProvider.isLogin == true
                   ? SettingTemplate(
@@ -174,6 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Divider(
                 indent: 50,
                 endIndent: 50,
+                color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               SettingTemplate(
                 title: "الطلبات",
@@ -182,7 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Theme.of(context).bottomAppBarColor,
                 ),
                 icon: EcommerceIcons.shopping_cart,
-                notiNumber: 6,
+                notiNumber: 2,
                 onTap: () {
                   setState(() {
                     allPro.NavBarShow(false);
@@ -198,6 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Divider(
                 indent: 50,
                 endIndent: 50,
+                color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               Container(
                 margin: EdgeInsets.only(right: 25, top: 15, bottom: 15),
@@ -228,6 +249,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Divider(
                 indent: 50,
                 endIndent: 50,
+                color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               SettingTemplate(
                 title: "اللغات",
@@ -251,6 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Divider(
                 indent: 50,
                 endIndent: 50,
+                color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               SettingTemplate(
                 title: "الوضع الليلي",
@@ -258,8 +281,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   value: darkTheme,
                   activeColor: Theme.of(context).primaryColor,
                   onChanged: (value) {
+                    AppTheme theme;
+                    if (value == true) {
+                      theme = AppTheme.values[1];
+                    } else {
+                      theme = AppTheme.values[0];
+                    }
                     setState(() {
                       darkTheme = value;
+                      Provider.of<ThemeManager>(context, listen: false)
+                          .setTheme(theme);
                     });
                   },
                 ),
@@ -269,6 +300,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Divider(
                 indent: 50,
                 endIndent: 50,
+                color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               SettingTemplate(
                 title: "من نحن",
@@ -293,6 +325,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Divider(
                 indent: 50,
                 endIndent: 50,
+                color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               SizedBox(
                 height: 100,
@@ -362,8 +395,8 @@ class SettingTemplate extends StatelessWidget {
                       child: Text(
                         title,
                         style: TextStyle(
-                          fontSize: 18,
-                        ),
+                            fontSize: 18,
+                            color: Theme.of(context).bottomAppBarColor),
                       ),
                     ),
                   ),

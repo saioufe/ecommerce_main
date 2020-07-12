@@ -2,8 +2,10 @@
 // import 'package:a_alkarar_lab/screens/news-pressed-screen.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/application.dart';
+import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
 import 'package:ecommerce_template/providers/languages.dart';
+import 'package:ecommerce_template/providers/theme_manager.dart';
 import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/main-screen.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
@@ -41,6 +43,10 @@ void main() async {
         ChangeNotifierProvider.value(
           value: AllProviders(),
         ),
+        ChangeNotifierProxyProvider<AllProviders, CartProvider>(
+          update: (context, allProviders, applicationProvider) =>
+              CartProvider(allProviders),
+        ),
         ChangeNotifierProvider.value(
           value: Languages(),
         ),
@@ -48,29 +54,20 @@ void main() async {
           value: UserProvider(),
         ),
         ChangeNotifierProvider.value(
-          value: ApplicationProvider(),
+          value: ThemeManager(),
+        ),
+        ChangeNotifierProxyProvider<AllProviders, ApplicationProvider>(
+          update: (context, allProviders, applicationProvider) =>
+              ApplicationProvider(allProviders),
+          create: (BuildContext context) => ApplicationProvider(null),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Ecommerce Creative Projects',
-        theme: ThemeData(
-          fontFamily: 'tajawal',
-          canvasColor: Color.fromRGBO(243, 248, 253, 1),
-          primaryColor: Color.fromRGBO(55, 195, 134, 1),
-          accentColor: Color.fromRGBO(255, 189, 67, 1),
-          bottomAppBarColor: Color(0xff313e4b),
-          appBarTheme: AppBarTheme(
-            color: Color(0xFF37d2b3),
-            textTheme: TextTheme(
-              title: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-        home: MainScreen(0),
+      child: Consumer<ThemeManager>(builder: (context, manager, _) {
+        return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: manager.themeData,
+            title: 'Ecommerce Creative Projects',
+            home: MainScreen(0));
         // SplashScreen.navigate(
         //   name: 'assets/images/hairderLab.flr',
         //   next: (_) => MainScreen(0),
@@ -79,11 +76,7 @@ void main() async {
         //   backgroundColor: Colors.white,
         //   endAnimation: '1',
         // ),
-
-        routes: {
-          //PressedProduct.routeName: (ctx) => PressedProduct(),
-        },
-      ),
+      }),
     ),
   );
 }

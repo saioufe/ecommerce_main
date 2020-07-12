@@ -5,6 +5,7 @@ import 'package:ecommerce_template/models/produc-colors-quantity-sizes.dart';
 import 'package:ecommerce_template/models/product_images.dart';
 import 'package:ecommerce_template/models/product_question.dart';
 import 'package:ecommerce_template/models/slider.dart';
+import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/widgets/size-product-box.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class AllProviders extends ChangeNotifier {
   bool showNavBar = true;
@@ -22,7 +24,8 @@ class AllProviders extends ChangeNotifier {
   }
 
   static const String hostName = "http://10.0.2.2/ecommerceTemplate";
-
+  //static const String hostName = "http://app.creative-projects.co";
+  
   static bool hasLogin;
   List<News> _posts = [];
   List<News> get posts {
@@ -160,6 +163,7 @@ class AllProviders extends ChangeNotifier {
     });
     fetchFavorites();
     _allProducts = loadedAllProducts;
+
     notifyListeners();
   }
 
@@ -251,8 +255,8 @@ class AllProviders extends ChangeNotifier {
     colorsForProduct = [];
     sizesForSelectedColor = [];
     lastWidgets = [];
-    selectedPrice = '';
-    selectedDiscount = '';
+    // selectedPrice = '';
+    // selectedDiscount = '';
 
     selectedPercentage = 0.0;
     selectedProductId = productId;
@@ -310,8 +314,8 @@ class AllProviders extends ChangeNotifier {
     notifyListeners();
   }
 
-  String selectedPrice = '';
-  String selectedDiscount = '';
+  static String selectedPrice = '';
+  static String selectedDiscount = '';
   double selectedPercentage = 0.0;
   String selectedQuantity = '';
   static int selectedQuintity2 = 1;
@@ -327,11 +331,9 @@ class AllProviders extends ChangeNotifier {
     });
 
     colorsForProduct2.forEach((element) {
-      print('1');
       final hexCode = element.color.replaceAll('#', '');
       final color = Color(int.parse('FF$hexCode', radix: 16));
       if (color.toString() == selectedColor && element.size == pressedSize) {
-        print('2');
         selectedPrice = element.price;
         selectedQuantity = element.quantity;
         if (element.discount != "0") {
@@ -344,9 +346,11 @@ class AllProviders extends ChangeNotifier {
         }
       }
     });
-    print("selected price : $selectedPrice");
-    print("selected discount : $selectedDiscount");
-    print("selected Percentage : $selectedPercentage");
+    // print("selected price : $selectedPrice");
+    // print("selected discount : $selectedDiscount");
+    // print("selected Percentage : $selectedPercentage");
+    // print("selected Quantity : $selectedQuintity2");
+    // print("selected Color : $selectedColor");
     notifyListeners();
   }
 

@@ -38,6 +38,9 @@ dependencies:
   shimmer: ^1.1.1
   solid_bottom_sheet: ^0.1.9
   onesignal_flutter: ^2.4.1
+  flushbar: ^1.10.4
+  argon_buttons_flutter: ^1.0.5
+
 
 
   

@@ -1,6 +1,12 @@
+import 'package:ecommerce_template/models/cartItemModel.dart';
+import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/cart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartItem extends StatefulWidget {
+  final CartItemModel cartItem;
+  CartItem(this.cartItem);
   @override
   _CartItemState createState() => _CartItemState();
 }
@@ -10,6 +16,8 @@ class _CartItemState extends State<CartItem> {
 
   @override
   Widget build(BuildContext context) {
+    final carPro = Provider.of<CartProvider>(context, listen: false);
+
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(10)),
       clipBehavior: Clip.antiAlias,
@@ -39,44 +47,21 @@ class _CartItemState extends State<CartItem> {
                       Container(
                         // alignment: Alignment.topRight,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            setState(() {
+                              carPro.deleteCartItems(
+                                  widget.cartItem.product.id,
+                                  widget.cartItem.productColor.toString(),
+                                  widget.cartItem.productSize);
+                            });
+                          },
                           child: Icon(
                             Icons.remove_circle_outline,
                             color: Colors.red,
                           ),
                         ),
                       ),
-                      DropdownButton<String>(
-                          icon: Icon(Icons.control_point),
-                          iconSize: 14,
-                          iconEnabledColor: Theme.of(context).primaryColor,
-                          iconDisabledColor: Colors.redAccent,
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Theme.of(context).bottomAppBarColor),
-                          value: _selectedQuintity,
-                          items: <String>[
-                            '1',
-                            '2',
-                            '3',
-                            '4',
-                            '5',
-                            '6',
-                            '7',
-                            '8',
-                            '9',
-                            '10'
-                          ].map((String value) {
-                            return new DropdownMenuItem<String>(
-                              value: value,
-                              child: new Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (newValue) {
-                            setState(() {
-                              _selectedQuintity = newValue;
-                            });
-                          }),
+                      Text("${widget.cartItem.productQuantity} x"),
                     ],
                   ),
                 ),
@@ -90,7 +75,7 @@ class _CartItemState extends State<CartItem> {
                         child: Container(
                           width: 120,
                           child: Text(
-                            "  اسم المنتج اسم المنتج اسم المنتج اسم المنتج   اسم المنتج  ",
+                            widget.cartItem.product.title,
                             textAlign: TextAlign.center,
                             textDirection: TextDirection.rtl,
                             maxLines: 5,
@@ -98,11 +83,11 @@ class _CartItemState extends State<CartItem> {
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
-                                color: Theme.of(context).bottomAppBarColor),
+                                color: Colors.black.withOpacity(0.7)),
                           ),
                         ),
                       ),
-                      Text(" 150,000 IQD",
+                      Text(widget.cartItem.productPrice,
                           style: TextStyle(
                               fontSize: 19,
                               color: Theme.of(context).primaryColor,
@@ -120,7 +105,7 @@ class _CartItemState extends State<CartItem> {
                             child: Center(
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: Colors.lightBlue,
+                                    color: widget.cartItem.productColor,
                                     shape: BoxShape.circle),
                                 child: SizedBox(
                                   height: 10,
@@ -148,7 +133,7 @@ class _CartItemState extends State<CartItem> {
                                     shape: BoxShape.rectangle),
                                 child: Center(
                                     child: Text(
-                                  "XL",
+                                  widget.cartItem.productSize,
                                   style: TextStyle(fontSize: 13),
                                   textAlign: TextAlign.center,
                                 )),
@@ -160,10 +145,12 @@ class _CartItemState extends State<CartItem> {
                     ],
                   ),
                 ),
-                Image.asset(
-                  "assets/images/product6.jpg",
-                  width: 150,
+                FadeInImage(
+                  placeholder: AssetImage('assets/images/placeholder.png'),
                   height: 150,
+                  width: 150,
+                  image: NetworkImage(
+                      "${AllProviders.hostName}/images/products/${widget.cartItem.product.image}"),
                   fit: BoxFit.cover,
                 ),
               ],

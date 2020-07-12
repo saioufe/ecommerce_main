@@ -1,6 +1,9 @@
+import 'package:ecommerce_template/models/cartItemModel.dart';
 import 'package:flutter/material.dart';
 
 class CartItemLast extends StatelessWidget {
+  final CartItemModel cartItem;
+  CartItemLast(this.cartItem);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,7 +37,7 @@ class CartItemLast extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  "11,123 IQD",
+                  cartItem.productPrice,
                   style: TextStyle(
                       fontSize: 23,
                       color: Colors.black45,
@@ -48,7 +51,7 @@ class CartItemLast extends StatelessWidget {
                     Container(
                       width: 200,
                       child: Text(
-                        " اسم المنتج المختار اسم المنتج المختار اسم المنتج المختار",
+                        cartItem.product.title,
                         textAlign: TextAlign.right,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
@@ -79,7 +82,7 @@ class CartItemLast extends StatelessWidget {
                           child: Center(
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.lightBlue,
+                                  color: cartItem.productColor,
                                   shape: BoxShape.circle),
                               child: SizedBox(
                                 height: 10,
@@ -106,7 +109,7 @@ class CartItemLast extends StatelessWidget {
                                   shape: BoxShape.rectangle),
                               child: Center(
                                   child: Text(
-                                "XL",
+                                cartItem.productSize,
                                 style: TextStyle(fontSize: 13),
                                 textAlign: TextAlign.center,
                               )),
@@ -119,7 +122,7 @@ class CartItemLast extends StatelessWidget {
                               color: Colors.white, shape: BoxShape.rectangle),
                           child: Center(
                               child: Text(
-                            " x 1 ",
+                            "${cartItem.productQuantity} X",
                             style: TextStyle(fontSize: 13),
                             textAlign: TextAlign.center,
                           )),

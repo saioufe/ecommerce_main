@@ -64,100 +64,34 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
           height: MediaQuery.of(context).size.height,
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 SizedBox(
                   height: 20,
                 ),
                 InkWell(
-                  onTap: () {
-                    setState(() {
-                      arabic_selected = !arabic_selected;
-                      english_selected = !english_selected;
-                    });
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              border: arabic_selected == true
-                                  ? Border.all(
-                                      color: Theme.of(context).primaryColor,
-                                      width: 5)
-                                  : Border.all(
-                                      color: Theme.of(context).primaryColor,
-                                      width: 0)),
-                          child: Image.asset(
-                            "assets/images/iraq.jpg",
-                            width: 170,
-                            height: 130,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "اللغة العربية",
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    ],
+                  onTap: () {},
+                  child: Container(
+                    margin: EdgeInsets.only(right: 15),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "اللغة العربية",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 24),
+                    ),
                   ),
                 ),
-                SizedBox(
-                  height: 40,
-                ),
+                Divider(),
                 InkWell(
-                  onTap: () {
-                    setState(() {
-                      arabic_selected = !arabic_selected;
-                      english_selected = !english_selected;
-                    });
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        clipBehavior: Clip.antiAlias,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              border: english_selected == true
-                                  ? Border.all(
-                                      color: Theme.of(context).primaryColor,
-                                      width: 5)
-                                  : Border.all(
-                                      color: Theme.of(context).primaryColor,
-                                      width: 0)),
-                          child: Image.asset(
-                            "assets/images/usa.png",
-                            width: 170,
-                            height: 130,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "English Language",
-                        style: TextStyle(fontSize: 24),
-                      ),
-                    ],
+                  onTap: () {},
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    margin: EdgeInsets.only(right: 15),
+                    child: Text(
+                      "English Language",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 24),
+                    ),
                   ),
                 ),
               ],

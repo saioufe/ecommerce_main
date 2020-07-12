@@ -1,6 +1,7 @@
 import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/models/product_question.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/screens/product-image-viewer.dart';
 import 'package:ecommerce_template/widgets/product-color-size-section.dart';
 import 'package:ecommerce_template/widgets/product-details-section.dart';
@@ -43,6 +44,8 @@ class _PressedProductState extends State<PressedProduct> {
   @override
   void initState() {
     AllProviders.selectedSize = '';
+    AllProviders.selectedPrice = '';
+    AllProviders.selectedDiscount = '';
     AllProviders.selectedColor = '';
     AllProviders.selectedQuintity2 = 1;
     AllProviders.getOnceImage = false;
@@ -96,8 +99,8 @@ class _PressedProductState extends State<PressedProduct> {
 
   @override
   Widget build(BuildContext context) {
-    final product = ModalRoute.of(context).settings.arguments as ProductShow;
     final allPro = Provider.of<AllProviders>(context, listen: false);
+    final allCart = Provider.of<CartProvider>(context, listen: false);
 
     if (AllProviders.getOnceImage != true) {
       if (allPro.allProductsImages != null) {
@@ -248,7 +251,55 @@ class _PressedProductState extends State<PressedProduct> {
                       ),
                     ),
                     onPressed: () {
-                      showInSnackBar("تم اضافة المنتج الى سلة المشتريات");
+                      print("price : ${AllProviders.selectedPrice}");
+                      print("discount : ${AllProviders.selectedDiscount}");
+                      print("size : ${AllProviders.selectedSize}");
+                      print("size : ${AllProviders.selectedQuintity2}");
+
+                      if (AllProviders.selectedPrice != '' &&
+                          AllProviders.selectedSize != '') {
+                        String thePrice;
+                        if (int.tryParse(AllProviders.selectedPrice) is int) {
+                          thePrice = "0.${AllProviders.selectedPrice}";
+                        } else {
+                          thePrice = AllProviders.selectedPrice;
+                        }
+
+                        String theDiscount;
+                        if (int.tryParse(AllProviders.selectedDiscount)
+                                is int &&
+                            AllProviders.selectedDiscount != '') {
+                          theDiscount = "0.${AllProviders.selectedDiscount}";
+                          print("integer");
+                        } else if (AllProviders.selectedDiscount != '') {
+                          theDiscount =
+                              double.parse(AllProviders.selectedDiscount)
+                                  .toStringAsFixed(3);
+                          print("double");
+                        }
+
+                        // print(AllProviders.selectedPrice);
+                        allCart
+                            .addItemToCart(
+                          widget.product,
+                          thePrice,
+                          theDiscount,
+                          AllProviders.selectedSize,
+                          AllProviders.selectedColor,
+                          AllProviders.selectedQuintity2,
+                        )
+                            .then((value) {
+                          if (value != "0") {
+                            allCart.loadedAllCartItems = null;
+                            allCart.incressCartItemsBadgeNumber();
+                            showInSnackBar("تم اضافة المنتج الى سلة المشتريات");
+                          } else {
+                            showInSnackBar("هذا المنتج موجود مسبقا في السلة");
+                          }
+                        });
+                      } else {
+                        showInSnackBar("يرجى اختيار اللون والحجم");
+                      }
                     },
                   ),
                 ),

@@ -117,7 +117,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 25, bottom: 20),
+                margin: EdgeInsets.only(top: 25, bottom: 20 , right: 20),
                 width: MediaQuery.of(context).size.width,
                 //alignment: Alignment.centerRight,
                 child: Text(
@@ -126,7 +126,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Theme.of(context).bottomAppBarColor,
                   ),
                 ),
               ),

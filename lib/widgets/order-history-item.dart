@@ -13,8 +13,8 @@ class OrderHistoryItem extends StatelessWidget {
             ));
       },
       child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
+        margin: EdgeInsets.all(10),
+        padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
@@ -43,8 +43,9 @@ class OrderHistoryItem extends StatelessWidget {
               child: Icon(
                 Icons.verified_user,
                 color: Colors.white,
+                size: 15,
               ),
-              radius: 27,
+              radius: 15,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

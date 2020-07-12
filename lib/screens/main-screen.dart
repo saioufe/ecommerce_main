@@ -1,5 +1,6 @@
 import 'package:ecommerce_template/ecommerce_icons_icons.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/screens/cart-screen.dart';
 import 'package:ecommerce_template/screens/categories-screen.dart';
 import 'package:ecommerce_template/screens/home-screen.dart';
@@ -36,6 +37,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+
     OneSignal.shared.setNotificationReceivedHandler((notification) {
       String data = notification.payload.additionalData['id'].toString();
       Navigator.push(
@@ -54,14 +56,14 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> _buildScreens() {
     return [
       ProfileScreen(controller: _controller),
-      CartScreen(),
+      CartScreen(controller: _controller),
       SearchScreen(),
       CategoriesScreen(),
       HomeScreen(),
     ];
   }
 
-  List<PersistentBottomNavBarItem> _navBarsItems() {
+  List<PersistentBottomNavBarItem> _navBarsItems(CartProvider cp) {
     return [
       PersistentBottomNavBarItem(
         translucencyPercentage: 85,
@@ -73,20 +75,26 @@ class _MainScreenState extends State<MainScreen> {
       ),
       PersistentBottomNavBarItem(
         translucencyPercentage: 85,
-        icon: Badge(
-          animationType: BadgeAnimationType.scale,
-          badgeColor: Theme.of(context).primaryColor,
-          animationDuration: Duration(milliseconds: 100),
-          badgeContent: Container(
-              padding: EdgeInsets.only(top: 5),
-              child: Text(
-                '1',
-                style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,
-              )),
-          position: BadgePosition.topLeft(),
-          child: Icon(EcommerceIcons.shopping_cart),
-        ),
+        icon: cp.numOfCartItems != 0
+            ? Badge(
+                animationType: BadgeAnimationType.scale,
+                badgeColor: Theme.of(context).primaryColor,
+                animationDuration: Duration(milliseconds: 100),
+                badgeContent: Container(
+                    padding: EdgeInsets.only(top: 5),
+                    child: Consumer<CartProvider>(
+                      builder: (ctx, cartProvider, _) {
+                        return Text(
+                          cartProvider.numOfCartItems.toString(),
+                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        );
+                      },
+                    )),
+                position: BadgePosition.topLeft(),
+                child: Icon(EcommerceIcons.shopping_cart),
+              )
+            : Icon(EcommerceIcons.shopping_cart),
         title: ("cart"),
         activeColor: Theme.of(context).primaryColor,
         inactiveColor: Colors.grey,
@@ -122,6 +130,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
+    final cartPro = Provider.of<CartProvider>(context, listen: false);
 
     return PersistentTabView(
         navBarHeight: allPro.showNavBar == true ? 60 : 0,
@@ -130,8 +139,8 @@ class _MainScreenState extends State<MainScreen> {
         navBarCurve: NavBarCurve.upperCorners,
         controller: _controller,
         screens: _buildScreens(),
-        items:
-            _navBarsItems(), // Redundant here but defined to demonstrate for other than custom style
+        items: _navBarsItems(
+            cartPro), // Redundant here but defined to demonstrate for other than custom style
         confineInSafeArea: true,
         backgroundColor: Colors.white,
         handleAndroidBackButtonPress: true,

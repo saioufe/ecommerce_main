@@ -64,9 +64,9 @@ class ProductDetailsPressed extends StatelessWidget {
                               padding: EdgeInsets.all(5),
                               child: Center(
                                 child: Text(
-                                  allposts.selectedDiscount == ''
+                                  AllProviders.selectedDiscount == ''
                                       ? "${product.price} IQD"
-                                      : "${allposts.selectedPrice}",
+                                      : "${AllProviders.selectedPrice}",
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontFamily: 'tajawal',
