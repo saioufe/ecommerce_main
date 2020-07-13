@@ -58,6 +58,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   }
                 },
                 textAlign: TextAlign.right,
+                
                 style: TextStyle(color: Theme.of(context).bottomAppBarColor,),
                 decoration: new InputDecoration(
                     border: InputBorder.none,

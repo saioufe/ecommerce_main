@@ -26,7 +26,7 @@ class PaymentThirdConfirm extends StatefulWidget {
 class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
   @override
   Widget build(BuildContext context) {
-    final cartPro = Provider.of<CartProvider>(context, listen: false);
+    final cartPro = Provider.of<CartProvider>(context, listen: true);
     return Scaffold(
       key: _scaffoldKey2,
       body: Container(

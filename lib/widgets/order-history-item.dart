@@ -1,15 +1,30 @@
+import 'package:ecommerce_template/models/orderModel.dart';
 import 'package:ecommerce_template/screens/old-order-template.dart';
 import 'package:flutter/material.dart';
 
 class OrderHistoryItem extends StatelessWidget {
+  final OrderModel order;
+  OrderHistoryItem({this.order});
   @override
+  Color color;
   Widget build(BuildContext context) {
+    if (order.status == "Pending") {
+      color = Colors.orange;
+    } else if (order.status == "Order is rejected") {
+      color = Colors.redAccent;
+    } else if (order.status == "Delivered") {
+      color = Colors.green;
+    } else if (order.status == "Delivering order") {
+      color = Colors.yellow;
+    } else if (order.status == "Processing order") {
+      color = Colors.brown;
+    }
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OldOrderTemplate(),
+              builder: (context) => OldOrderTemplate(order: order),
             ));
       },
       child: Container(
@@ -38,52 +53,50 @@ class OrderHistoryItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            CircleAvatar(
-              backgroundColor: Theme.of(context).primaryColor,
-              child: Icon(
-                Icons.verified_user,
-                color: Colors.white,
-                size: 15,
+            Container(
+              margin: EdgeInsets.only(right: 10),
+              child: CircleAvatar(
+                backgroundColor: color,
+                radius: 5,
               ),
-              radius: 15,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Order #20180304",
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Theme.of(context).bottomAppBarColor,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Preparing",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Theme.of(context).primaryColor,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Order #${order.id}",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Theme.of(context).bottomAppBarColor,
+                        fontWeight: FontWeight.bold),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "${order.status}",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ],
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Text(
-                  "View 3 items",
+                  "view the ${order.productsName.length -1} items",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.greenAccent,
                   ),
                 ),
                 Text(
-                  
-                  
-                  "04 july,2018 | 11:35 am",
+                  "${order.date}",
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey.withOpacity(0.4),

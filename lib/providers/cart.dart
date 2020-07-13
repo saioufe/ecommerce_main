@@ -125,6 +125,23 @@ class CartProvider with ChangeNotifier {
     //notifyListeners();
   }
 
+  int cartItemNumber;
+  bool onceFavorite = false;
+  Future<int> getNumCartItem() async {
+    if (onceFavorite == false) {
+      onceFavorite = true;
+      await http.post('${AllProviders.hostName}/get-num-cart-items-flutter.php',
+          body: {
+            'userId': UserProvider.userId.toString(),
+          }).then((value) {
+        cartItemNumber = int.parse(value.body);
+        return cartItemNumber;
+      });
+      notifyListeners();
+      return cartItemNumber;
+    }
+  }
+
   Future<void> deleteCartItems(
       String productId, String productColor, String productSize) async {
     await http
@@ -335,14 +352,15 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  String productIds = '';
-  String colorsIds = '';
+  String productNames = '';
+  String colorsNames = '';
   String quantities = '';
+  String sizes = '';
   bool onceOrder = false;
   int index = 0;
   Future<String> sendOrder(String promocode) async {
     loadedAllCartItems.forEach((element2) {
-      productIds += element2.product_id + ',';
+      productNames += element2.product.title + ',';
       quantities += element2.productQuantity + ',';
       _allProviders.fetchDataProductColors(element2.product_id).then((value) {
         _allProviders.colors.forEach((element) async {
@@ -353,18 +371,24 @@ class CartProvider with ChangeNotifier {
           if (element.size == element2.productSize &&
               color == element2.productColor) {
             index++;
-            colorsIds += element.id + ',';
-
+            colorsNames += element.color + ',';
+            sizes += element.size + ',';
+            print(sizes);
             if (index == loadedAllCartItems.length) {
               final respo = await http.post(
                   '${AllProviders.hostName}/send-order-flutter.php',
                   body: {
                     'userId': UserProvider.userId.toString(),
-                    'product_ids': productIds,
-                    'colors': colorsIds,
+                    'product_ids': productNames,
+                    'colors': colorsNames,
+                    'size': sizes,
                     'quantities': quantities,
                     'phone': selectedAddress.phone,
-                    'address': selectedAddress.address,
+                    'address': selectedAddress.address +
+                        ' ' +
+                        selectedAddress.country +
+                        ' ' +
+                        selectedAddress.city,
                     'promocode': promocode,
                     'price': lastlastTotalPrice.toStringAsFixed(3),
                     'name': selectedAddress.name,

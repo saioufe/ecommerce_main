@@ -2,6 +2,7 @@ import 'package:ecommerce_template/Templates/category-1-template.dart';
 import 'package:ecommerce_template/models/Category.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
+import 'package:ecommerce_template/providers/settings.dart';
 import 'package:ecommerce_template/screens/pressed-category-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
-
+    final setPro = Provider.of<SettingsProvider>(context);
     //final dummyData = Provider.of<DummyData>(context,listen: false);
 
     return Scaffold(
@@ -48,7 +49,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                     Consumer<DummyData>(builder: (context, dummy, _) {
                       return Text(
-                        dummy.categories[dummy.selectedCat].name,
+                        setPro.categories[setPro.selectedCat].mainCategory,
                         style: TextStyle(
                             fontSize: 23,
                             fontWeight: FontWeight.bold,
@@ -66,7 +67,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               return SingleChildScrollView(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: dummy.categories[dummy.selectedCat].subCategories
+                    children: setPro
+                        .categories[setPro.selectedCat].subCategories
                         .map((item) {
                       return InkWell(
                         onTap: () {
@@ -78,7 +80,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => PressedCategoryScreen(
-                                  category: dummy.categories[dummy.selectedCat],
+                                  category:
+                                      setPro.categories[setPro.selectedCat],
                                   subCat: item,
                                 ),
                               ));
@@ -117,7 +120,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 25, bottom: 20 , right: 20),
+                margin: EdgeInsets.only(top: 25, bottom: 20, right: 20),
                 width: MediaQuery.of(context).size.width,
                 //alignment: Alignment.centerRight,
                 child: Text(
@@ -144,15 +147,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         crossAxisSpacing: 5.0,
                         mainAxisSpacing: 5.0,
                       ),
-                      itemCount: dummy.categories.length,
+                      itemCount: setPro.categories.length,
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
                             // setState(() {
                             //   selectedCategory = index;
                             // });
-                            dummy.setCat(index);
-                            if (dummy.categories[dummy.selectedCat]
+                            setPro.setCat(index);
+                            if (setPro.categories[setPro.selectedCat]
                                 .subCategories.isEmpty) {
                               setState(() {
                                 allPro.NavBarShow(false);
@@ -162,15 +165,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => PressedCategoryScreen(
-                                        category: dummy
-                                            .categories[dummy.selectedCat]),
+                                        category: setPro
+                                            .categories[setPro.selectedCat]),
                                   ));
                             } else {
                               controller.show();
                             }
                           },
                           child: CategoryFirstTemplate(
-                            category: dummy.categories[index],
+                            category: setPro.categories[index],
                           ),
                         );
                       },

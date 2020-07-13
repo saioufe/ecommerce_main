@@ -45,11 +45,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
+  //int notinumber;
   @override
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
     final userPro = Provider.of<UserProvider>(context);
+    final cartPro = Provider.of<CartProvider>(context);
 
+    cartPro.getNumCartItem();
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -71,7 +75,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Center(
           child: Column(
             children: <Widget>[
-                      
               UserProvider.isLogin == true
                   ? Container(
                       margin: EdgeInsets.only(top: 10),
@@ -202,7 +205,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Theme.of(context).bottomAppBarColor,
                 ),
                 icon: EcommerceIcons.shopping_cart,
-                notiNumber: 2,
+                notiNumber: cartPro.cartItemNumber != null
+                    ? cartPro.cartItemNumber
+                    : 0,
                 onTap: () {
                   setState(() {
                     allPro.NavBarShow(false);

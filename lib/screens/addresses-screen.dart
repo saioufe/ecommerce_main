@@ -39,19 +39,32 @@ class _AddressesScreenState extends State<AddressesScreen> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 25, bottom: 20),
                 width: MediaQuery.of(context).size.width,
-                //alignment: Alignment.centerRight,
-                child: Center(
-                  child: Text(
-                    "عناوين التوصيل",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).bottomAppBarColor,
+                margin: EdgeInsets.only(left: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(Icons.arrow_back_ios),
                     ),
-                  ),
+                    Container(
+                      margin: EdgeInsets.only(top: 25, bottom: 20, right: 20),
+                      //width: MediaQuery.of(context).size.width,
+                      //alignment: Alignment.centerRight,
+                      child: Text(
+                        "عناوين التوصيل",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).bottomAppBarColor,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               FutureBuilder(
@@ -127,7 +140,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                     )
                   : SizedBox(),
               Container(
-                margin: EdgeInsets.only(top: 10),
+                margin: EdgeInsets.only(top: 10 , bottom: 140),
                 child: RaisedButton(
                   padding: EdgeInsets.all(12),
                   child: Text(

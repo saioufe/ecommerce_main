@@ -49,9 +49,6 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
   @override
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
-
-    final dummyData = Provider.of<DummyData>(context);
-
     return WillPopScope(
       onWillPop: () {
         allPro.NavBarShow(true);
@@ -68,7 +65,7 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
                       bottomRight: Radius.circular(50))),
               title: Text(
                 widget.subCat == null
-                    ? "${widget.category.name}"
+                    ? "${widget.category.mainCategory}"
                     : "${widget.subCat}",
                 textAlign: TextAlign.right,
                 style: TextStyle(
@@ -105,19 +102,14 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
               iconTheme: IconThemeData(color: Colors.white),
               flexibleSpace: FlexibleSpaceBar(
                 background: Hero(
-                    tag: widget.category.id,
-                    child: Image.asset(
-                      "assets/images/${widget.category.image}",
-                      fit: BoxFit.cover,
-                    )
-                    // FadeInImage(
-                    //   placeholder: AssetImage('assets/images/slider1.png'),
-                    //   height: MediaQuery.of(context).size.height * 0.35,
-                    //   image: NetworkImage(
-                    //       "${AllProvider.hostName}/images/posts/${postData.postImage}"),
-                    //   fit: BoxFit.cover,
-                    // ),
-                    ),
+                  tag: widget.category.id,
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/images/placeholder.png'),
+                    image: NetworkImage(
+                        "${AllProviders.hostName}/images/categories/${widget.category.image}"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
             SliverList(
@@ -125,16 +117,15 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
                 SizedBox(
                   height: 15,
                 ),
-                Flex(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  direction: Axis.vertical,
                   children: <Widget>[
                     SafeArea(
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(15),
                         child: Text(
-                          "${widget.category.name}",
+                          "${widget.category.mainCategory}",
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: 28,
@@ -156,12 +147,17 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
                           crossAxisSpacing: 5.0,
                           mainAxisSpacing: 5.0,
                         ),
-                        //itemCount: dummyData.products.length,
+                        itemCount: allPro.allProducts.length,
                         itemBuilder: (context, index) {
-                          // return ProductMainTemplate(
-                          //   product: dummyData.products[index],
-                          //   isMain: true,
-                          // );
+                          if (allPro.allProducts[index].mainCategory ==
+                              widget.category.mainCategory) {
+                            return ProductMainTemplate(
+                              product: allPro.allProducts[index],
+                              isMain: true,
+                            );
+                          } else {
+                            return SizedBox();
+                          }
                         },
                       ),
                     ),

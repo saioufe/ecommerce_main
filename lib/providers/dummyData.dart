@@ -93,78 +93,74 @@ class DummyData extends ChangeNotifier {
   //   ),
   // ];
 
-  List<Category> _categories = [
-    Category(
-      id: "111",
-      name: "ملابس رجالية",
-      image: "category2.jpg",
-      subCategories: ["احذية", "قمصان", "تي شيرت", "قبعات"],
-    ),
-    Category(
-      id: "222",
-      name: "ملابس نسائية",
-      image: "category1.jpg",
-      subCategories: [],
-    ),
-    Category(
-      id: "333",
-      name: "احذية",
-      image: "category3.jpeg",
-      subCategories: ["سبورت", "تران شوز", "رسمي"],
-    ),
-    Category(
-      id: "444",
-      name: "هواتف ذكية",
-      image: "category4.jpg",
-      subCategories: ["سامسونك", "ايفون", "هواوي", "LG"],
-    ),
-    Category(
-      id: "555",
-      name: "قرطاسية",
-      image: "category5.jpeg",
-      subCategories: ["دفاتر", "اقلام", "كتب", "ملصقات"],
-    ),
-    Category(
-      id: "666",
-      name: "بطاقات",
-      image: "category6.jpg",
-      subCategories: ["itunes", "Xbox Live", "PSN", "Zain Cash"],
-    ),
-    Category(
-      id: "777",
-      name: "اثاث",
-      image: "category7.jpg",
-      subCategories: ["مكتبي", "مطبخ", "غرف نوم", "استقبال"],
-    ),
-    Category(
-      id: "888",
-      name: "طعام",
-      image: "category8.jpg",
-      subCategories: ["سوشي", "هندي", "عراقي", "لبناني"],
-    ),
-    Category(
-      id: "999",
-      name: "العاب الفيديو",
-      image: "category9.jpg",
-      subCategories: [
-        "PlayStation 4",
-        "Xbox One",
-        "nintendo switch",
-        "PC",
-        "Xbox One",
-        "nintendo switch",
-        "PC",
-        "Xbox One",
-        "nintendo switch",
-        "PC"
-      ],
-    ),
-  ];
-  int selectedCat = 0;
-  void setCat(int index) {
-    selectedCat = index;
-    notifyListeners();
-  }
+  // List<Category> _categories = [
+  //   Category(
+  //     id: "111",
+  //     name: "ملابس رجالية",
+  //     image: "category2.jpg",
+  //     subCategories: ["احذية", "قمصان", "تي شيرت", "قبعات"],
+  //   ),
+  //   Category(
+  //     id: "222",
+  //     name: "ملابس نسائية",
+  //     image: "category1.jpg",
+  //     subCategories: [],
+  //   ),
+  //   Category(
+  //     id: "333",
+  //     name: "احذية",
+  //     image: "category3.jpeg",
+  //     subCategories: ["سبورت", "تران شوز", "رسمي"],
+  //   ),
+  //   Category(
+  //     id: "444",
+  //     name: "هواتف ذكية",
+  //     image: "category4.jpg",
+  //     subCategories: ["سامسونك", "ايفون", "هواوي", "LG"],
+  //   ),
+  //   Category(
+  //     id: "555",
+  //     name: "قرطاسية",
+  //     image: "category5.jpeg",
+  //     subCategories: ["دفاتر", "اقلام", "كتب", "ملصقات"],
+  //   ),
+  //   Category(
+  //     id: "666",
+  //     name: "بطاقات",
+  //     image: "category6.jpg",
+  //     subCategories: ["itunes", "Xbox Live", "PSN", "Zain Cash"],
+  //   ),
+  //   Category(
+  //     id: "777",
+  //     name: "اثاث",
+  //     image: "category7.jpg",
+  //     subCategories: ["مكتبي", "مطبخ", "غرف نوم", "استقبال"],
+  //   ),
+  //   Category(
+  //     id: "888",
+  //     name: "طعام",
+  //     image: "category8.jpg",
+  //     subCategories: ["سوشي", "هندي", "عراقي", "لبناني"],
+  //   ),
+  //   Category(
+  //     id: "999",
+  //     name: "العاب الفيديو",
+  //     image: "category9.jpg",
+  //     subCategories: [
+  //       "PlayStation 4",
+  //       "Xbox One",
+  //       "nintendo switch",
+  //       "PC",
+  //       "Xbox One",
+  //       "nintendo switch",
+  //       "PC",
+  //       "Xbox One",
+  //       "nintendo switch",
+  //       "PC"
+  //     ],
+  //   ),
+  // ];
+
 
   // List<Product> get products {
   //   return _products;
@@ -174,7 +170,7 @@ class DummyData extends ChangeNotifier {
   //   return _news;
   // }
 
-  List<Category> get categories {
-    return _categories;
-  }
+  // List<Category> get categories {
+  //   return _categories;
+  // }
 }

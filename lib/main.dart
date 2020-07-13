@@ -5,6 +5,8 @@ import 'package:ecommerce_template/providers/application.dart';
 import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
 import 'package:ecommerce_template/providers/languages.dart';
+import 'package:ecommerce_template/providers/ordering.dart';
+import 'package:ecommerce_template/providers/settings.dart';
 import 'package:ecommerce_template/providers/theme_manager.dart';
 import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/main-screen.dart';
@@ -55,6 +57,12 @@ void main() async {
         ),
         ChangeNotifierProvider.value(
           value: ThemeManager(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Ordering(),
+        ),
+        ChangeNotifierProvider.value(
+          value: SettingsProvider(),
         ),
         ChangeNotifierProxyProvider<AllProviders, ApplicationProvider>(
           update: (context, allProviders, applicationProvider) =>

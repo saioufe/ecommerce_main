@@ -1,5 +1,6 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/ordering.dart';
 import 'package:ecommerce_template/widgets/order-history-item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,8 +38,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
 
   @override
   Widget build(BuildContext context) {
+    final orderPro = Provider.of<Ordering>(context, listen: false);
     controller.addListener(() {
-      print(controller.index);
+      // print(controller.index);
       if (controller.index == 0) {
         controllerPage.animateToPage(0,
             duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
@@ -102,26 +104,83 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
             controller: controllerPage,
             children: <Widget>[
               SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    OrderHistoryItem(),
-                    OrderHistoryItem(),
-                    OrderHistoryItem(),
-                    OrderHistoryItem(),
-                    OrderHistoryItem(),
-                    OrderHistoryItem(),
-                    OrderHistoryItem(),
-                  ],
-                ),
-              ),
+                  child: FutureBuilder(
+                      future: orderPro.getOrders(),
+                      builder: (ctx, authResultSnap) {
+                        if (authResultSnap.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        } else if (authResultSnap.hasError) {
+                          Center(
+                            child: Text("تفقد من الاتصال بلانترنت"),
+                          );
+                          return RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                //other.getUserLocation();
+                              });
+                              print(authResultSnap.error.toString());
+                            },
+                            child: Text("تفقد من الاتصال بلانترنت",
+                                style: TextStyle(color: Colors.black)),
+                          );
+                        } else {
+                          return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: orderPro.allorders.map((item) {
+                                if (item.status != 'Pending') {
+                                  return OrderHistoryItem(
+                                    order: item,
+                                  );
+                                } else {
+                                  return SizedBox();
+                                }
+                              }).toList());
+                        }
+                      })),
               SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    OrderHistoryItem(),
-                    OrderHistoryItem(),
-                  ],
+                child: FutureBuilder(
+                  future: orderPro.getOrders(),
+                  builder: (ctx, authResultSnap) {
+                    if (authResultSnap.connectionState ==
+                        ConnectionState.waiting) {
+                      return Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    } else if (authResultSnap.hasError) {
+                      Center(
+                        child: Text("تفقد من الاتصال بلانترنت"),
+                      );
+                      return RaisedButton(
+                        onPressed: () {
+                          setState(() {
+                            //other.getUserLocation();
+                          });
+                          print(authResultSnap.error.toString());
+                        },
+                        child: Text("تفقد من الاتصال بلانترنت",
+                            style: TextStyle(color: Colors.black)),
+                      );
+                    } else {
+                      return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: orderPro.allorders.map((item) {
+                            if (item.status == 'Pending') {
+                              return OrderHistoryItem(
+                                order: item,
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          }).toList());
+                    }
+                  },
                 ),
               ),
             ],

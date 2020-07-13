@@ -5,6 +5,7 @@ import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
+import 'package:ecommerce_template/providers/settings.dart';
 import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/news-screen.dart';
 import 'package:ecommerce_template/screens/posts-pressed-screen.dart';
@@ -29,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final allposts = Provider.of<AllProviders>(context, listen: false);
     final cartPro = Provider.of<CartProvider>(context, listen: false);
+    final setPro = Provider.of<SettingsProvider>(context, listen: false);
 
     Provider.of<UserProvider>(context, listen: false).checkLogin();
     double sizeBetweenWidgets = 20;
@@ -47,75 +49,204 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Column(
             children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width / 1.1,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {
-                          // if (Languages.selectedLanguage == 0) {
-                          //   pageController.jumpToPage(2);
-                          // } else {
-                          //   pageController.jumpToPage(1);
-                          // }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Icon(
-                              Icons.keyboard_arrow_left,
-                              size: 18,
+              setPro.dataOfflineAllCategories == null
+                  ? FutureBuilder(
+                      future: setPro.fetchDataCategories(),
+                      builder: (ctx, authResultSnap) {
+                        if (authResultSnap.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container(
+                            child: Center(
+                              child: CircularProgressIndicator(),
                             ),
-                            Text(
-                              "المزيد",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).bottomAppBarColor,
-                                  fontSize: 15),
+                          );
+                        } else if (authResultSnap.hasError) {
+                          Center(
+                            child: Text("تفقد من الاتصال بلانترنت"),
+                          );
+                          return RaisedButton(
+                            onPressed: () {
+                              setState(() {
+                                //other.getUserLocation();
+                              });
+                              print(authResultSnap.error.toString());
+                            },
+                            child: Text("تفقد من الاتصال بلانترنت",
+                                style: TextStyle(color: Colors.black)),
+                          );
+                        } else {
+                          print(setPro.categories.length);
+                          if (setPro.categories[1].showCategories == "1") {
+                            return Column(
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.1,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      InkWell(
+                                        onTap: () {
+                                          // if (Languages.selectedLanguage == 0) {
+                                          //   pageController.jumpToPage(2);
+                                          // } else {
+                                          //   pageController.jumpToPage(1);
+                                          // }
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.keyboard_arrow_left,
+                                              size: 18,
+                                            ),
+                                            Text(
+                                              "المزيد",
+                                              textAlign: TextAlign.right,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .bottomAppBarColor,
+                                                  fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Text(
+                                        "تسوق حسب الفئات",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context)
+                                                .bottomAppBarColor,
+                                            fontSize: 20),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: sizeBetweenWidgets,
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.1,
+                                  height:
+                                      MediaQuery.of(context).size.height / 5.6,
+                                  //margin: EdgeInsets.only(right: 10, left: 10),
+                                  child: Center(
+                                    child: GridView.builder(
+                                      shrinkWrap: true,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 0.5 / 0.9,
+                                        crossAxisSpacing: 20,
+                                        mainAxisSpacing: 15,
+                                      ),
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: setPro.categories.length,
+                                      itemBuilder: (ctx, index) {
+                                        return CategoryHomeTemplate(
+                                            category: setPro.categories[index]);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return SizedBox(
+                              height: sizeBetweenWidgets,
+                            );
+                          }
+                        }
+                      })
+                  : setPro.categories[1].showCategories == "1"
+                      ? Column(
+                          children: <Widget>[
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1.1,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  InkWell(
+                                    onTap: () {
+                                      // if (Languages.selectedLanguage == 0) {
+                                      //   pageController.jumpToPage(2);
+                                      // } else {
+                                      //   pageController.jumpToPage(1);
+                                      // }
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.keyboard_arrow_left,
+                                          size: 18,
+                                        ),
+                                        Text(
+                                          "المزيد",
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .bottomAppBarColor,
+                                              fontSize: 15),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    "تسوق حسب الفئات",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color:
+                                            Theme.of(context).bottomAppBarColor,
+                                        fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: sizeBetweenWidgets,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1.1,
+                              height: MediaQuery.of(context).size.height / 5.6,
+                              //margin: EdgeInsets.only(right: 10, left: 10),
+                              child: Center(
+                                child: GridView.builder(
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.5 / 0.9,
+                                    crossAxisSpacing: 20,
+                                    mainAxisSpacing: 15,
+                                  ),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: setPro.categories.length,
+                                  itemBuilder: (ctx, index) {
+                                    return CategoryHomeTemplate(
+                                        category: setPro.categories[index]);
+                                  },
+                                ),
+                              ),
                             ),
                           ],
+                        )
+                      : SizedBox(
+                          height: sizeBetweenWidgets,
                         ),
-                      ),
-                      Text(
-                        "تسوق حسب الفئات",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).bottomAppBarColor,
-                            fontSize: 20),
-                      ),
-                    ]),
-              ),
               SizedBox(
                 height: sizeBetweenWidgets,
               ),
-              Container(
-                width: MediaQuery.of(context).size.width / 1.1,
-                height: MediaQuery.of(context).size.height / 5.6,
-                //margin: EdgeInsets.only(right: 10, left: 10),
-                child: Center(
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.5 / 0.9,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 15,
-                    ),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: dummyData.categories.length,
-                    itemBuilder: (ctx, index) {
-                      return CategoryHomeTemplate(
-                          category: dummyData.categories[index]);
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: sizeBetweenWidgets,
-              ),
+
               Container(
                 width: MediaQuery.of(context).size.width / 1.1,
                 child: Row(

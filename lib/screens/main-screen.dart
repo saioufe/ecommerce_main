@@ -85,7 +85,7 @@ class _MainScreenState extends State<MainScreen> {
                     child: Consumer<CartProvider>(
                       builder: (ctx, cartProvider, _) {
                         return Text(
-                          cartProvider.numOfCartItems.toString(),
+                          cp.numOfCartItems.toString(),
                           style: TextStyle(color: Colors.white),
                           textAlign: TextAlign.center,
                         );

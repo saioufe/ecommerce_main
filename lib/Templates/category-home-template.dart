@@ -3,7 +3,6 @@ import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/screens/pressed-category-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../ecommerce_icons_icons.dart';
 
 class CategoryHomeTemplate extends StatefulWidget {
   final Category category;
@@ -52,11 +51,12 @@ class _CategoryHomeTemplateState extends State<CategoryHomeTemplate> {
                   opacity: 0.3,
                   child: Hero(
                     tag: widget.category.id,
-                    child: Image.asset(
-                      "assets/images/${widget.category.image}",
+                    child: FadeInImage(
+                      placeholder: AssetImage('assets/images/placeholder.png'),
                       height: 190,
                       width: 200,
-                      //color: Colors.grey,
+                      image: NetworkImage(
+                          "${AllProviders.hostName}/images/categories/${widget.category.image}"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -70,13 +70,13 @@ class _CategoryHomeTemplateState extends State<CategoryHomeTemplate> {
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(5),
                     child: Text(
-                      widget.category.name,
+                      widget.category.mainCategory,
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.rtl,
                       maxLines: 2,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 17,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold),
                     ),
                   ),

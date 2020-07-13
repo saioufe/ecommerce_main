@@ -1,8 +1,14 @@
 import 'package:ecommerce_template/Templates/address-order-template.dart';
+import 'package:ecommerce_template/models/orderModel.dart';
+import 'package:ecommerce_template/widgets/size-product-box.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class OldOrderTemplate extends StatelessWidget {
+  final OrderModel order;
+  OldOrderTemplate({this.order});
   @override
+  int index = 0;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -68,14 +74,14 @@ class OldOrderTemplate extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "Order id : #20180213",
+                                "Order id : #${order.id}",
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Theme.of(context).bottomAppBarColor,
                                 ),
                               ),
                               Text(
-                                "Date : 15 may 2020",
+                                "Date : ${order.date}",
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Theme.of(context).bottomAppBarColor,
@@ -86,7 +92,7 @@ class OldOrderTemplate extends StatelessWidget {
                           Expanded(
                               child: Center(
                             child: Text(
-                              "\$12.14",
+                              "IQD ${order.price}",
                               style: TextStyle(
                                 fontSize: 23,
                                 fontWeight: FontWeight.bold,
@@ -100,10 +106,95 @@ class OldOrderTemplate extends StatelessWidget {
                       ),
                       Text("عنوان الطلب"),
                       Divider(),
+                      Text(
+                        "${order.address}",
+                        style: TextStyle(fontSize: 18),
+                      ),
                       SizedBox(
                         height: 10,
                       ),
-                     // AddressOrderTemplate(),
+                      Text("منتجات الطلب"),
+                      Divider(),
+                      Column(
+                          children: order.productsName
+                              .sublist(0, order.productsName.length - 1)
+                              .map((name) {
+                        index++;
+                        final hexCode =
+                            order.colorsNames[index - 1].replaceAll('#', '');
+                        final color = Color(int.parse('FF$hexCode', radix: 16));
+                        return Column(
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  "$name X ${order.quantities[index - 1]}",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                SizedBox(
+                                  height: 7,
+                                ),
+                                CircleAvatar(
+                                  radius: 5,
+                                  backgroundColor: color,
+                                ),
+                                SizedBox(
+                                  height: 7,
+                                ),
+
+                                Container(
+                                  decoration: BoxDecoration(
+                                    // boxShadow: <BoxShadow>[
+                                    //   BoxShadow(
+                                    //     color: Colors.grey.withOpacity(0.9),
+                                    //     spreadRadius: 0.5,
+                                    //     blurRadius: 1.5,
+                                    //   ),
+                                    // ],
+                                    shape: BoxShape.rectangle,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4)),
+                                    border: Border.all(
+                                      color: Colors.grey.withOpacity(0.04),
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                          top: 8, left: 5, right: 5),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.rectangle),
+                                      child: Center(
+                                          child: Text(
+                                        order.sizes[index - 1],
+                                        style: TextStyle(fontSize: 19),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                    ),
+                                  ),
+                                ),
+                                // Text(
+                                //   "${}",
+                                //   style: TextStyle(fontSize: 18),
+                                // ),
+                              ],
+                            ),
+                            Divider(
+                              color: Theme.of(context).primaryColor,
+                              thickness: 1,
+                              endIndent: 100,
+                              indent: 100,
+                            )
+                          ],
+                        );
+                      }).toList()),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // AddressOrderTemplate(),
                     ],
                   ),
                 ),
@@ -132,117 +223,14 @@ class OldOrderTemplate extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Column(
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      backgroundColor: Colors.yellow,
-                                      radius: 12,
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      child: VerticalDivider(
-                                        width: 12,
-                                        thickness: 2,
-                                        color: Colors.grey.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      backgroundColor: Colors.orangeAccent,
-                                      radius: 12,
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      child: VerticalDivider(
-                                        width: 12,
-                                        thickness: 2,
-                                        color: Colors.grey.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      backgroundColor: Colors.blueAccent,
-                                      radius: 12,
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      child: VerticalDivider(
-                                        width: 12,
-                                        thickness: 2,
-                                        color: Colors.grey.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      backgroundColor: Colors.green,
-                                      radius: 12,
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      child: VerticalDivider(
-                                        width: 12,
-                                        thickness: 2,
-                                        color: Colors.grey.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      backgroundColor: Colors.redAccent,
-                                      radius: 12,
-                                    ),
-                                    Container(
-                                      height: 20,
-                                      child: VerticalDivider(
-                                        width: 12,
-                                        thickness: 2,
-                                        color: Colors.grey.withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
                             Container(
-                              margin: EdgeInsets.only(top:10 ,left: 20),
+                              margin: EdgeInsets.only(top: 10, left: 20),
+                              width: MediaQuery.of(context).size.width / 1.8,
                               child: Column(
-                                children: <Widget>[
-                                  Text("تم استلام طلبك"),
-                                  SizedBox(
-                                    height: 26,
+                                  children:
+                                      buildOrderStatus(order.status).toList()
+                                  //here is the Item should be TODO
                                   ),
-                                  Text("الطلب في قيد التجهيز"),
-                                  SizedBox(
-                                    height: 26,
-                                  ),
-                                  Text("الطلب في قيد التسليم"),
-                                  SizedBox(
-                                    height: 26,
-                                  ),
-                                  Text("تم السليم"),
-                                  SizedBox(
-                                    height: 26,
-                                  ),
-                                  Text("تم رفض الطلب"),
-                                  SizedBox(
-                                    height: 26,
-                                  ),
-                                ],
-                              ),
                             ),
                           ],
                         ),
@@ -256,7 +244,9 @@ class OldOrderTemplate extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                        "شرح عن سبب الغاء الطلب او اي تفاصيل يريد اي يضعها التاجر",
+                        order.message != ""
+                            ? "${order.message}"
+                            : "لا توجد رسائل",
                         style: TextStyle(fontSize: 16, color: Colors.redAccent),
                         textDirection: TextDirection.rtl,
                       ),
@@ -270,4 +260,154 @@ class OldOrderTemplate extends StatelessWidget {
       ),
     );
   }
+
+  List<Widget> orderStatusWidgets = [
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.orange,
+              radius: 12,
+            ),
+            Container(
+              height: 20,
+              child: VerticalDivider(
+                width: 12,
+                thickness: 2,
+                color: Colors.grey.withOpacity(0.7),
+              ),
+            ),
+          ],
+        ),
+        Text("تم استلام طلبك"),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.brown,
+              radius: 12,
+            ),
+            Container(
+              height: 20,
+              child: VerticalDivider(
+                width: 12,
+                thickness: 2,
+                color: Colors.grey.withOpacity(0.7),
+              ),
+            ),
+          ],
+        ),
+        Text("الطلب قيد التجهيز"),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.yellow,
+              radius: 12,
+            ),
+            Container(
+              height: 20,
+              child: VerticalDivider(
+                width: 12,
+                thickness: 2,
+                color: Colors.grey.withOpacity(0.7),
+              ),
+            ),
+          ],
+        ),
+        Text("الطلب قيد التسليم"),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.green,
+              radius: 12,
+            ),
+            Container(
+              height: 20,
+              child: VerticalDivider(
+                width: 12,
+                thickness: 2,
+                color: Colors.grey.withOpacity(0.7),
+              ),
+            ),
+          ],
+        ),
+        Text("تم التسليم"),
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Colors.redAccent,
+              radius: 12,
+            ),
+
+          ],
+        ),
+        Text("تم رفض الطلب"),
+      ],
+    ),
+  ];
+  List<Widget> buildOrderStatus(String orderStatus) {
+    if (orderStatus == "Order is rejected") {
+      buildList.add(orderStatusWidgets[4]);
+
+      return buildList;
+    }
+
+    if (orderStatus == "Pending") {
+      for (var i = 0; i < orderStatusWidgets.length; i++) {
+        buildList.add(orderStatusWidgets[i]);
+        if (i == 0) {
+          break;
+        }
+      }
+    }
+    if (orderStatus == "Processing order") {
+      for (var i = 0; i < orderStatusWidgets.length; i++) {
+        buildList.add(orderStatusWidgets[i]);
+        if (i == 1) {
+          break;
+        }
+      }
+    }
+    if (orderStatus == "Delivering order") {
+      for (var i = 0; i < orderStatusWidgets.length; i++) {
+        buildList.add(orderStatusWidgets[i]);
+        if (i == 2) {
+          break;
+        }
+      }
+    }
+    if (orderStatus == "Delivered") {
+      for (var i = 0; i < orderStatusWidgets.length; i++) {
+        buildList.add(orderStatusWidgets[i]);
+        if (i == 3) {
+          break;
+        }
+      }
+    }
+
+    return buildList;
+  }
+
+  List<Widget> buildList = [];
 }

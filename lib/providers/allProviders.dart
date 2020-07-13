@@ -25,7 +25,7 @@ class AllProviders extends ChangeNotifier {
 
   static const String hostName = "http://10.0.2.2/ecommerceTemplate";
   //static const String hostName = "http://app.creative-projects.co";
-  
+
   static bool hasLogin;
   List<News> _posts = [];
   List<News> get posts {
@@ -437,6 +437,9 @@ class AllProviders extends ChangeNotifier {
       });
       fetchFavorites();
     }
+
+
+
 
     // productFavoritesIds.forEach((value) {
     //   print(value);

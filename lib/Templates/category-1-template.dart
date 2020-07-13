@@ -44,7 +44,7 @@ class CategoryFirstTemplate extends StatelessWidget {
                       alignment: Alignment.center,
                       padding: EdgeInsets.all(5),
                       child: Text(
-                        "${category.name}",
+                        "${category.mainCategory}",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
