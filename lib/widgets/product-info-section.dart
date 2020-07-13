@@ -1,6 +1,7 @@
 import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/models/product_question.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/widgets/question-answer.dart';
 import 'package:flutter/material.dart';
 import 'package:groovin_widgets/groovin_expansion_tile.dart';
@@ -20,6 +21,8 @@ class _ProductInfoPressedState extends State<ProductInfoPressed> {
   bool isExpanded2 = false;
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<Languages>(context);
+
     return Container(
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(20),
@@ -56,7 +59,8 @@ class _ProductInfoPressedState extends State<ProductInfoPressed> {
                           trailing: Container(
                               //padding: EdgeInsets.only(left:15),
                               child: Text(
-                            "انقر لمشاهدة وصف المنتج",
+                            lang.translation['clickToSeeMore']
+                                [Languages.selectedLanguage],
                             textAlign: TextAlign.right,
                           )),
                           defaultTrailingIconColor:
@@ -115,7 +119,8 @@ class _ProductInfoPressedState extends State<ProductInfoPressed> {
               Container(
                 child: Center(
                   child: Text(
-                    " : الوصف",
+                    lang.translation['DescriptionTitle']
+                        [Languages.selectedLanguage],
                     textAlign: TextAlign.right,
                     style: TextStyle(
                         fontFamily: 'tajawal',
@@ -157,7 +162,8 @@ class _ProductInfoPressedState extends State<ProductInfoPressed> {
                                         trailing: Container(
                                             //padding: EdgeInsets.only(left:15),
                                             child: Text(
-                                          "اسئلة واجوبة مكررة",
+                                          lang.translation['questionAndAnswers']
+                                              [Languages.selectedLanguage],
                                           textAlign: TextAlign.right,
                                         )),
                                         defaultTrailingIconColor:
@@ -209,7 +215,8 @@ class _ProductInfoPressedState extends State<ProductInfoPressed> {
                     Container(
                       child: Center(
                         child: Text(
-                          " :  اسئلة",
+                          lang.translation['questionsTitle']
+                              [Languages.selectedLanguage],
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontFamily: 'tajawal',

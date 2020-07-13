@@ -1,4 +1,5 @@
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/payment-first-items.dart';
 import 'package:ecommerce_template/screens/payment-second-pay-address.dart';
 import 'package:ecommerce_template/screens/payment-third-confirm.dart';
@@ -39,6 +40,8 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<Languages>(context);
+
     final carPro = Provider.of<CartProvider>(context, listen: false);
 
     List<Widget> theGoldCarsWidget = [
@@ -48,7 +51,7 @@ class _CartScreenState extends State<CartScreen> {
       PaymentSecondPayAddress(
         c: c,
       ),
-      PaymentThirdConfirm(c: c , controller : widget.controller),
+      PaymentThirdConfirm(c: c, controller: widget.controller),
     ];
 
     return carPro.loadedAllCartItems == null
@@ -63,7 +66,10 @@ class _CartScreenState extends State<CartScreen> {
                 );
               } else if (authResultSnap.hasError) {
                 Center(
-                  child: Text("تفقد من الاتصال بلانترنت"),
+                  child: Text(
+                    lang.translation['checkInternet']
+                        [Languages.selectedLanguage],
+                  ),
                 );
                 return RaisedButton(
                   onPressed: () {
@@ -72,7 +78,9 @@ class _CartScreenState extends State<CartScreen> {
                     });
                     print(authResultSnap.error.toString());
                   },
-                  child: Text("تفقد من الاتصال بلانترنت",
+                  child: Text(
+                      lang.translation['checkInternet']
+                          [Languages.selectedLanguage],
                       style: TextStyle(color: Colors.black)),
                 );
               } else {
@@ -85,7 +93,8 @@ class _CartScreenState extends State<CartScreen> {
                           width: MediaQuery.of(context).size.width / 1.1,
                           //alignment: Alignment.centerRight,
                           child: Text(
-                            "سلة المشتريات",
+                            lang.translation['shoppingBasket']
+                                [Languages.selectedLanguage],
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 25,
@@ -99,7 +108,8 @@ class _CartScreenState extends State<CartScreen> {
                           children: <Widget>[
                             FlatButton(
                               child: Text(
-                                "السلة",
+                                lang.translation['cartTitle']
+                                    [Languages.selectedLanguage],
                                 style: TextStyle(
                                   color: Theme.of(context).bottomAppBarColor,
                                 ),
@@ -119,7 +129,8 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                             FlatButton(
                               child: Text(
-                                "العنوان والدفع",
+                                lang.translation['addressAndPaying']
+                                    [Languages.selectedLanguage],
                                 style: TextStyle(
                                   color: Theme.of(context).bottomAppBarColor,
                                 ),
@@ -139,7 +150,8 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                             FlatButton(
                               child: Text(
-                                "التاكيد",
+                                lang.translation['Confirmation']
+                                    [Languages.selectedLanguage],
                                 style: TextStyle(
                                   color: Theme.of(context).bottomAppBarColor,
                                 ),
@@ -186,8 +198,11 @@ class _CartScreenState extends State<CartScreen> {
                         width: MediaQuery.of(context).size.width / 1.1,
                         //alignment: Alignment.centerRight,
                         child: Text(
-                          "سلة المشتريات",
-                          textAlign: TextAlign.right,
+                          lang.translation['shoppingBasket']
+                              [Languages.selectedLanguage],
+                          textAlign: Languages.selectedLanguage == 0
+                              ? TextAlign.right
+                              : TextAlign.left,
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -200,7 +215,8 @@ class _CartScreenState extends State<CartScreen> {
                         children: <Widget>[
                           FlatButton(
                             child: Text(
-                              "السلة",
+                              lang.translation['cartTitle']
+                                  [Languages.selectedLanguage],
                               style: TextStyle(
                                 color: Theme.of(context).bottomAppBarColor,
                               ),
@@ -220,7 +236,8 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           FlatButton(
                             child: Text(
-                              "العنوان والدفع",
+                              lang.translation['addressAndPaying']
+                                  [Languages.selectedLanguage],
                               style: TextStyle(
                                 color: Theme.of(context).bottomAppBarColor,
                               ),
@@ -240,7 +257,8 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           FlatButton(
                             child: Text(
-                              "التاكيد",
+                              lang.translation['Confirmation']
+                                  [Languages.selectedLanguage],
                               style: TextStyle(
                                 color: Theme.of(context).bottomAppBarColor,
                               ),

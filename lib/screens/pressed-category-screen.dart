@@ -2,8 +2,11 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/Templates/product-main-template.dart';
 import 'package:ecommerce_template/ecommerce_icons_icons.dart';
 import 'package:ecommerce_template/models/Category.dart';
+import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
+import 'package:ecommerce_template/providers/languages.dart';
+import 'package:ecommerce_template/providers/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,8 +24,9 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
 
   void _select(Choice choice) {
     // Causes the app to rebuild with the new _selectedChoice.
-    print(choice.title);
+
     setState(() {
+      AllProviders.dataOfflineAllProductsCategory = null;
       _selectedChoice = choice;
     });
   }
@@ -65,7 +69,9 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
                       bottomRight: Radius.circular(50))),
               title: Text(
                 widget.subCat == null
-                    ? "${widget.category.mainCategory}"
+                    ? Languages.selectedLanguage == 0
+                        ? "${widget.category.mainCategory}"
+                        : "${widget.category.mainCategoryEnglish}"
                     : "${widget.subCat}",
                 textAlign: TextAlign.right,
                 style: TextStyle(
@@ -125,8 +131,11 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(15),
                         child: Text(
-                          "${widget.category.mainCategory}",
-                          textAlign: TextAlign.right,
+                          Languages.selectedLanguage == 0
+                              ? "${widget.category.mainCategory}"
+                              : "${widget.category.mainCategoryEnglish}",
+                          textAlign: Languages.selectedLanguage == 0
+                              ?  TextAlign.right : TextAlign.left ,
                           style: TextStyle(
                               fontSize: 28,
                               color: Theme.of(context).bottomAppBarColor,
@@ -134,33 +143,103 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width,
-                      //height: MediaQuery.of(context).size.height / 1.1,
-                      child: GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 300,
-                          childAspectRatio: 1 / 1.6,
-                          crossAxisSpacing: 5.0,
-                          mainAxisSpacing: 5.0,
-                        ),
-                        itemCount: allPro.allProducts.length,
-                        itemBuilder: (context, index) {
-                          if (allPro.allProducts[index].mainCategory ==
-                              widget.category.mainCategory) {
-                            return ProductMainTemplate(
-                              product: allPro.allProducts[index],
-                              isMain: true,
-                            );
-                          } else {
-                            return SizedBox();
-                          }
-                        },
-                      ),
-                    ),
+                    AllProviders.dataOfflineAllProductsCategory == null
+                        ? FutureBuilder(
+                            future: allPro.fetchDataAllProductsOnCategory(
+                                widget.category.mainCategory,
+                                _selectedChoice.title),
+                            builder: (ctx, authResultSnap) {
+                              if (authResultSnap.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              } else if (authResultSnap.hasError) {
+                                Center(
+                                  child: Text("تفقد من الاتصال بلانترنت"),
+                                );
+                                return RaisedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      //other.getUserLocation();
+                                    });
+                                    print(authResultSnap.error.toString());
+                                  },
+                                  child: Text("تفقد من الاتصال بلانترنت",
+                                      style: TextStyle(color: Colors.black)),
+                                );
+                              } else {
+                                return Container(
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.1,
+                                  //height: MediaQuery.of(context).size.height / 4.1,
+                                  child: GridView.count(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 0.7 / 1,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 15,
+                                      children: allPro.allProductsCategory
+                                          .map((item) {
+                                        return ProductMainTemplate(
+                                          product: ProductShow(
+                                            id: item.id,
+                                            title: item.title,
+                                            titleEngilsh: item.titleEngilsh,
+                                            description: item.description,
+                                            descriptionEnglish:
+                                                item.descriptionEnglish,
+                                            price: item.price,
+                                            discount: item.discount,
+                                            favorite: item.favorite,
+                                            discountPercentage:
+                                                item.discountPercentage,
+                                            image: item.image,
+                                            mainCategory: item.mainCategory,
+                                            subCategories: item.subCategories,
+                                            isQuestion: item.isQuestion,
+                                            date: item.date,
+                                          ),
+                                          isMain: false,
+                                        );
+                                      }).toList()),
+                                );
+                              }
+                            })
+                        : Container(
+                            width: MediaQuery.of(context).size.width / 1.1,
+                            //height: MediaQuery.of(context).size.height / 4.1,
+                            child: GridView.count(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.7 / 1,
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 15,
+                                children:
+                                    allPro.allProductsCategory.map((item) {
+                                  return ProductMainTemplate(
+                                    product: ProductShow(
+                                      id: item.id,
+                                      title: item.title,
+                                      titleEngilsh: item.titleEngilsh,
+                                      description: item.description,
+                                      descriptionEnglish:
+                                          item.descriptionEnglish,
+                                      price: item.price,
+                                      discount: item.discount,
+                                      favorite: item.favorite,
+                                      discountPercentage:
+                                          item.discountPercentage,
+                                      image: item.image,
+                                      mainCategory: item.mainCategory,
+                                      subCategories: item.subCategories,
+                                      isQuestion: item.isQuestion,
+                                      date: item.date,
+                                    ),
+                                    isMain: false,
+                                  );
+                                }).toList()),
+                          ),
                   ],
                 ),
               ]),

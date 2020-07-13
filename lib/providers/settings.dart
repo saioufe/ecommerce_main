@@ -32,7 +32,6 @@ class SettingsProvider extends ChangeNotifier {
       if (dataAllCategories == null) {
         return;
       }
-      print(dataAllCategories);
       dataOfflineAllCategories = dataAllCategories;
       dataAllCategories.forEach((newsId) {
         loadedAllCategories.add(Category(

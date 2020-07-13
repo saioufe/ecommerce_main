@@ -1,4 +1,5 @@
 import 'package:ecommerce_template/providers/application.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,12 +17,13 @@ class _SearchedWorldHistoryState extends State<SearchedWorldHistory> {
   @override
   Widget build(BuildContext context) {
     final appProvider = Provider.of<ApplicationProvider>(context, listen: true);
+    final lang = Provider.of<Languages>(context);
 
     return InkWell(
       onTap: () {
         setState(() {
           widget.controller.text = widget.text;
-          appProvider.search(widget.text, widget.context);
+          appProvider.search(widget.text, widget.context, lang);
         });
       },
       child: Container(

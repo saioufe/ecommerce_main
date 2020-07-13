@@ -9,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flushbar/flushbar.dart';
 
+import 'languages.dart';
+
 class ApplicationProvider extends ChangeNotifier {
   AllProviders _allProviders;
   ApplicationProvider(this._allProviders);
@@ -73,7 +75,7 @@ class ApplicationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> search(String searchText, BuildContext context) async {
+  Future<void> search(String searchText, BuildContext context , Languages lang) async {
     tempSearch = '';
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -88,8 +90,10 @@ class ApplicationProvider extends ChangeNotifier {
       data2 = json.decode(response.body);
       if (data2.length == 0) {
         Flushbar(
-          title: "لا توجد نتائج",
-          message: "اعد عملية البحث",
+          title: lang.translation['noSearchResult']
+                  [Languages.selectedLanguage],
+          message: lang.translation['researchAgain']
+                  [Languages.selectedLanguage],
           barBlur: 0.4,
           duration: Duration(milliseconds: 3000),
           backgroundColor: Theme.of(context).primaryColor,

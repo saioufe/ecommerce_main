@@ -1,4 +1,5 @@
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/widgets/cart-item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,8 @@ class PaymentFirstItems extends StatefulWidget {
 class _PaymentFirstItemsState extends State<PaymentFirstItems> {
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<Languages>(context);
+
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width / 1.1,
@@ -37,7 +40,7 @@ class _PaymentFirstItemsState extends State<PaymentFirstItems> {
                 padding: EdgeInsets.all(10),
                 child: Center(
                   child: Text(
-                    "متابعة",
+                    lang.translation['continue'][Languages.selectedLanguage],
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,

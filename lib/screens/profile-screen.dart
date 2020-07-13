@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:ecommerce_template/app_themes.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/providers/theme_manager.dart';
 import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/aboutus-screen.dart';
@@ -51,9 +52,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final allPro = Provider.of<AllProviders>(context);
     final userPro = Provider.of<UserProvider>(context);
     final cartPro = Provider.of<CartProvider>(context);
-
+    final lang = Provider.of<Languages>(context);
     cartPro.getNumCartItem();
-    
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -62,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Container(
               margin: EdgeInsets.all(15),
               child: Text(
-                "الاعدادات",
+                lang.translation['SettingsTitle'][Languages.selectedLanguage],
                 textAlign: TextAlign.right,
                 style: TextStyle(fontSize: 19, color: Colors.white),
               ),
@@ -81,51 +82,92 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: 60,
                       child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(left: 20),
-                              child: SizedBox(),
-                            ),
-                            flex: 0,
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Container(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      UserProvider.userName,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Theme.of(context)
-                                              .bottomAppBarColor),
+                          children: Languages.selectedLanguage == 0
+                              ? <Widget>[
+                                  Expanded(
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      child: SizedBox(),
                                     ),
+                                    flex: 0,
                                   ),
-                                ),
-                              ],
-                            ),
-                            flex: 3,
-                          ),
-                          Expanded(
-                            child: Icon(
-                              EcommerceIcons.user,
-                              color: Theme.of(context).bottomAppBarColor,
-                            ),
-                            flex: 1,
-                          ),
-                        ],
-                      ),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Container(
+                                            alignment: Alignment.centerRight,
+                                            child: Text(
+                                              UserProvider.userName,
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Theme.of(context)
+                                                      .bottomAppBarColor),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    flex: 3,
+                                  ),
+                                  Expanded(
+                                    child: Icon(
+                                      EcommerceIcons.user,
+                                      color:
+                                          Theme.of(context).bottomAppBarColor,
+                                    ),
+                                    flex: 1,
+                                  ),
+                                ]
+                              : <Widget>[
+                                  Expanded(
+                                    child: Icon(
+                                      EcommerceIcons.user,
+                                      color:
+                                          Theme.of(context).bottomAppBarColor,
+                                    ),
+                                    flex: 1,
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Container(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              UserProvider.userName,
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Theme.of(context)
+                                                      .bottomAppBarColor),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    flex: 3,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      child: SizedBox(),
+                                    ),
+                                    flex: 0,
+                                  ),
+                                ]),
                     )
                   : SizedBox(),
               UserProvider.isLogin == false
                   ? SettingTemplate(
                       icon: Icons.account_box,
-                      title: "تسجيل الدخول",
+                      title: lang.translation['SignIn']
+                          [Languages.selectedLanguage],
                       lastWidget: Icon(
-                        Icons.keyboard_arrow_left,
+                        Languages.selectedLanguage == 0
+                            ? Icons.keyboard_arrow_left
+                            : Icons.keyboard_arrow_right,
                         color: Theme.of(context).bottomAppBarColor,
                       ),
                       notiNumber: 0,
@@ -149,9 +191,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               UserProvider.isLogin == true
                   ? SettingTemplate(
-                      title: "تسجيل الخروج",
+                      title: lang.translation['signOut']
+                          [Languages.selectedLanguage],
                       lastWidget: Icon(
-                        Icons.keyboard_arrow_left,
+                        Languages.selectedLanguage == 0
+                            ? Icons.keyboard_arrow_left
+                            : Icons.keyboard_arrow_right,
                         color: Theme.of(context).bottomAppBarColor,
                       ),
                       icon: null,
@@ -162,10 +207,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     )
                   : SizedBox(),
               Container(
-                margin: EdgeInsets.only(right: 25, top: 15, bottom: 15),
-                alignment: Alignment.centerRight,
+                margin:
+                    EdgeInsets.only(right: 25, top: 15, bottom: 15, left: 25),
+                alignment: Languages.selectedLanguage == 0
+                    ? Alignment.centerRight
+                    : Alignment.centerLeft,
                 child: Text(
-                  "الحساب",
+                  lang.translation['accountTitle'][Languages.selectedLanguage],
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -174,7 +222,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               SettingTemplate(
-                title: "المفضلات",
+                title: lang.translation['FavoriteTitle']
+                    [Languages.selectedLanguage],
                 onTap: () {
                   setState(() {
                     allPro.NavBarShow(false);
@@ -187,7 +236,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ));
                 },
                 lastWidget: Icon(
-                  Icons.keyboard_arrow_left,
+                  Languages.selectedLanguage == 0
+                      ? Icons.keyboard_arrow_left
+                      : Icons.keyboard_arrow_right,
                   color: Theme.of(context).bottomAppBarColor,
                 ),
                 icon: Icons.favorite,
@@ -199,15 +250,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               SettingTemplate(
-                title: "الطلبات",
+                title: lang.translation['OrdersTitle']
+                    [Languages.selectedLanguage],
                 lastWidget: Icon(
-                  Icons.keyboard_arrow_left,
+                  Languages.selectedLanguage == 0
+                      ? Icons.keyboard_arrow_left
+                      : Icons.keyboard_arrow_right,
                   color: Theme.of(context).bottomAppBarColor,
                 ),
                 icon: EcommerceIcons.shopping_cart,
-                notiNumber: cartPro.cartItemNumber != null
-                    ? cartPro.cartItemNumber
-                    : 0,
+                notiNumber:
+                    cartPro.cartItemNumber != null ? cartPro.cartItemNumber : 0,
                 onTap: () {
                   setState(() {
                     allPro.NavBarShow(false);
@@ -226,10 +279,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               Container(
-                margin: EdgeInsets.only(right: 25, top: 15, bottom: 15),
-                alignment: Alignment.centerRight,
+                margin:
+                    EdgeInsets.only(right: 25, top: 15, bottom: 15, left: 25),
+                alignment: Languages.selectedLanguage == 0
+                    ? Alignment.centerRight
+                    : Alignment.centerLeft,
                 child: Text(
-                  "اعدادات عامة",
+                  lang.translation['MainSettings'][Languages.selectedLanguage],
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -238,7 +294,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               SettingTemplate(
-                title: "الاشعارات",
+                title: lang.translation['notification']
+                    [Languages.selectedLanguage],
                 lastWidget: Switch.adaptive(
                   value: notification,
                   activeColor: Theme.of(context).primaryColor,
@@ -257,9 +314,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               SettingTemplate(
-                title: "اللغات",
+                title: lang.translation['Languages']
+                    [Languages.selectedLanguage],
                 lastWidget: Icon(
-                  Icons.keyboard_arrow_left,
+                  Languages.selectedLanguage == 0
+                      ? Icons.keyboard_arrow_left
+                      : Icons.keyboard_arrow_right,
                   color: Theme.of(context).bottomAppBarColor,
                 ),
                 icon: Icons.language,
@@ -281,7 +341,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               SettingTemplate(
-                title: "الوضع الليلي",
+                title: lang.translation['nightMode']
+                    [Languages.selectedLanguage],
                 lastWidget: Switch.adaptive(
                   value: darkTheme,
                   activeColor: Theme.of(context).primaryColor,
@@ -308,9 +369,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
               ),
               SettingTemplate(
-                title: "من نحن",
+                title: lang.translation['aboutUs'][Languages.selectedLanguage],
                 lastWidget: Icon(
-                  Icons.keyboard_arrow_left,
+                  Languages.selectedLanguage == 0
+                      ? Icons.keyboard_arrow_left
+                      : Icons.keyboard_arrow_right,
                   color: Theme.of(context).bottomAppBarColor,
                 ),
                 icon: Icons.info_outline,
@@ -366,58 +429,111 @@ class SettingTemplate extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: 60,
         child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(left: 20),
-                child: lastWidget,
-              ),
-              flex: 0,
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  notiNumber != 0
-                      ? Badge(
-                          shape: BadgeShape.circle,
-                          animationType: BadgeAnimationType.slide,
-                          badgeColor: Theme.of(context).primaryColor,
-                          animationDuration: Duration(milliseconds: 100),
-                          badgeContent: Container(
-                              padding: EdgeInsets.only(top: 5),
-                              child: Text(
-                                notiNumber.toString(),
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
-                                textAlign: TextAlign.center,
-                              )),
-                        )
-                      : SizedBox(),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Theme.of(context).bottomAppBarColor),
+            children: Languages.selectedLanguage == 0
+                ? <Widget>[
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 20),
+                        child: lastWidget,
                       ),
+                      flex: 0,
                     ),
-                  ),
-                ],
-              ),
-              flex: 3,
-            ),
-            Expanded(
-              child: Icon(
-                icon,
-                color: Theme.of(context).bottomAppBarColor,
-              ),
-              flex: 1,
-            ),
-          ],
-        ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          notiNumber != 0
+                              ? Badge(
+                                  shape: BadgeShape.circle,
+                                  animationType: BadgeAnimationType.slide,
+                                  badgeColor: Theme.of(context).primaryColor,
+                                  animationDuration:
+                                      Duration(milliseconds: 100),
+                                  badgeContent: Container(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        notiNumber.toString(),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 16),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                )
+                              : SizedBox(),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                title,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Theme.of(context).bottomAppBarColor),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      flex: 3,
+                    ),
+                    Expanded(
+                      child: Icon(
+                        icon,
+                        color: Theme.of(context).bottomAppBarColor,
+                      ),
+                      flex: 1,
+                    ),
+                  ]
+                : <Widget>[
+                    Expanded(
+                      child: Icon(
+                        icon,
+                        color: Theme.of(context).bottomAppBarColor,
+                      ),
+                      flex: 1,
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                title,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Theme.of(context).bottomAppBarColor),
+                              ),
+                            ),
+                          ),
+                          notiNumber != 0
+                              ? Badge(
+                                  shape: BadgeShape.circle,
+                                  animationType: BadgeAnimationType.slide,
+                                  badgeColor: Theme.of(context).primaryColor,
+                                  animationDuration:
+                                      Duration(milliseconds: 100),
+                                  badgeContent: Container(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        notiNumber.toString(),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 16),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                )
+                              : SizedBox(),
+                        ],
+                      ),
+                      flex: 3,
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(right: 20),
+                        child: lastWidget,
+                      ),
+                      flex: 0,
+                    ),
+                  ]),
       ),
     );
   }

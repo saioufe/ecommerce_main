@@ -1,6 +1,7 @@
 import 'package:ecommerce_template/models/cartItemModel.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -75,7 +76,9 @@ class _CartItemState extends State<CartItem> {
                         child: Container(
                           width: 120,
                           child: Text(
-                            widget.cartItem.product.title,
+                            Languages.selectedLanguage == 0
+                                ? widget.cartItem.product.title
+                                : widget.cartItem.product.titleEngilsh,
                             textAlign: TextAlign.center,
                             textDirection: TextDirection.rtl,
                             maxLines: 5,

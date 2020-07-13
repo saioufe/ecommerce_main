@@ -1,8 +1,10 @@
 import 'package:ecommerce_template/Templates/address-order-template.dart';
 import 'package:ecommerce_template/models/orderModel.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/widgets/size-product-box.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 
 class OldOrderTemplate extends StatelessWidget {
   final OrderModel order;
@@ -10,6 +12,8 @@ class OldOrderTemplate extends StatelessWidget {
   @override
   int index = 0;
   Widget build(BuildContext context) {
+    final lang = Provider.of<Languages>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -19,6 +23,7 @@ class OldOrderTemplate extends StatelessWidget {
             margin: EdgeInsets.all(15),
             child: Text(
               "تفاصيل الطلب",
+              lang.translation['checkInternet'][Languages.selectedLanguage],
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -54,6 +59,8 @@ class OldOrderTemplate extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       Text("تفاصيل الطلب"),
+                      lang.translation['checkInternet']
+                          [Languages.selectedLanguage],
                       Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -105,6 +112,8 @@ class OldOrderTemplate extends StatelessWidget {
                         height: 40,
                       ),
                       Text("عنوان الطلب"),
+                      lang.translation['checkInternet']
+                          [Languages.selectedLanguage],
                       Divider(),
                       Text(
                         "${order.address}",
@@ -114,6 +123,8 @@ class OldOrderTemplate extends StatelessWidget {
                         height: 10,
                       ),
                       Text("منتجات الطلب"),
+                      lang.translation['checkInternet']
+                          [Languages.selectedLanguage],
                       Divider(),
                       Column(
                           children: order.productsName
@@ -217,6 +228,8 @@ class OldOrderTemplate extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       Text("تتبع الطلب"),
+                      lang.translation['checkInternet']
+                          [Languages.selectedLanguage],
                       Divider(),
                       Container(
                         margin: EdgeInsets.all(20),
@@ -239,6 +252,8 @@ class OldOrderTemplate extends StatelessWidget {
                         height: 40,
                       ),
                       Text("المزيد من التفاصيل"),
+                      lang.translation['checkInternet']
+                          [Languages.selectedLanguage],
                       Divider(),
                       SizedBox(
                         height: 10,
@@ -282,6 +297,7 @@ class OldOrderTemplate extends StatelessWidget {
           ],
         ),
         Text("تم استلام طلبك"),
+        lang.translation['checkInternet'][Languages.selectedLanguage],
       ],
     ),
     Row(
@@ -304,6 +320,7 @@ class OldOrderTemplate extends StatelessWidget {
           ],
         ),
         Text("الطلب قيد التجهيز"),
+        lang.translation['checkInternet'][Languages.selectedLanguage],
       ],
     ),
     Row(
@@ -348,6 +365,7 @@ class OldOrderTemplate extends StatelessWidget {
           ],
         ),
         Text("تم التسليم"),
+        lang.translation['checkInternet'][Languages.selectedLanguage],
       ],
     ),
     Row(
@@ -359,10 +377,10 @@ class OldOrderTemplate extends StatelessWidget {
               backgroundColor: Colors.redAccent,
               radius: 12,
             ),
-
           ],
         ),
         Text("تم رفض الطلب"),
+        lang.translation['checkInternet'][Languages.selectedLanguage],
       ],
     ),
   ];

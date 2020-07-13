@@ -27,26 +27,46 @@ class _NewsScreenState extends State<NewsScreen> {
               height: 50,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Expanded(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                  ),
-                ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      lang.translation['news'][Languages.selectedLanguage],
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).bottomAppBarColor,
-                          fontSize: 28),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: Languages.selectedLanguage == 0
+                    ? <Widget>[
+                        Expanded(
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width / 2,
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              lang.translation['latestNews']
+                                  [Languages.selectedLanguage],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).bottomAppBarColor,
+                                  fontSize: 28),
+                            ),
+                          ),
+                        ),
+                      ]
+                    : <Widget>[
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              lang.translation['latestNews']
+                                  [Languages.selectedLanguage],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).bottomAppBarColor,
+                                  fontSize: 28),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width / 2,
+                          ),
+                        ),
+                      ]),
             SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -105,7 +125,9 @@ class _NewsScreenState extends State<NewsScreen> {
                                         //other.getUserLocation();
                                       });
                                     },
-                                    child: Text("تفقد من الاتصال بلانترنت",
+                                    child: Text(
+                                        lang.translation['checkInternet']
+                                            [Languages.selectedLanguage],
                                         style: TextStyle(color: Colors.black)),
                                   );
                                 } else {

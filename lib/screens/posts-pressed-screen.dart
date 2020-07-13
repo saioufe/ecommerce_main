@@ -1,6 +1,7 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/models/News.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'package:reviews_slider/reviews_slider.dart';
@@ -108,7 +109,9 @@ class _PostPressedScreenState extends State<PostPressedScreen> {
                             child: Column(
                               children: <Widget>[
                                 Text(
-                                  widget.postData.title,
+                                  Languages.selectedLanguage == 0
+                                      ? widget.postData.title
+                                      : widget.postData.titleEnglish,
                                   maxLines: 3,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -131,9 +134,13 @@ class _PostPressedScreenState extends State<PostPressedScreen> {
                         ),
                         Divider(),
                         Text(
-                          widget.postData.text,
+                          Languages.selectedLanguage == 0
+                              ? widget.postData.text
+                              : widget.postData.textEnglish,
                           textAlign: TextAlign.justify,
-                          textDirection: TextDirection.rtl,
+                          textDirection: Languages.selectedLanguage == 0
+                              ? TextDirection.rtl
+                              : TextDirection.ltr,
                           style: TextStyle(
                               fontFamily: 'tajawal',
                               fontSize: 20,

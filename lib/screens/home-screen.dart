@@ -5,6 +5,7 @@ import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/providers/settings.dart';
 import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/news-screen.dart';
@@ -31,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final allposts = Provider.of<AllProviders>(context, listen: false);
     final cartPro = Provider.of<CartProvider>(context, listen: false);
     final setPro = Provider.of<SettingsProvider>(context, listen: false);
+    final lang = Provider.of<Languages>(context);
 
     Provider.of<UserProvider>(context, listen: false).checkLogin();
     double sizeBetweenWidgets = 20;
@@ -62,7 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         } else if (authResultSnap.hasError) {
                           Center(
-                            child: Text("تفقد من الاتصال بلانترنت"),
+                            child: Text(
+                              lang.translation['checkInternet']
+                                  [Languages.selectedLanguage],
+                            ),
                           );
                           return RaisedButton(
                             onPressed: () {
@@ -71,7 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               });
                               print(authResultSnap.error.toString());
                             },
-                            child: Text("تفقد من الاتصال بلانترنت",
+                            child: Text(
+                                lang.translation['checkInternet']
+                                    [Languages.selectedLanguage],
                                 style: TextStyle(color: Colors.black)),
                           );
                         } else {
@@ -85,45 +92,93 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      InkWell(
-                                        onTap: () {
-                                          // if (Languages.selectedLanguage == 0) {
-                                          //   pageController.jumpToPage(2);
-                                          // } else {
-                                          //   pageController.jumpToPage(1);
-                                          // }
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.keyboard_arrow_left,
-                                              size: 18,
+                                    children: Languages.selectedLanguage == 0
+                                        ? <Widget>[
+                                            InkWell(
+                                              onTap: () {
+                                                // if (Languages.selectedLanguage == 0) {
+                                                //   pageController.jumpToPage(2);
+                                                // } else {
+                                                //   pageController.jumpToPage(1);
+                                                // }
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.keyboard_arrow_left,
+                                                    size: 18,
+                                                  ),
+                                                  Text(
+                                                    lang.translation[
+                                                            'moreTitle'][
+                                                        Languages
+                                                            .selectedLanguage],
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Theme.of(context)
+                                                            .bottomAppBarColor,
+                                                        fontSize: 15),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                             Text(
-                                              "المزيد",
-                                              textAlign: TextAlign.right,
+                                              lang.translation[
+                                                      'shopInCategories']
+                                                  [Languages.selectedLanguage],
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w500,
                                                   color: Theme.of(context)
                                                       .bottomAppBarColor,
-                                                  fontSize: 15),
+                                                  fontSize: 20),
+                                            ),
+                                          ]
+                                        : <Widget>[
+                                            Text(
+                                              lang.translation[
+                                                      'shopInCategories']
+                                                  [Languages.selectedLanguage],
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .bottomAppBarColor,
+                                                  fontSize: 20),
+                                            ),
+                                            InkWell(
+                                              onTap: () {},
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.keyboard_arrow_right,
+                                                    size: 18,
+                                                  ),
+                                                  Text(
+                                                    lang.translation[
+                                                            'moreTitle'][
+                                                        Languages
+                                                            .selectedLanguage],
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Theme.of(context)
+                                                            .bottomAppBarColor,
+                                                        fontSize: 15),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ],
-                                        ),
-                                      ),
-                                      Text(
-                                        "تسوق حسب الفئات",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Theme.of(context)
-                                                .bottomAppBarColor,
-                                            fontSize: 20),
-                                      ),
-                                    ],
                                   ),
                                 ),
                                 SizedBox(
@@ -171,45 +226,83 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  InkWell(
-                                    onTap: () {
-                                      // if (Languages.selectedLanguage == 0) {
-                                      //   pageController.jumpToPage(2);
-                                      // } else {
-                                      //   pageController.jumpToPage(1);
-                                      // }
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.keyboard_arrow_left,
-                                          size: 18,
+                                children: Languages.selectedLanguage == 0
+                                    ? <Widget>[
+                                        InkWell(
+                                          onTap: () {
+                                            // if (Languages.selectedLanguage == 0) {
+                                            //   pageController.jumpToPage(2);
+                                            // } else {
+                                            //   pageController.jumpToPage(1);
+                                            // }
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.keyboard_arrow_left,
+                                                size: 18,
+                                              ),
+                                              Text(
+                                                lang.translation['moreTitle'][
+                                                    Languages.selectedLanguage],
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .bottomAppBarColor,
+                                                    fontSize: 15),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                         Text(
-                                          "المزيد",
-                                          textAlign: TextAlign.right,
+                                          lang.translation['shopInCategories']
+                                              [Languages.selectedLanguage],
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               color: Theme.of(context)
                                                   .bottomAppBarColor,
-                                              fontSize: 15),
+                                              fontSize: 20),
+                                        ),
+                                      ]
+                                    : <Widget>[
+                                        Text(
+                                          lang.translation['shopInCategories']
+                                              [Languages.selectedLanguage],
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .bottomAppBarColor,
+                                              fontSize: 20),
+                                        ),
+                                        InkWell(
+                                          onTap: () {},
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(
+                                                lang.translation['moreTitle'][
+                                                    Languages.selectedLanguage],
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .bottomAppBarColor,
+                                                    fontSize: 15),
+                                              ),
+                                              Icon(
+                                                Icons.keyboard_arrow_right,
+                                                size: 18,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
-                                    ),
-                                  ),
-                                  Text(
-                                    "تسوق حسب الفئات",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color:
-                                            Theme.of(context).bottomAppBarColor,
-                                        fontSize: 20),
-                                  ),
-                                ],
                               ),
                             ),
                             SizedBox(
@@ -252,34 +345,36 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      InkWell(
-                        onTap: () {
-                          // if (Languages.selectedLanguage == 0) {
-                          //   pageController.jumpToPage(2);
-                          // } else {
-                          //   pageController.jumpToPage(1);
-                          // }
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Icon(
-                              Icons.keyboard_arrow_left,
-                              size: 18,
-                            ),
-                            Text(
-                              "المزيد",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).bottomAppBarColor,
-                                  fontSize: 15),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     // if (Languages.selectedLanguage == 0) {
+                      //     //   pageController.jumpToPage(2);
+                      //     // } else {
+                      //     //   pageController.jumpToPage(1);
+                      //     // }
+                      //   },
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: <Widget>[
+                      //       Icon(
+                      //         Icons.keyboard_arrow_left,
+                      //         size: 18,
+                      //       ),
+                      //       Text(
+                      //         lang.translation['moreTitle']
+                      //             [Languages.selectedLanguage],
+                      //         textAlign: TextAlign.right,
+                      //         style: TextStyle(
+                      //             fontWeight: FontWeight.w500,
+                      //             color: Theme.of(context).bottomAppBarColor,
+                      //             fontSize: 15),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       Text(
-                        "مشاهدات سابقة",
+                        lang.translation['historyView']
+                            [Languages.selectedLanguage],
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
@@ -322,46 +417,93 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 width: MediaQuery.of(context).size.width / 1.1,
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Icon(
-                              Icons.keyboard_arrow_left,
-                              size: 18,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: Languages.selectedLanguage == 0
+                      ? <Widget>[
+                          InkWell(
+                            onTap: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.keyboard_arrow_left,
+                                  size: 18,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => NewsScreen(),
+                                        ));
+                                  },
+                                  child: Text(
+                                    lang.translation['moreTitle']
+                                        [Languages.selectedLanguage],
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color:
+                                            Theme.of(context).bottomAppBarColor,
+                                        fontSize: 15),
+                                  ),
+                                ),
+                              ],
                             ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => NewsScreen(),
-                                    ));
-                              },
-                              child: Text(
-                                "المزيد",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).bottomAppBarColor,
-                                    fontSize: 15),
-                              ),
+                          ),
+                          Text(
+                            lang.translation['latestNews']
+                                [Languages.selectedLanguage],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).bottomAppBarColor,
+                                fontSize: 20),
+                          ),
+                        ]
+                      : <Widget>[
+                          Text(
+                            lang.translation['latestNews']
+                                [Languages.selectedLanguage],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).bottomAppBarColor,
+                                fontSize: 20),
+                          ),
+                          InkWell(
+                            onTap: () {},
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => NewsScreen(),
+                                        ));
+                                  },
+                                  child: Text(
+                                    lang.translation['moreTitle']
+                                        [Languages.selectedLanguage],
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color:
+                                            Theme.of(context).bottomAppBarColor,
+                                        fontSize: 15),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.keyboard_arrow_right,
+                                  size: 18,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        "اخر الاخبار",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).bottomAppBarColor,
-                            fontSize: 20),
-                      ),
-                    ]),
+                          ),
+                        ],
+                ),
               ),
               SizedBox(
                 height: sizeBetweenWidgets,
@@ -400,7 +542,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ));
                           } else if (authResultSnap.hasError) {
                             Center(
-                              child: Text("تفقد من الاتصال بلانترنت"),
+                              child: Text(
+                                lang.translation['checkInternet']
+                                    [Languages.selectedLanguage],
+                              ),
                             );
                             return RaisedButton(
                               onPressed: () {
@@ -409,7 +554,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 });
                                 print(authResultSnap.error.toString());
                               },
-                              child: Text("تفقد من الاتصال بلانترنت",
+                              child: Text(
+                                  lang.translation['checkInternet']
+                                      [Languages.selectedLanguage],
                                   style: TextStyle(color: Colors.black)),
                             );
                           } else {
@@ -451,10 +598,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 width: MediaQuery.of(context).size.width / 1.1,
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: Languages.selectedLanguage == 0
+                        ? MainAxisAlignment.end
+                        : MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "شاهد المزيد",
+                        lang.translation['discoverMore']
+                            [Languages.selectedLanguage],
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
@@ -477,8 +627,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           return CircularProgressIndicator();
                         } else if (authResultSnap.hasError) {
                           Center(
-                            child: Text("تفقد من الاتصال بلانترنت"),
-                          );
+                              child: Text(
+                            lang.translation['checkInternet']
+                                [Languages.selectedLanguage],
+                          ));
                           return RaisedButton(
                             onPressed: () {
                               setState(() {
@@ -486,7 +638,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               });
                               print(authResultSnap.error.toString());
                             },
-                            child: Text("تفقد من الاتصال بلانترنت",
+                            child: Text(
+                                lang.translation['checkInternet']
+                                    [Languages.selectedLanguage],
                                 style: TextStyle(color: Colors.black)),
                           );
                         } else {
@@ -503,19 +657,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: allposts.allProducts.map((item) {
                                   return ProductMainTemplate(
                                     product: ProductShow(
-                                        id: item.id,
-                                        title: item.title,
-                                        titleEngilsh: item.titleEngilsh,
-                                        description: item.description,
-                                        descriptionEnglish:
-                                            item.descriptionEnglish,
-                                        price: item.price,
-                                        discount: item.discount,
-                                        favorite: item.favorite,
-                                        image: item.image,
-                                        mainCategory: item.mainCategory,
-                                        subCategories: item.subCategories,
-                                        isQuestion: item.isQuestion),
+                                      id: item.id,
+                                      title: item.title,
+                                      titleEngilsh: item.titleEngilsh,
+                                      description: item.description,
+                                      descriptionEnglish:
+                                          item.descriptionEnglish,
+                                      price: item.price,
+                                      discount: item.discount,
+                                      favorite: item.favorite,
+                                      image: item.image,
+                                      mainCategory: item.mainCategory,
+                                      subCategories: item.subCategories,
+                                      isQuestion: item.isQuestion,
+                                      date: item.date,
+                                    ),
                                     isMain: false,
                                   );
                                 }).toList()),
@@ -535,19 +691,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: allposts.allProducts.map((item) {
                             return ProductMainTemplate(
                               product: ProductShow(
-                                  id: item.id,
-                                  title: item.title,
-                                  titleEngilsh: item.titleEngilsh,
-                                  description: item.description,
-                                  descriptionEnglish: item.descriptionEnglish,
-                                  price: item.price,
-                                  discount: item.discount,
-                                  discountPercentage: item.discountPercentage,
-                                  favorite: item.favorite,
-                                  image: item.image,
-                                  mainCategory: item.mainCategory,
-                                  subCategories: item.subCategories,
-                                  isQuestion: item.isQuestion),
+                                id: item.id,
+                                title: item.title,
+                                titleEngilsh: item.titleEngilsh,
+                                description: item.description,
+                                descriptionEnglish: item.descriptionEnglish,
+                                price: item.price,
+                                discount: item.discount,
+                                discountPercentage: item.discountPercentage,
+                                favorite: item.favorite,
+                                image: item.image,
+                                mainCategory: item.mainCategory,
+                                subCategories: item.subCategories,
+                                isQuestion: item.isQuestion,
+                                date: item.date,
+                              ),
                               isMain: false,
                             );
                           }).toList()),

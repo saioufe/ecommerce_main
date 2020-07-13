@@ -1,5 +1,6 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/providers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -80,12 +81,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _rememberMe = false;
 
-  Widget _buildUserName() {
+  Widget _buildUserName(Languages lang) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: Languages.selectedLanguage == 0
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'اسم الستخدم',
+          lang.translation['username'][Languages.selectedLanguage],
           style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
@@ -107,7 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.supervised_user_circle,
                 color: Theme.of(context).primaryColor,
               ),
-              hintText: 'ادخل الاسم كامل',
+              hintText: lang.translation['usernameEnter']
+                  [Languages.selectedLanguage],
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -116,12 +120,14 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildEmailTF() {
+  Widget _buildEmailTF(Languages lang) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: Languages.selectedLanguage == 0
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'البريد الالكتروني',
+          lang.translation['emailTitle'][Languages.selectedLanguage],
           style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
@@ -143,7 +149,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.email,
                 color: Theme.of(context).primaryColor,
               ),
-              hintText: 'ادخل بريدك الالكتروني',
+              hintText: lang.translation['enterEmail']
+                  [Languages.selectedLanguage],
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -152,12 +159,14 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildPasswordTF() {
+  Widget _buildPasswordTF(Languages lang) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: Languages.selectedLanguage == 0
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'كلمة السر',
+          lang.translation['passwordTitle'][Languages.selectedLanguage],
           style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
@@ -179,7 +188,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.lock,
                 color: Theme.of(context).primaryColor,
               ),
-              hintText: 'ادخل كلمة السر',
+              hintText: lang.translation['passwordTitleEnter']
+                  [Languages.selectedLanguage],
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -188,12 +198,14 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildPhone() {
+  Widget _buildPhone(Languages lang) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: Languages.selectedLanguage == 0
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'رقم الهاتف',
+          lang.translation['phoneTitle'][Languages.selectedLanguage],
           style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
@@ -216,7 +228,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.phone_android,
                 color: Theme.of(context).primaryColor,
               ),
-              hintText: 'ادخل رقم الهاتف',
+              hintText: lang.translation['phoneTitleEnter']
+                  [Languages.selectedLanguage],
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -225,28 +238,30 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      child: FlatButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
-        padding: EdgeInsets.only(right: 0.0),
-        child: Text(
-          'هل نسيت الباسورد',
-          style: kLabelStyle,
-        ),
-      ),
-    );
-  }
+  // Widget _buildForgotPasswordBtn(Languages lang) {
+  //   return Container(
+  //     alignment: Alignment.centerLeft,
+  //     child: FlatButton(
+  //       onPressed: () => print('Forgot Password Button Pressed'),
+  //       padding: EdgeInsets.only(right: 0.0),
+  //       child: Text(
+  //         'هل نسيت الباسورد',lang.translation['LanguageTitle'][Languages.selectedLanguage],
+  //         style: kLabelStyle,
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Widget _buildRememberMeCheckbox() {
+  Widget _buildRememberMeCheckbox(Languages lang) {
     return Container(
       height: 20.0,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: Languages.selectedLanguage == 0
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         children: <Widget>[
           Text(
-            'تذكرني',
+            lang.translation['rememberMe'][Languages.selectedLanguage],
             style: kLabelStyle,
           ),
           Theme(
@@ -268,22 +283,25 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   bool isLoading = false;
-  Widget _buildLoginBtn(UserProvider uPro, AllProviders allprov) {
+  Widget _buildLoginBtn(
+      UserProvider uPro, AllProviders allprov, Languages lang) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: isLoading == false
           ? RaisedButton(
               elevation: 5.0,
-              onPressed:  () {
+              onPressed: () {
                 if (isRegister == true) {
                   if (nameController.text == "" ||
                       emailController.text == "" ||
                       passwordController.text == "" ||
                       phoneController.text == "") {
-                    showInSnackBar("يرجى ملئ جميع الحقول");
+                    showInSnackBar(lang.translation['pleaseFillAllRecords']
+                        [Languages.selectedLanguage]);
                   } else if (emailController.text.indexOf("@") == -1) {
-                    showInSnackBar("يرجى ادخال بريد الكتروني صحيح");
+                    showInSnackBar(lang.translation['pleaseFillEmail']
+                        [Languages.selectedLanguage]);
                   } else {
                     isLoading = true;
                     uPro
@@ -303,9 +321,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 } else {
                   if (emailController.text == "" ||
                       passwordController.text == "") {
-                    showInSnackBar("يرجى ملئ جميع الحقول");
+                    showInSnackBar(lang.translation['pleaseFillAllRecords']
+                        [Languages.selectedLanguage]);
                   } else if (emailController.text.indexOf("@") == -1) {
-                    showInSnackBar("يرجى ادخال بريد الكتروني صحيح");
+                    showInSnackBar(lang.translation['pleaseFillEmail']
+                        [Languages.selectedLanguage]);
                   } else {
                     isLoading = true;
                     uPro
@@ -327,7 +347,8 @@ class _LoginScreenState extends State<LoginScreen> {
               color: Colors.white,
               child: isRegister == false
                   ? Text(
-                      'تسجيل الدخول',
+                      lang.translation['signinTitle']
+                          [Languages.selectedLanguage],
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         letterSpacing: 1.5,
@@ -336,7 +357,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     )
                   : Text(
-                      'تسجيل',
+                      lang.translation['registerTitle']
+                          [Languages.selectedLanguage],
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         letterSpacing: 1.5,
@@ -367,7 +389,7 @@ class _LoginScreenState extends State<LoginScreen> {
   //   );
   // }
 
-  Widget _buildSocialBtn(Function onTap, AssetImage logo) {
+  Widget _buildSocialBtn(Function onTap, AssetImage logo, Languages lang) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -414,7 +436,7 @@ class _LoginScreenState extends State<LoginScreen> {
   //   );
   // }
 
-  Widget _buildSignupBtn() {
+  Widget _buildSignupBtn(Languages lang) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -429,31 +451,30 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       },
       child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: ' لا تمتلك حساب ؟  ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w300,
-              ),
+        text: TextSpan(children: [
+          TextSpan(
+            text: lang.translation['DONThaveAccount']
+                [Languages.selectedLanguage],
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+              fontWeight: FontWeight.w300,
             ),
-            TextSpan(
-              text: 'سجل الان',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
+          ),
+          TextSpan(
+            text: lang.translation['registerNow'][Languages.selectedLanguage],
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
             ),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
 
-  Widget _buildSignupBtn2() {
+  Widget _buildSignupBtn2(Languages lang) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -470,7 +491,8 @@ class _LoginScreenState extends State<LoginScreen> {
         text: TextSpan(
           children: [
             TextSpan(
-              text: 'هل لديك حساب بلفعل ؟ ',
+              text: lang.translation['allreadyHaveAccount']
+                  [Languages.selectedLanguage],
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
@@ -478,7 +500,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             TextSpan(
-              text: 'تسجيل الدخول',
+              text: lang.translation['signinTitle'][Languages.selectedLanguage],
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -495,6 +517,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
     final userProvider = Provider.of<UserProvider>(context);
+    final lang = Provider.of<Languages>(context);
+
     return WillPopScope(
       onWillPop: () {
         allPro.NavBarShow(true);
@@ -545,7 +569,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: <Widget>[
                         isRegister == false
                             ? Text(
-                                'تسجيل الدخول',
+                                lang.translation['signinTitle']
+                                    [Languages.selectedLanguage],
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 30.0,
@@ -553,7 +578,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               )
                             : Text(
-                                'تسجيل',
+                                lang.translation['registerTitle']
+                                    [Languages.selectedLanguage],
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 30.0,
@@ -561,26 +587,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                         SizedBox(height: 30.0),
-                        isRegister == true ? _buildUserName() : SizedBox(),
+                        isRegister == true ? _buildUserName(lang) : SizedBox(),
                         SizedBox(height: 30.0),
-                        _buildEmailTF(),
+                        _buildEmailTF(lang),
                         SizedBox(
                           height: 30.0,
                         ),
-                        _buildPasswordTF(),
+                        _buildPasswordTF(lang),
                         SizedBox(height: 30.0),
-                        isRegister == true ? _buildPhone() : SizedBox(),
+                        isRegister == true ? _buildPhone(lang) : SizedBox(),
                         // isRegister == false
                         //     ? _buildForgotPasswordBtn()
                         //     : SizedBox(),
                         SizedBox(height: 20.0),
-                        _buildRememberMeCheckbox(),
-                        _buildLoginBtn(userProvider, allPro),
+                        _buildRememberMeCheckbox(lang),
+                        _buildLoginBtn(userProvider, allPro, lang),
                         //_buildSignInWithText(),
                         // _buildSocialBtnRow(),
                         isRegister == false
-                            ? _buildSignupBtn()
-                            : _buildSignupBtn2(),
+                            ? _buildSignupBtn(lang)
+                            : _buildSignupBtn2(lang),
                       ],
                     ),
                   ),

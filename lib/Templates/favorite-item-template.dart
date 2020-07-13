@@ -1,5 +1,6 @@
 import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
@@ -69,9 +70,13 @@ class _FavoriteItemTemplateState extends State<FavoriteItemTemplate> {
                           child: Container(
                             width: 120,
                             child: Text(
-                              widget.product.title,
+                              Languages.selectedLanguage == 0
+                                  ? widget.product.title
+                                  : widget.product.titleEngilsh,
                               textAlign: TextAlign.center,
-                              textDirection: TextDirection.rtl,
+                              textDirection: Languages.selectedLanguage == 0
+                                  ? TextDirection.rtl
+                                  : TextDirection.ltr,
                               maxLines: 5,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(

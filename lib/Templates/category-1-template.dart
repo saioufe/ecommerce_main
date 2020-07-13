@@ -1,4 +1,6 @@
 import 'package:ecommerce_template/models/Category.dart';
+import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
 
 class CategoryFirstTemplate extends StatelessWidget {
@@ -27,8 +29,10 @@ class CategoryFirstTemplate extends StatelessWidget {
             Container(
               width: 300,
               height: 300,
-              child: Image.asset(
-                "assets/images/${category.image}",
+              child: FadeInImage(
+                placeholder: AssetImage('assets/images/placeholder.png'),
+                image: NetworkImage(
+                    "${AllProviders.hostName}/images/categories/${category.image}"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -44,7 +48,9 @@ class CategoryFirstTemplate extends StatelessWidget {
                       alignment: Alignment.center,
                       padding: EdgeInsets.all(5),
                       child: Text(
-                        "${category.mainCategory}",
+                        Languages.selectedLanguage == 0
+                            ? "${category.mainCategory}"
+                            : "${category.mainCategoryEnglish}",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,

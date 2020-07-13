@@ -1,5 +1,6 @@
 import 'package:ecommerce_template/Templates/address-order-template.dart';
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/addresses-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,13 +20,15 @@ class _PaymentSecondPayAddressState extends State<PaymentSecondPayAddress> {
   @override
   Widget build(BuildContext context) {
     final carPro = Provider.of<CartProvider>(context);
+    final lang = Provider.of<Languages>(context);
 
     return Container(
       width: MediaQuery.of(context).size.width / 1.1,
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Text("عنوان التوصيل"),
+            Text(lang.translation['shippingAddressTitle']
+                [Languages.selectedLanguage]),
             Divider(
               endIndent: 100,
               indent: 100,
@@ -33,7 +36,8 @@ class _PaymentSecondPayAddressState extends State<PaymentSecondPayAddress> {
             carPro.selectedAddress != null
                 ? AddressOrderTemplate(carPro.selectedAddress, false)
                 : Text(
-                    "لم يتم اختيار اي عنوان للتوصيل",
+                    lang.translation['noAddressSelectred']
+                        [Languages.selectedLanguage],
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -48,7 +52,7 @@ class _PaymentSecondPayAddressState extends State<PaymentSecondPayAddress> {
               margin: EdgeInsets.only(right: 20),
               child: RaisedButton(
                 child: Text(
-                  "ضبط عنوان السكن",
+                  lang.translation['EditAddress'][Languages.selectedLanguage],
                   style: TextStyle(color: Colors.white, fontSize: 19),
                 ),
                 onPressed: () {
@@ -64,7 +68,7 @@ class _PaymentSecondPayAddressState extends State<PaymentSecondPayAddress> {
             SizedBox(
               height: 20,
             ),
-            Text("طريقة الدفع"),
+            Text(lang.translation['PaymentTitle'][Languages.selectedLanguage]),
             Divider(
               endIndent: 100,
               indent: 100,
@@ -76,9 +80,13 @@ class _PaymentSecondPayAddressState extends State<PaymentSecondPayAddress> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      Text('دفع عند التوصيل'),
+                      Text(
+                        lang.translation['payOnDelivered']
+                            [Languages.selectedLanguage],
+                      ),
                       Radio(
-                        value: 'دفع عند التوصيل',
+                        value: lang.translation['continue']
+                            [Languages.selectedLanguage],
                         activeColor: Theme.of(context).primaryColor,
                         groupValue: radioItem,
                         onChanged: (val) {
@@ -117,7 +125,7 @@ class _PaymentSecondPayAddressState extends State<PaymentSecondPayAddress> {
                 padding: EdgeInsets.all(10),
                 child: Center(
                   child: Text(
-                    "متابعة",
+                    lang.translation['continue'][Languages.selectedLanguage],
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -137,7 +145,8 @@ class _PaymentSecondPayAddressState extends State<PaymentSecondPayAddress> {
                     context: context,
                     child: AlertDialog(
                       content: Text(
-                        "يرجى اختيار عنوان وطريقة دفع صحيحة",
+                        lang.translation['pleaseSelectValidShippingAddress']
+                            [Languages.selectedLanguage],
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 35),
                       ),

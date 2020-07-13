@@ -2,6 +2,7 @@ import 'package:ecommerce_template/Templates/product-main-template.dart';
 import 'package:ecommerce_template/Templates/searched-word-history.dart';
 import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/application.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<Languages>(context);
+
     final appProvider = Provider.of<ApplicationProvider>(context, listen: true);
     // appProvider.sharePrefsContaine("search");
     appProvider.searchResult();
@@ -32,8 +35,10 @@ class _SearchScreenState extends State<SearchScreen> {
               width: MediaQuery.of(context).size.width / 1.1,
               //alignment: Alignment.centerRight,
               child: Text(
-                "البحث",
-                textAlign: TextAlign.right,
+                lang.translation['searchTitle'][Languages.selectedLanguage],
+                textAlign: Languages.selectedLanguage == 0
+                    ? TextAlign.right
+                    : TextAlign.left,
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
@@ -50,19 +55,24 @@ class _SearchScreenState extends State<SearchScreen> {
               child: TextField(
                 controller: myController,
                 onSubmitted: (value) {
-                  appProvider.search(value, context);
+                  appProvider.search(value, context,lang);
                 },
                 onChanged: (value) {
                   if (value == "") {
-                    appProvider.search(value, context);
+                    appProvider.search(value, context,lang);
                   }
                 },
+                onEditingComplete: () {
+                  // appProvider.search(value, context);
+                },
                 textAlign: TextAlign.right,
-                
-                style: TextStyle(color: Theme.of(context).bottomAppBarColor,),
+                style: TextStyle(
+                  color: Theme.of(context).bottomAppBarColor,
+                ),
                 decoration: new InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'ابحث عن الاف المنتجات بضغطة زر',
+                    hintText: lang.translation['searchThousndOfProducts']
+                        [Languages.selectedLanguage],
                     hintStyle: TextStyle(
                       color: Theme.of(context).bottomAppBarColor,
                     ),
@@ -72,7 +82,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       color: Theme.of(context).bottomAppBarColor,
                       size: 20,
                     ),
-                    
                     suffixStyle:
                         TextStyle(color: Theme.of(context).primaryColor)),
               ),
@@ -94,19 +103,21 @@ class _SearchScreenState extends State<SearchScreen> {
                         children: appProvider.searchProducts.map((item) {
                           return ProductMainTemplate(
                             product: ProductShow(
-                                id: item.id,
-                                title: item.title,
-                                titleEngilsh: item.titleEngilsh,
-                                description: item.description,
-                                descriptionEnglish: item.descriptionEnglish,
-                                price: item.price,
-                                discount: item.discount,
-                                favorite: item.favorite,
-                                discountPercentage: item.discountPercentage,
-                                image: item.image,
-                                mainCategory: item.mainCategory,
-                                subCategories: item.subCategories,
-                                isQuestion: item.isQuestion),
+                              id: item.id,
+                              title: item.title,
+                              titleEngilsh: item.titleEngilsh,
+                              description: item.description,
+                              descriptionEnglish: item.descriptionEnglish,
+                              price: item.price,
+                              discount: item.discount,
+                              favorite: item.favorite,
+                              discountPercentage: item.discountPercentage,
+                              image: item.image,
+                              mainCategory: item.mainCategory,
+                              subCategories: item.subCategories,
+                              isQuestion: item.isQuestion,
+                              date: item.date,
+                            ),
                             isMain: false,
                           );
                         }).toList()),
@@ -130,7 +141,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                       });
                                     },
                                     child: Text(
-                                      "حذف",
+                                      lang.translation['deleteTitle']
+                                          [Languages.selectedLanguage],
                                       style: TextStyle(
                                         color: Colors.green,
                                         fontWeight: FontWeight.w600,
@@ -138,7 +150,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "تاريخ البحث",
+                                    lang.translation['searchHistoryTitle']
+                                        [Languages.selectedLanguage],
                                     style: TextStyle(
                                       fontSize: 19,
                                       color:
@@ -190,7 +203,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                     .withOpacity(0.2),
                               ),
                               Text(
-                                "لم تبحث عن اي منتج الى حد هذه اللحظة لنبدا الان  - سوف نساعدك.",
+                                lang.translation['youDidNotSearch']
+                                    [Languages.selectedLanguage],
                                 textDirection: TextDirection.rtl,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(

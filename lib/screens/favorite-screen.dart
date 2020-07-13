@@ -1,6 +1,7 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/Templates/favorite-item-template.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/widgets/favorite-no.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,11 +34,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
+    final lang = Provider.of<Languages>(context, listen: false);
 
     return WillPopScope(
       onWillPop: () {
-        print("sas");
-
         allPro.NavBarShow(true);
         return Future.value(true);
       },
@@ -49,7 +49,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             Container(
               margin: EdgeInsets.all(16),
               child: Text(
-                "المفضلات",
+                lang.translation['FavoriteTitle'][Languages.selectedLanguage],
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,

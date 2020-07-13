@@ -1,6 +1,7 @@
 import 'package:ecommerce_template/ecommerce_icons_icons.dart';
 import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -107,8 +108,12 @@ class _ProductMainTemplateState extends State<ProductMainTemplate> {
                   bottom: 5,
                 ),
                 child: Text(
-                  widget.product.title,
-                  textDirection: TextDirection.rtl,
+                  Languages.selectedLanguage == 0
+                      ? widget.product.title
+                      : widget.product.titleEngilsh,
+                  textDirection: Languages.selectedLanguage == 0
+                      ? TextDirection.rtl
+                      : TextDirection.ltr,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: Colors.black54, fontSize: 15),

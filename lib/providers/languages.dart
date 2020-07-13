@@ -5,127 +5,338 @@ class Languages extends ChangeNotifier {
   List<int> langClicked = [1, 0];
 
   Map<String, List<String>> translation = {
-    'language': [
-      'اللغة العربية',
-      'ENGLISH',
-    ],
-    'fastsearch': [
-      'البحث السريع',
-      'search',
-    ],
-    'stayhome': [
-      'خلك بامان ... خلك بلبيت',
-      'stay safe ... stay home',
-    ],
     'checkInternet': [
-      'يرجى الاتصال بلانترنت',
-      'Please check your internet connection',
+      'تفقد من الاتصال بلانترنت',
+      'Check your internet connection !',
     ],
-    'LastOffers': [
-      'اخر العروض',
-      'Offers',
+    'LanguageTitle': [
+      'اللغة',
+      'Language ',
     ],
-    'accourdingToCategory': [
-      'تسوق حسب الفئات',
-      'Start with category',
-    ],
-    'settingsTitle': [
+    'SettingsTitle': [
       'الاعدادات',
-      'Settings',
+      'Settings ',
     ],
-    'notificationTitle': [
+    'signOut': [
+      'تسجيل الخروج',
+      'Sign out ',
+    ],
+    'SignIn': [
+      'تسجيل الدخول',
+      'Sign in ',
+    ],
+    'accountTitle': [
+      'الحساب',
+      'Account ',
+    ],
+    'FavoriteTitle': [
+      'المفضلات',
+      'Favorite ',
+    ],
+    'OrdersTitle': [
+      'الطلبات',
+      'Orders history ',
+    ],
+        'oldOrdersTitle': [
+      'الطلبات السابقة',
+      'Last orders',
+    ],
+        'recentOrdersTitle': [
+      'الطلبات الحالية',
+      'Recent orders',
+    ],
+    'MainSettings': [
+      'اعدادات عامة',
+      'Main',
+    ],
+    'notification': [
       'الاشعارات',
-      'Notification',
+      'Notification ',
     ],
-    'notificationActivate': [
-      'تفعيل الاشعارات',
-      'Notification status',
+    'Languages': [
+      'اللغات',
+      'Languages ',
     ],
-    'notificationStatusActive': [
-      'مفعل',
-      'Active',
+    'nightMode': [
+      'الوضع الليلي',
+      'Night mode ',
     ],
-    'notificationStatusInactive': [
-      'متوقف',
-      'inactive',
+    'aboutUs': [
+      'من نحن',
+      'About us',
     ],
-    'myaccount': [
-      'حسابي',
-      'Account',
+    'signinTitle': [
+      'تسجيل الدخول',
+      'Sign up',
     ],
-    'news': [
-      'الاخبار',
-      'News',
+    'registerTitle': [
+      'تسجيل',
+      'Register',
     ],
-    'category': [
+    'emailTitle': [
+      'البريد الالكتروني',
+      'Email',
+    ],
+    'enterEmail': [
+      'ادخل بريدك الالكتروني',
+      'Enter your Email',
+    ],
+    'passwordTitle': [
+      'كلمة السر',
+      'Password',
+    ],
+    'passwordTitleEnter': [
+      'ادخل كلمة المرور',
+      'Enter your password',
+    ],
+    'phoneTitle': [
+      'رقم الهاتف',
+      'Phone number',
+    ],
+    'phoneTitleEnter': [
+      'ادخل رقم الهاتف',
+      'Enter your phone number',
+    ],
+    'rememberMe': [
+      'تذكرني',
+      'Remember me',
+    ],
+    'DONThaveAccount': [
+      'لا تمتلك حساب ؟',
+      'Don\'t have account ?',
+    ],
+    'registerNow': [
+      'سجل الان',
+      'Register now',
+    ],
+    'allreadyHaveAccount': [
+      'هل لديك حساب بلفعل ؟',
+      'Already have account ?',
+    ],
+    'username': [
+      'اسم المستخدم',
+      'username',
+    ],
+    'usernameEnter': [
+      'ادخل الاسم الكامل',
+      'Enter full name',
+    ],
+    'pleaseFillAllRecords': [
+      'يرجى ملئ جميع الحقول',
+      'Please fill all the fields',
+    ],
+    'pleaseFillEmail': [
+      'يرجى ادخال بريد الكتروني صحيح',
+      'Please enter a valid email address',
+    ],
+    'youDidNotAddToCart': [
+      'يبدو من انك لم تضف اي منتج لسلة المشتريات , ابدا في التسوق لملئ السلة',
+      'Looks like you have\'t add any item yet , let us help you',
+    ],
+    'startShopping': [
+      'ابدا التسوق',
+      'Start Shopping',
+    ],
+    'shoppingBasket': [
+      'سلة المشتريات',
+      'Shopping basket',
+    ],
+    'cartTitle': [
+      'السلة',
+      'Cart',
+    ],
+    'addressAndPaying': [
+      'العنوان والدفع',
+      'Address and Payment',
+    ],
+    'Confirmation': [
+      'التاكيد',
+      'Confirm',
+    ],
+    'continue': [
+      'المتابعة',
+      'Continue',
+    ],
+    'shippingAddressTitle': [
+      'عنوان التوصيل',
+      'Shipping Address',
+    ],
+    'noAddressSelectred': [
+      'لم يتم اختيار اي عنوان للتوصيل',
+      'No Address have been selected',
+    ],
+    'EditAddress': [
+      'ضبط عنوان السكن',
+      'Edit shipping address',
+    ],
+    'PaymentTitle': [
+      'طريقة الدفع',
+      'Payment',
+    ],
+    'payOnDelivered': [
+      'دفع عند التوصيل',
+      'on delivery',
+    ],
+    'pleaseSelectValidShippingAddress': [
+      'يرجى اختيار عنوان وطريقة دفع صحيحة',
+      'Please select valid payment & shipping address',
+    ],
+    'thersisNoAddressHaveBeenAdded': [
+      'ليس هناك اي عنوان مدرج , يرجى اضافة عنوان جديد',
+      'No Address have been added , please insert new shipping address',
+    ],
+    'addNewShippingAddress': [
+      'اضافة عنوان جديد',
+      'Add new shipping address',
+    ],
+    'areOrKeyPlease': [
+      'المنطقة واي نقطة دالة',
+      'Full address',
+    ],
+    'conutryTitle': [
+      'الدولة',
+      'Country',
+    ],
+    'cityTitle': [
+      'المدينة',
+      'City',
+    ],
+    'insert': [
+      'ادراج',
+      'Add',
+    ],
+    'only3allowed': [
+      'يمكن اضافة 3 عناوين فقط',
+      'Only 3 addresses allowed',
+    ],
+    'nameTitle': [
+      'الاسم',
+      'Name',
+    ],
+    'addressTitle': [
+      'العنوان',
+      'Address',
+    ],
+    'phoneTitleAddress': [
+      'الرقم',
+      'Phone',
+    ],
+    'deleteTitle': [
+      'حذف',
+      'Delete',
+    ],
+    'chooseTitle': [
+      'اختيار',
+      'choose',
+    ],
+    'searchTitle': [
+      'البحث',
+      'Search',
+    ],
+    'searchThousndOfProducts': [
+      'ابحث عن الاف المنتجات بضغطة زر',
+      'Search thousands of products in one click',
+    ],
+    'searchHistoryTitle': [
+      'تاريخ البحث',
+      'Search history',
+    ],
+    'youDidNotSearch': [
+      'لم تبحث عن اي منتج الى حد هذه اللحظة لنبدا الان  - سوف نساعدك.',
+      'You didn\'t search for any thing yet - let\'s start now we will help you',
+    ],
+    'noSearchResult': [
+      'لا توجد نتائج',
+      'No Search Result',
+    ],
+    'researchAgain': [
+      'اعد عملية البحث',
+      'Search again please',
+    ],
+    'categoriesTitle': [
       'الفئات',
       'Categories',
     ],
-      'orderpage': [
-      'ابدا الطلب',
-      'start order',
-    ],
-    'homeTitle': [
-      'الرئيسية',
-      'Home',
-    ],
-    'signout': [
-      'تسجيل الخروج',
-      'Sign out',
-    ],
-    'myorders': [
-      'طلباتي',
-      'My orders',
-    ],
-    'GeneralSetTitle': [
-      'عام',
-      'General',
-    ],
-    'LanguageTitle': [
-      'اختر اللغة',
-      'Choose Language',
-    ],
-    'startInsuranceNow': [
-      ' !!! اطلب تامينك الان',
-      'Start your insurance now !!',
-    ],
-    'startService': [
-      'ابدء الخدمة',
-      'Start Service',
-    ],
-    'MoreTitle': [
+    'moreTitle': [
       'المزيد',
       'More',
     ],
-    'appRating': [
-      'تقييم التطبيق',
-      'Rate The App',
+    'shopInCategories': [
+      'تسوق حسب الفئات',
+      'Shop in Categories',
     ],
-    'appVersion': [
-      'اصدار التطبيق',
-      'App Version',
+    'historyView': [
+      'مشاهدات سابقة',
+      'History',
     ],
-    'policies': [
-      'الشروط والاحكام',
-      'Privacy policy',
+    'latestNews': [
+      'اخر الاخبار',
+      'Latest News',
     ],
-    'commonQuestions': [
-      'الاسئلة الشائعة',
+    'discoverMore': [
+      'شاهد المزيد',
+      'Discover',
+    ],
+    'addToCart': [
+      'اضف الى سلة التسوق',
+      'Add To Cart',
+    ],
+    'haveBeenAddedToCart': [
+      'تم اضافة المنتج الى سلة المشتريات',
+      'Product have been added to cart',
+    ],
+    'alreadyinTheCart': [
+      'هذا المنتج موجود مسبقا في السلة',
+      'Product already in the cart',
+    ],
+    'PleaseSelectColor': [
+      'يرجى اختيار اللون والحجم',
+      'Please select color and size',
+    ],
+    'similarProducts': [
+      'منتجات مشابهة',
+      'See More',
+    ],
+    'ColorTitle': [
+      ': اللون',
+      ': Color',
+    ],
+    'sizeTitle': [
+      ' : الحجم',
+      ': Size',
+    ],
+    'remainsTitle': [
+      'متبقي',
+      'Remains',
+    ],
+    'quantityTitle': [
+      ' : الكمية',
+      ': Quantity',
+    ],
+    'noFacoriteProducts': [
+      'ليس هناك اي منتجات مضافة الى المفضلات',
+      'No Favorite product have been selected',
+    ],
+    'addMoreFavorite': [
+      'اضف المزيد',
+      'Add more',
+    ],
+    'clickToSeeMore': [
+      'انقر لمشاهدة وصف المنتج',
+      'Click to Read more',
+    ],
+    'DescriptionTitle': [
+      ' : الوصف',
+      ': Description',
+    ],
+    'questionAndAnswers': [
+      'اسئلة واجوبة مكررة',
       'FAQ',
     ],
-    'contactuss': [
-      'الاتصال بنا',
-      'Contact us',
+    'questionsTitle': [
+      ' :  اسئلة',
+      ': Questions',
     ],
-    'mytameen': [
-      'ماي تاميين',
-      'My Tameen',
-    ],
-    'servicesTitle': [
-      'الخدمات للفئة',
-      'Category services',
-    ],
-
   };
   static int selectedLanguage = 0;
   Future<void> setLangClicker() async {

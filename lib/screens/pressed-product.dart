@@ -2,6 +2,7 @@ import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/models/product_question.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/product-image-viewer.dart';
 import 'package:ecommerce_template/widgets/product-color-size-section.dart';
 import 'package:ecommerce_template/widgets/product-details-section.dart';
@@ -101,6 +102,7 @@ class _PressedProductState extends State<PressedProduct> {
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context, listen: false);
     final allCart = Provider.of<CartProvider>(context, listen: false);
+    final lang = Provider.of<Languages>(context);
 
     if (AllProviders.getOnceImage != true) {
       if (allPro.allProductsImages != null) {
@@ -241,7 +243,8 @@ class _PressedProductState extends State<PressedProduct> {
                               width: 20,
                             ),
                             Text(
-                              "اضف الى سلة التسوق",
+                              lang.translation['addToCart']
+                                  [Languages.selectedLanguage],
                               textAlign: TextAlign.right,
                               style:
                                   TextStyle(fontSize: 23, color: Colors.white),
@@ -292,13 +295,21 @@ class _PressedProductState extends State<PressedProduct> {
                           if (value != "0") {
                             allCart.loadedAllCartItems = null;
                             allCart.incressCartItemsBadgeNumber();
-                            showInSnackBar("تم اضافة المنتج الى سلة المشتريات");
+                            showInSnackBar(
+                                lang.translation['haveBeenAddedToCart']
+                                    [Languages.selectedLanguage]);
                           } else {
-                            showInSnackBar("هذا المنتج موجود مسبقا في السلة");
+                            showInSnackBar(
+                              lang.translation['alreadyinTheCart']
+                                  [Languages.selectedLanguage],
+                            );
                           }
                         });
                       } else {
-                        showInSnackBar("يرجى اختيار اللون والحجم");
+                        showInSnackBar(
+                          lang.translation['PleaseSelectColor']
+                              [Languages.selectedLanguage],
+                        );
                       }
                     },
                   ),
@@ -307,8 +318,11 @@ class _PressedProductState extends State<PressedProduct> {
                   width: MediaQuery.of(context).size.width / 1.1,
                   padding: EdgeInsets.all(15),
                   child: Text(
-                    "منتجات مشابهة",
-                    textAlign: TextAlign.right,
+                    lang.translation['similarProducts']
+                        [Languages.selectedLanguage],
+                    textAlign: Languages.selectedLanguage == 0
+                        ? TextAlign.right
+                        : TextAlign.left,
                     style: TextStyle(fontSize: 23),
                   ),
                 ),

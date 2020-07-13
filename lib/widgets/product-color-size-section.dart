@@ -1,5 +1,6 @@
 import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/widgets/color-product-circle.dart';
 import 'package:ecommerce_template/widgets/size-product-box.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
   @override
   Widget build(BuildContext context) {
     final allposts = Provider.of<AllProviders>(context, listen: true);
+    final lang = Provider.of<Languages>(context);
 
     return Container(
       margin: EdgeInsets.all(10),
@@ -60,7 +62,10 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
                                     return CircularProgressIndicator();
                                   } else if (authResultSnap.hasError) {
                                     Center(
-                                      child: Text("تفقد من الاتصال بلانترنت"),
+                                      child: Text(
+                                        lang.translation['checkInternet']
+                                            [Languages.selectedLanguage],
+                                      ),
                                     );
                                     return RaisedButton(
                                       onPressed: () {
@@ -69,7 +74,9 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
                                         });
                                         print(authResultSnap.error.toString());
                                       },
-                                      child: Text("تفقد من الاتصال بلانترنت",
+                                      child: Text(
+                                          lang.translation['checkInternet']
+                                              [Languages.selectedLanguage],
                                           style:
                                               TextStyle(color: Colors.black)),
                                     );
@@ -105,7 +112,7 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
               Container(
                 child: Center(
                   child: Text(
-                    " : اللون",
+                    lang.translation['ColorTitle'][Languages.selectedLanguage],
                     textAlign: TextAlign.right,
                     style: TextStyle(
                         fontFamily: 'tajawal',
@@ -141,7 +148,7 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
               Container(
                 child: Center(
                   child: Text(
-                    " : الحجم",
+                    lang.translation['sizeTitle'][Languages.selectedLanguage],
                     textAlign: TextAlign.right,
                     style: TextStyle(
                         fontFamily: 'tajawal',
@@ -168,7 +175,8 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.only(right: 15, top: 13),
-                        child: Text("متبقي ${allposts.selectedQuantity}"),
+                        child: Text(
+                            "${lang.translation['remainsTitle'][Languages.selectedLanguage]} ${allposts.selectedQuantity}"),
                       ),
                       Container(
                           margin: EdgeInsets.only(right: 40),
@@ -277,7 +285,8 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
               Container(
                 child: Center(
                   child: Text(
-                    " : الكمية",
+                    lang.translation['quantityTitle']
+                        [Languages.selectedLanguage],
                     textAlign: TextAlign.right,
                     style: TextStyle(
                         fontFamily: 'tajawal',

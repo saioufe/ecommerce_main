@@ -1,5 +1,6 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/providers/ordering.dart';
 import 'package:ecommerce_template/widgets/order-history-item.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   @override
   Widget build(BuildContext context) {
     final orderPro = Provider.of<Ordering>(context, listen: false);
+    final lang = Provider.of<Languages>(context);
+
     controller.addListener(() {
       // print(controller.index);
       if (controller.index == 0) {
@@ -67,13 +70,15 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
             tabs: <Tab>[
               Tab(
                 child: Text(
-                  "الطلبات السابقة",
+                  lang.translation['oldOrdersTitle']
+                      [Languages.selectedLanguage],
                   style: TextStyle(color: Colors.white),
                 ),
               ),
               Tab(
                 child: Text(
-                  "الطلبات الحالية",
+                  lang.translation['recentOrdersTitle']
+                      [Languages.selectedLanguage],
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -83,7 +88,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
             Container(
               margin: EdgeInsets.all(16),
               child: Text(
-                "الطلبات",
+                lang.translation['OrdersTitle'][Languages.selectedLanguage],
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -116,7 +121,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                           );
                         } else if (authResultSnap.hasError) {
                           Center(
-                            child: Text("تفقد من الاتصال بلانترنت"),
+                            child: Text(
+                              lang.translation['checkInternet']
+                                  [Languages.selectedLanguage],
+                            ),
                           );
                           return RaisedButton(
                             onPressed: () {
@@ -125,7 +133,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                               });
                               print(authResultSnap.error.toString());
                             },
-                            child: Text("تفقد من الاتصال بلانترنت",
+                            child: Text(
+                                lang.translation['checkInternet']
+                                    [Languages.selectedLanguage],
                                 style: TextStyle(color: Colors.black)),
                           );
                         } else {
@@ -155,7 +165,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                       );
                     } else if (authResultSnap.hasError) {
                       Center(
-                        child: Text("تفقد من الاتصال بلانترنت"),
+                        child: Text(
+                          lang.translation['checkInternet']
+                              [Languages.selectedLanguage],
+                        ),
                       );
                       return RaisedButton(
                         onPressed: () {
@@ -164,7 +177,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                           });
                           print(authResultSnap.error.toString());
                         },
-                        child: Text("تفقد من الاتصال بلانترنت",
+                        child: Text(
+                            lang.translation['checkInternet']
+                                [Languages.selectedLanguage],
                             style: TextStyle(color: Colors.black)),
                       );
                     } else {

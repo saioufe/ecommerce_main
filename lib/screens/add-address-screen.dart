@@ -2,6 +2,7 @@ import 'package:ecommerce_template/models/city.dart';
 import 'package:ecommerce_template/models/country.dart';
 import 'package:ecommerce_template/providers/application.dart';
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   Widget build(BuildContext context) {
     //final appProvider = Provider.of<ApplicationProvider>(context, listen: true);
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final lang = Provider.of<Languages>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -49,7 +51,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       //width: MediaQuery.of(context).size.width,
                       //alignment: Alignment.centerRight,
                       child: Text(
-                        "اضافة عنوان جديد",
+                        lang.translation['addNewShippingAddress']
+                            [Languages.selectedLanguage],
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontSize: 20,
@@ -83,7 +86,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   ),
                   decoration: new InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'الاسم الكامل',
+                      hintText: lang.translation['usernameEnter']
+                          [Languages.selectedLanguage],
                       hintStyle: TextStyle(
                         color: Theme.of(context).bottomAppBarColor,
                       ),
@@ -123,7 +127,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   ),
                   decoration: new InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'رقم الهاتف',
+                      hintText: lang.translation['phoneTitleEnter']
+                          [Languages.selectedLanguage],
                       hintStyle: TextStyle(
                         color: Theme.of(context).bottomAppBarColor,
                       ),
@@ -162,7 +167,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   ),
                   decoration: new InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'المنطقة واي نقطة دالة',
+                      hintText: lang.translation['areOrKeyPlease']
+                          [Languages.selectedLanguage],
                       hintStyle: TextStyle(
                         color: Theme.of(context).bottomAppBarColor,
                       ),
@@ -181,7 +187,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               ),
               Container(
                 child: Text(
-                  "الدولة",
+                  lang.translation['conutryTitle'][Languages.selectedLanguage],
                   style: TextStyle(fontSize: 19),
                 ),
               ),
@@ -210,7 +216,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               return CircularProgressIndicator();
                             } else if (authResultSnap.hasError) {
                               Center(
-                                child: Text("تفقد من الاتصال بلانترنت"),
+                                child: Text(
+                                  lang.translation['checkInternet']
+                                      [Languages.selectedLanguage],
+                                ),
                               );
                               return RaisedButton(
                                 onPressed: () {
@@ -219,7 +228,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                   });
                                   print(authResultSnap.error.toString());
                                 },
-                                child: Text("تفقد من الاتصال بلانترنت",
+                                child: Text(
+                                    lang.translation['checkInternet']
+                                        [Languages.selectedLanguage],
                                     style: TextStyle(color: Colors.black)),
                               );
                             } else {
@@ -266,7 +277,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           children: <Widget>[
                             Container(
                               child: Text(
-                                "المدينة",
+                                lang.translation['cityTitle']
+                                    [Languages.selectedLanguage],
                                 style: TextStyle(fontSize: 19),
                               ),
                             ),
@@ -322,7 +334,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               RaisedButton(
                 color: Theme.of(context).primaryColor,
                 child: Text(
-                  "ادراج",
+                  lang.translation['insert'][Languages.selectedLanguage],
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 onPressed: () {
@@ -352,7 +364,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                 ),
                                 Container(
                                   child: Text(
-                                    "يمكن اضافة 3 عناوين فقط",
+                                    lang.translation['only3allowed']
+                                        [Languages.selectedLanguage],
                                     textAlign: TextAlign.center,
                                   ),
                                 ),

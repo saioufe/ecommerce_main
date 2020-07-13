@@ -1,5 +1,7 @@
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.widget.dart';
+import 'package:provider/provider.dart';
 
 class CartNoProducts extends StatelessWidget {
   final PersistentTabController controller;
@@ -7,6 +9,7 @@ class CartNoProducts extends StatelessWidget {
   CartNoProducts({this.controller});
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<Languages>(context);
     return Container(
       width: MediaQuery.of(context).size.width / 1.6,
       child: Center(
@@ -19,7 +22,8 @@ class CartNoProducts extends StatelessWidget {
               color: Theme.of(context).bottomAppBarColor.withOpacity(0.2),
             ),
             Text(
-              "يبدو من انك لم تضف اي منتج لسلة المشتريات , ابدا في التسوق لملئ السلة",
+              lang.translation['youDidNotAddToCart']
+                  [Languages.selectedLanguage],
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -32,12 +36,12 @@ class CartNoProducts extends StatelessWidget {
               child: RaisedButton(
                 padding: EdgeInsets.all(12),
                 child: Text(
-                  "ابد التسوق",
+                  lang.translation['startShopping'][Languages.selectedLanguage],
                   style: TextStyle(color: Colors.white, fontSize: 23),
                 ),
                 color: Theme.of(context).primaryColor,
                 onPressed: () {
-                  controller.jumpToTab(4);
+                  Languages.selectedLanguage == 0  ? controller.jumpToTab(4) : controller.jumpToTab(0);
                 },
               ),
             )

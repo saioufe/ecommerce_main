@@ -2,6 +2,7 @@ import 'package:ecommerce_template/Templates/category-1-template.dart';
 import 'package:ecommerce_template/models/Category.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/dummyData.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/providers/settings.dart';
 import 'package:ecommerce_template/screens/pressed-category-screen.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
-    final setPro = Provider.of<SettingsProvider>(context);
+    final lang = Provider.of<Languages>(context);
+
     //final dummyData = Provider.of<DummyData>(context,listen: false);
 
     return Scaffold(
@@ -47,9 +49,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     SizedBox(
                       width: 15,
                     ),
-                    Consumer<DummyData>(builder: (context, dummy, _) {
+                    Consumer<SettingsProvider>(builder: (context, setPro, _) {
                       return Text(
-                        setPro.categories[setPro.selectedCat].mainCategory,
+                        Languages.selectedLanguage == 0
+                            ? setPro.categories[setPro.selectedCat].mainCategory
+                            : setPro.categories[setPro.selectedCat]
+                                .mainCategoryEnglish,
                         style: TextStyle(
                             fontSize: 23,
                             fontWeight: FontWeight.bold,
@@ -62,55 +67,106 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         ),
         body: Container(
           margin: EdgeInsets.only(bottom: 56),
-          child: Consumer<DummyData>(
-            builder: (context, dummy, _) {
+          child: Consumer<SettingsProvider>(
+            builder: (context, setPro, _) {
               return SingleChildScrollView(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: setPro
-                        .categories[setPro.selectedCat].subCategories
-                        .map((item) {
-                      return InkWell(
-                        onTap: () {
-                          setState(() {
-                            allPro.NavBarShow(false);
-                          });
+                  child: Languages.selectedLanguage == 0
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: setPro
+                              .categories[setPro.selectedCat].subCategories
+                              .map((item) {
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  allPro.NavBarShow(false);
+                                });
 
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PressedCategoryScreen(
-                                  category:
-                                      setPro.categories[setPro.selectedCat],
-                                  subCat: item,
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PressedCategoryScreen(
+                                        category: setPro
+                                            .categories[setPro.selectedCat],
+                                        subCat: item,
+                                      ),
+                                    ));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(6),
+                                width: MediaQuery.of(context).size.width / 2,
+                                padding: EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.4),
+                                        spreadRadius: 0.4,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 1)),
+                                  ],
                                 ),
-                              ));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(6),
-                          width: MediaQuery.of(context).size.width / 2,
-                          padding: EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: Colors.grey.withOpacity(0.4),
-                                  spreadRadius: 0.4,
-                                  blurRadius: 4,
-                                  offset: Offset(0, 1)),
-                            ],
-                          ),
-                          child: Center(
-                            child: Text(
-                              item,
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList()),
-              );
+                                child: Center(
+                                  child: Text(
+                                    item,
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: setPro.categories[setPro.selectedCat]
+                              .subCategoriesEnglish
+                              .map((item) {
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  allPro.NavBarShow(false);
+                                });
+
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PressedCategoryScreen(
+                                        category: setPro
+                                            .categories[setPro.selectedCat],
+                                        subCat: item,
+                                      ),
+                                    ));
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(6),
+                                width: MediaQuery.of(context).size.width / 2,
+                                padding: EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.4),
+                                        spreadRadius: 0.4,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 1)),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    item,
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ));
             },
           ),
         ),
@@ -120,12 +176,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 25, bottom: 20, right: 20),
+                margin:
+                    EdgeInsets.only(top: 25, bottom: 20, right: 20, left: 20),
                 width: MediaQuery.of(context).size.width,
                 //alignment: Alignment.centerRight,
                 child: Text(
-                  "الفئات",
-                  textAlign: TextAlign.right,
+                  lang.translation['categoriesTitle']
+                      [Languages.selectedLanguage],
+                  textAlign: Languages.selectedLanguage == 0
+                      ? TextAlign.right
+                      : TextAlign.left,
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
@@ -133,8 +193,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   ),
                 ),
               ),
-              Consumer<DummyData>(
-                builder: (context, dummy, _) {
+              Consumer<SettingsProvider>(
+                builder: (context, setPro, _) {
                   return Container(
                     width: MediaQuery.of(context).size.width / 1.1,
                     //height: MediaQuery.of(context).size.height / 1.1,

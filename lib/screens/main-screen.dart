@@ -1,6 +1,7 @@
 import 'package:ecommerce_template/ecommerce_icons_icons.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/cart-screen.dart';
 import 'package:ecommerce_template/screens/categories-screen.dart';
 import 'package:ecommerce_template/screens/home-screen.dart';
@@ -54,83 +55,159 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   List<Widget> _buildScreens() {
-    return [
-      ProfileScreen(controller: _controller),
-      CartScreen(controller: _controller),
-      SearchScreen(),
-      CategoriesScreen(),
-      HomeScreen(),
-    ];
+    if (Languages.selectedLanguage == 0) {
+      return [
+        ProfileScreen(controller: _controller),
+        CartScreen(controller: _controller),
+        SearchScreen(),
+        CategoriesScreen(),
+        HomeScreen(),
+      ];
+    } else {
+      return [
+        HomeScreen(),
+        CategoriesScreen(),
+        SearchScreen(),
+        CartScreen(controller: _controller),
+        ProfileScreen(controller: _controller),
+      ];
+    }
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems(CartProvider cp) {
-    return [
-      PersistentBottomNavBarItem(
-        translucencyPercentage: 85,
-        icon: Icon(EcommerceIcons.user),
-        title: ("profile"),
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey,
-        isTranslucent: true,
-      ),
-      PersistentBottomNavBarItem(
-        translucencyPercentage: 85,
-        icon: cp.numOfCartItems != 0
-            ? Badge(
-                animationType: BadgeAnimationType.scale,
-                badgeColor: Theme.of(context).primaryColor,
-                animationDuration: Duration(milliseconds: 100),
-                badgeContent: Container(
-                    padding: EdgeInsets.only(top: 5),
-                    child: Consumer<CartProvider>(
-                      builder: (ctx, cartProvider, _) {
-                        return Text(
-                          cp.numOfCartItems.toString(),
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        );
-                      },
-                    )),
-                position: BadgePosition.topLeft(),
-                child: Icon(EcommerceIcons.shopping_cart),
-              )
-            : Icon(EcommerceIcons.shopping_cart),
-        title: ("cart"),
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey,
-        isTranslucent: true,
-      ),
-      PersistentBottomNavBarItem(
-        translucencyPercentage: 85,
-        icon: Icon(EcommerceIcons.magnifying_glass),
-        title: ("search"),
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey,
-        isTranslucent: true,
-      ),
-      PersistentBottomNavBarItem(
-        translucencyPercentage: 85,
-        icon: Icon(EcommerceIcons.tag),
-        title: ("categories"),
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey,
-        isTranslucent: true,
-      ),
-      PersistentBottomNavBarItem(
-        translucencyPercentage: 85,
-        icon: Icon(EcommerceIcons.shop),
-        title: ("Home"),
-        activeColor: Theme.of(context).primaryColor,
-        inactiveColor: Colors.grey,
-        isTranslucent: true,
-      ),
-    ];
+    if (Languages.selectedLanguage == 0) {
+      return [
+        PersistentBottomNavBarItem(
+          translucencyPercentage: 85,
+          icon: Icon(EcommerceIcons.user),
+          title: ("profile"),
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Colors.grey,
+          isTranslucent: true,
+        ),
+        PersistentBottomNavBarItem(
+          translucencyPercentage: 85,
+          icon: cp.numOfCartItems != 0
+              ? Badge(
+                  animationType: BadgeAnimationType.scale,
+                  badgeColor: Theme.of(context).primaryColor,
+                  animationDuration: Duration(milliseconds: 100),
+                  badgeContent: Container(
+                      padding: EdgeInsets.only(top: 5),
+                      child: Consumer<CartProvider>(
+                        builder: (ctx, cartProvider, _) {
+                          return Text(
+                            cp.numOfCartItems.toString(),
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          );
+                        },
+                      )),
+                  position: BadgePosition.topLeft(),
+                  child: Icon(EcommerceIcons.shopping_cart),
+                )
+              : Icon(EcommerceIcons.shopping_cart),
+          title: ("cart"),
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Colors.grey,
+          isTranslucent: true,
+        ),
+        PersistentBottomNavBarItem(
+          translucencyPercentage: 85,
+          icon: Icon(EcommerceIcons.magnifying_glass),
+          title: ("search"),
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Colors.grey,
+          isTranslucent: true,
+        ),
+        PersistentBottomNavBarItem(
+          translucencyPercentage: 85,
+          icon: Icon(EcommerceIcons.tag),
+          title: ("categories"),
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Colors.grey,
+          isTranslucent: true,
+        ),
+        PersistentBottomNavBarItem(
+          translucencyPercentage: 85,
+          icon: Icon(EcommerceIcons.shop),
+          title: ("Home"),
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Colors.grey,
+          isTranslucent: true,
+        ),
+      ];
+    } else {
+      return [
+        PersistentBottomNavBarItem(
+          translucencyPercentage: 85,
+          icon: Icon(EcommerceIcons.shop),
+          title: ("Home"),
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Colors.grey,
+          isTranslucent: true,
+        ),
+        PersistentBottomNavBarItem(
+          translucencyPercentage: 85,
+          icon: Icon(EcommerceIcons.tag),
+          title: ("categories"),
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Colors.grey,
+          isTranslucent: true,
+        ),
+        PersistentBottomNavBarItem(
+          translucencyPercentage: 85,
+          icon: Icon(EcommerceIcons.magnifying_glass),
+          title: ("search"),
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Colors.grey,
+          isTranslucent: true,
+        ),
+        PersistentBottomNavBarItem(
+          translucencyPercentage: 85,
+          icon: cp.numOfCartItems != 0
+              ? Badge(
+                  animationType: BadgeAnimationType.scale,
+                  badgeColor: Theme.of(context).primaryColor,
+                  animationDuration: Duration(milliseconds: 100),
+                  badgeContent: Container(
+                      padding: EdgeInsets.only(top: 5),
+                      child: Consumer<CartProvider>(
+                        builder: (ctx, cartProvider, _) {
+                          return Text(
+                            cp.numOfCartItems.toString(),
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          );
+                        },
+                      )),
+                  position: BadgePosition.topLeft(),
+                  child: Icon(EcommerceIcons.shopping_cart),
+                )
+              : Icon(EcommerceIcons.shopping_cart),
+          title: ("cart"),
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Colors.grey,
+          isTranslucent: true,
+        ),
+        PersistentBottomNavBarItem(
+          translucencyPercentage: 85,
+          icon: Icon(EcommerceIcons.user),
+          title: ("profile"),
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Colors.grey,
+          isTranslucent: true,
+        ),
+      ];
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
     final cartPro = Provider.of<CartProvider>(context, listen: false);
+
+    Provider.of<Languages>(context, listen: false).readLanguageIndex();
 
     return PersistentTabView(
         navBarHeight: allPro.showNavBar == true ? 60 : 0,

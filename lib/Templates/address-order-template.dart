@@ -1,5 +1,6 @@
 import 'package:ecommerce_template/models/address.dart';
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +22,7 @@ class _AddressOrderTemplateState extends State<AddressOrderTemplate> {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
+    final lang = Provider.of<Languages>(context);
 
     return Container(
       width: MediaQuery.of(context).size.width / 1.1,
@@ -59,7 +61,9 @@ class _AddressOrderTemplateState extends State<AddressOrderTemplate> {
                     thickness: 3,
                     color: Theme.of(context).primaryColor,
                   )),
-              Text("الاسم"),
+              Text(
+                lang.translation['nameTitle'][Languages.selectedLanguage],
+              ),
             ],
           ),
           SizedBox(
@@ -85,7 +89,9 @@ class _AddressOrderTemplateState extends State<AddressOrderTemplate> {
                     thickness: 3,
                     color: Theme.of(context).primaryColor,
                   )),
-              Text("العنوان"),
+              Text(
+                lang.translation['addressTitle'][Languages.selectedLanguage],
+              ),
             ],
           ),
           SizedBox(
@@ -109,7 +115,11 @@ class _AddressOrderTemplateState extends State<AddressOrderTemplate> {
                     thickness: 3,
                     color: Theme.of(context).primaryColor,
                   )),
-              Container(child: Text("الرقم")),
+              Container(
+                  child: Text(
+                lang.translation['phoneTitleAddress']
+                    [Languages.selectedLanguage],
+              )),
             ],
           ),
           SizedBox(
@@ -133,7 +143,10 @@ class _AddressOrderTemplateState extends State<AddressOrderTemplate> {
                     thickness: 3,
                     color: Theme.of(context).primaryColor,
                   )),
-              Container(child: Text("المدينة")),
+              Container(
+                  child: Text(
+                lang.translation['cityTitle'][Languages.selectedLanguage],
+              )),
             ],
           ),
           widget.isThisEdit == true ? Divider() : SizedBox(),
@@ -156,7 +169,8 @@ class _AddressOrderTemplateState extends State<AddressOrderTemplate> {
                         width: 100,
                         child: Center(
                             child: Text(
-                          "حذف",
+                          lang.translation['deleteTitle']
+                              [Languages.selectedLanguage],
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,
@@ -172,7 +186,7 @@ class _AddressOrderTemplateState extends State<AddressOrderTemplate> {
                             .setString('address', widget.address.id)
                             .then((value) {
                           cartProvider.getChoosenAddress();
-                          
+
                           Navigator.of(context).pop();
                         });
                       },
@@ -181,7 +195,8 @@ class _AddressOrderTemplateState extends State<AddressOrderTemplate> {
                         width: 100,
                         child: Center(
                             child: Text(
-                          "اختيار",
+                          lang.translation['chooseTitle']
+                              [Languages.selectedLanguage],
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,

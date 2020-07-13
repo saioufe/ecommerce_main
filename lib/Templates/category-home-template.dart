@@ -1,5 +1,6 @@
 import 'package:ecommerce_template/models/Category.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/pressed-category-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ class _CategoryHomeTemplateState extends State<CategoryHomeTemplate> {
         setState(() {
           allPro.NavBarShow(false);
         });
+        AllProviders.dataOfflineAllProductsCategory = null;
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -70,7 +72,9 @@ class _CategoryHomeTemplateState extends State<CategoryHomeTemplate> {
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(5),
                     child: Text(
-                      widget.category.mainCategory,
+                      Languages.selectedLanguage == 0
+                          ? widget.category.mainCategory
+                          : widget.category.mainCategoryEnglish,
                       textAlign: TextAlign.center,
                       textDirection: TextDirection.rtl,
                       maxLines: 2,

@@ -6,6 +6,7 @@ import 'package:ecommerce_template/models/product_images.dart';
 import 'package:ecommerce_template/models/product_question.dart';
 import 'package:ecommerce_template/models/slider.dart';
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/widgets/size-product-box.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +21,61 @@ class AllProviders extends ChangeNotifier {
 
   void NavBarShow(bool show) {
     showNavBar = show;
+    notifyListeners();
+  }
+
+  List<ProductShow> _allProductsCategory = [];
+  List<ProductShow> get allProductsCategory {
+    return _allProductsCategory;
+  }
+
+  List dataAllProductsCategory = [];
+  List<ProductShow> loadedAllProductsCategory;
+  static List<dynamic> dataOfflineAllProductsCategory;
+  double percentage2;
+  Future<void> fetchDataAllProductsOnCategory(
+      String category, String sortType) async {
+    print(sortType);
+    final response =
+        await http.post('$hostName/get-all-products-category.php', body: {
+      'mainCategory': category,
+      'sortType': sortType,
+    });
+
+    dataAllProductsCategory = json.decode(response.body);
+    final List<ProductShow> loadedAllProductsCategory = [];
+    if (dataAllProductsCategory == null) {
+      return;
+    }
+    print(dataAllProductsCategory);
+    dataOfflineAllProductsCategory = dataAllProductsCategory;
+    dataAllProductsCategory.forEach((newsId) {
+      if (newsId['discount'] != "0") {
+        double first =
+            double.parse(newsId['discount']) - double.parse(newsId['price']);
+        double second = first / double.parse(newsId['price']);
+        percentage2 = second * 100;
+      }
+      loadedAllProductsCategory.add(ProductShow(
+        id: newsId['id'],
+        image: newsId['image'],
+        title: newsId['title'],
+        titleEngilsh: newsId['titleEnglish'],
+        description: newsId['description'],
+        descriptionEnglish: newsId['descriptionEnglish'],
+        //favorite: productFavoritesIds.contains(newsId['id']) ? true : false,
+        mainCategory: newsId['mainCategory'],
+        subCategories: newsId['subCategories'].toString().split(","),
+        price: newsId['price'],
+        discount: newsId['discount'],
+        discountPercentage: percentage2,
+        isQuestion: newsId['isQuestion'],
+        date: newsId['date'],
+      ));
+    });
+    fetchFavorites();
+    _allProductsCategory = loadedAllProductsCategory;
+
     notifyListeners();
   }
 
@@ -159,6 +215,7 @@ class AllProviders extends ChangeNotifier {
         discount: newsId['discount'],
         discountPercentage: percentage,
         isQuestion: newsId['isQuestion'],
+        date: newsId['date'],
       ));
     });
     fetchFavorites();
@@ -277,7 +334,9 @@ class AllProviders extends ChangeNotifier {
     });
 
     if (selectedColor == "" || selectedColor == null) {
-      return Text("اختر احد الالوان");
+      return Text(Languages.selectedLanguage == 0
+          ? "اختر احد الالوان"
+          : "choose one color");
     } else {
       sizesForSelectedColor.forEach((element) {
         lastWidgets.add(
@@ -437,9 +496,6 @@ class AllProviders extends ChangeNotifier {
       });
       fetchFavorites();
     }
-
-
-
 
     // productFavoritesIds.forEach((value) {
     //   print(value);

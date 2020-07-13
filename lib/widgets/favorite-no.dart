@@ -1,8 +1,12 @@
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FavoriteNoProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<Languages>(context);
+
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Center(
@@ -15,7 +19,8 @@ class FavoriteNoProducts extends StatelessWidget {
               color: Theme.of(context).bottomAppBarColor.withOpacity(0.2),
             ),
             Text(
-              "ليس هناك اي منتجات مضافة الى المفضلات",
+              lang.translation['noFacoriteProducts']
+                  [Languages.selectedLanguage],
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -23,18 +28,19 @@ class FavoriteNoProducts extends StatelessWidget {
                 color: Theme.of(context).bottomAppBarColor.withOpacity(0.4),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 30),
-              child: RaisedButton(
-                padding: EdgeInsets.all(12),
-                child: Text(
-                  "اضف المزيد",
-                  style: TextStyle(color: Colors.white, fontSize: 23),
-                ),
-                color: Theme.of(context).primaryColor,
-                onPressed: () {},
-              ),
-            )
+            // Container(
+            //   margin: EdgeInsets.only(top: 30),
+            //   child: RaisedButton(
+            //     padding: EdgeInsets.all(12),
+            //     child: Text(
+            //       lang.translation['addMoreFavorite']
+            //           [Languages.selectedLanguage],
+            //       style: TextStyle(color: Colors.white, fontSize: 23),
+            //     ),
+            //     color: Theme.of(context).primaryColor,
+            //     onPressed: () {},
+            //   ),
+            // )
           ],
         ),
       ),

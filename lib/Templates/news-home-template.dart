@@ -1,5 +1,6 @@
 import 'package:ecommerce_template/models/News.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/posts-pressed-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,31 +32,59 @@ class _PostsHomeTemplateState extends State<PostsHomeTemplate> {
       child: Container(
         margin: EdgeInsets.all(10),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Flexible(
-              child: Text(
-                widget.news.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                textDirection: TextDirection.rtl,
-                style: TextStyle(fontSize: 18, color: Colors.black87),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              child: Hero(
-                tag: widget.news.id,
-                child: FadeInImage(
-                  placeholder: AssetImage('assets/images/placeholder.png'),
-                  width: 100,
-                  image: NetworkImage(
-                      "${AllProviders.hostName}/images/posts/${widget.news.image}"),
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
-            ),
-          ],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: Languages.selectedLanguage == 0
+              ? <Widget>[
+                  Flexible(
+                    child: Text(
+                      widget.news.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textDirection: TextDirection.rtl,
+                      style: TextStyle(fontSize: 18, color: Colors.black87),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Hero(
+                      tag: widget.news.id,
+                      child: FadeInImage(
+                        placeholder:
+                            AssetImage('assets/images/placeholder.png'),
+                        width: 100,
+                        image: NetworkImage(
+                            "${AllProviders.hostName}/images/posts/${widget.news.image}"),
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  ),
+                ]
+              : <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child: Hero(
+                      tag: widget.news.id,
+                      child: FadeInImage(
+                        placeholder:
+                            AssetImage('assets/images/placeholder.png'),
+                        width: 100,
+                        image: NetworkImage(
+                            "${AllProviders.hostName}/images/posts/${widget.news.image}"),
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      widget.news.titleEnglish,
+                      textAlign: TextAlign.left,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textDirection: TextDirection.ltr,
+                      style: TextStyle(fontSize: 18, color: Colors.black87),
+                    ),
+                  ),
+                ],
         ),
       ),
     );

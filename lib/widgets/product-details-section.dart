@@ -1,5 +1,6 @@
 import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 import 'package:provider/provider.dart';
@@ -127,8 +128,12 @@ class ProductDetailsPressed extends StatelessWidget {
             children: <Widget>[
               Container(
                 child: Text(
-                  "${product.title}",
-                  textAlign: TextAlign.justify,
+                  Languages.selectedLanguage == 0
+                      ? "${product.title}"
+                      : "${product.titleEngilsh}",
+                  textAlign: Languages.selectedLanguage == 0
+                      ? TextAlign.justify
+                      : TextAlign.left,
                   style: TextStyle(
                       fontFamily: 'tajawal',
                       color: Theme.of(context).bottomAppBarColor,

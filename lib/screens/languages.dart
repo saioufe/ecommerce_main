@@ -1,5 +1,6 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,7 +34,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
   @override
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
-
+    final lang = Provider.of<Languages>(context);
     return WillPopScope(
       onWillPop: () {
         print("sas");
@@ -47,12 +48,12 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
           iconTheme: IconThemeData(color: Colors.white),
           actions: <Widget>[
             Container(
-              margin: EdgeInsets.all(20),
+              margin: EdgeInsets.only(top: 20, right: 20),
               child: Text(
-                "اللغة",
+                lang.translation['LanguageTitle'][Languages.selectedLanguage],
                 style: TextStyle(
                   fontSize: 23,
-                  fontWeight: FontWeight.w600,
+                  //fontWeight: FontWeight.w600,
                   color: Colors.white,
                 ),
               ),
@@ -70,10 +71,20 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                   height: 20,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    lang.saveLanguageIndex(0);
+                    Languages.selectedLanguage = 0;
+                    lang.saveLanguageIndex(0);
+                    //setState(() {});
+                    //Navigator.of(context).pop();
+                  },
                   child: Container(
-                    margin: EdgeInsets.only(right: 15),
-                    alignment: Alignment.centerRight,
+                    margin: Languages.selectedLanguage == 0
+                        ? EdgeInsets.only(right: 15)
+                        : EdgeInsets.only(left: 15),
+                    alignment: Languages.selectedLanguage == 0
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
                     child: Text(
                       "اللغة العربية",
                       textAlign: TextAlign.right,
@@ -83,10 +94,18 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                 ),
                 Divider(),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    lang.saveLanguageIndex(1);
+                    Languages.selectedLanguage = 1;
+                    lang.saveLanguageIndex(1);
+                  },
                   child: Container(
-                    alignment: Alignment.centerRight,
-                    margin: EdgeInsets.only(right: 15),
+                    alignment: Languages.selectedLanguage == 0
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    margin: Languages.selectedLanguage == 0
+                        ? EdgeInsets.only(right: 15)
+                        : EdgeInsets.only(left: 15),
                     child: Text(
                       "English Language",
                       textAlign: TextAlign.right,

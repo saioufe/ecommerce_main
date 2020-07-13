@@ -14,6 +14,7 @@ class ProductShow {
   final String discount;
   final double discountPercentage;
   final String isQuestion;
+  final String date;
 
   ProductShow({
     this.id,
@@ -28,6 +29,7 @@ class ProductShow {
     this.price,
     this.discount,
     this.discountPercentage,
-    @required this.isQuestion,
+    this.isQuestion,
+    @required this.date
   });
 }

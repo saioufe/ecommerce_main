@@ -4,6 +4,7 @@ import 'package:ecommerce_template/Templates/searched-word-history.dart';
 import 'package:ecommerce_template/models/Product-show.dart';
 import 'package:ecommerce_template/providers/application.dart';
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/add-address-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,8 @@ class _AddressesScreenState extends State<AddressesScreen> {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: true);
+    final lang = Provider.of<Languages>(context);
+
     // appProvider.sharePrefsContaine("search");
     return SafeArea(
       child: Scaffold(
@@ -55,7 +58,8 @@ class _AddressesScreenState extends State<AddressesScreen> {
                       //width: MediaQuery.of(context).size.width,
                       //alignment: Alignment.centerRight,
                       child: Text(
-                        "عناوين التوصيل",
+                        lang.translation['shippingAddressTitle']
+                            [Languages.selectedLanguage],
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontSize: 20,
@@ -81,7 +85,10 @@ class _AddressesScreenState extends State<AddressesScreen> {
                       );
                     } else if (authResultSnap.hasError) {
                       Center(
-                        child: Text("تفقد من الاتصال بلانترنت"),
+                        child: Text(
+                          lang.translation['checkInternet']
+                              [Languages.selectedLanguage],
+                        ),
                       );
                       return RaisedButton(
                         onPressed: () {
@@ -90,7 +97,9 @@ class _AddressesScreenState extends State<AddressesScreen> {
                           });
                           print(authResultSnap.error.toString());
                         },
-                        child: Text("تفقد من الاتصال بلانترنت",
+                        child: Text(
+                            lang.translation['checkInternet']
+                                [Languages.selectedLanguage],
                             style: TextStyle(color: Colors.black)),
                       );
                     } else {
@@ -117,7 +126,8 @@ class _AddressesScreenState extends State<AddressesScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              "ليس هناك اي عنوان مدرج , يرجى اضافة عنوان جديد",
+                              lang.translation['thersisNoAddressHaveBeenAdded']
+                                  [Languages.selectedLanguage],
                               textDirection: TextDirection.rtl,
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -140,11 +150,12 @@ class _AddressesScreenState extends State<AddressesScreen> {
                     )
                   : SizedBox(),
               Container(
-                margin: EdgeInsets.only(top: 10 , bottom: 140),
+                margin: EdgeInsets.only(top: 10, bottom: 140),
                 child: RaisedButton(
                   padding: EdgeInsets.all(12),
                   child: Text(
-                    "اضافة عنوان جديد",
+                    lang.translation['addNewShippingAddress']
+                        [Languages.selectedLanguage],
                     style: TextStyle(color: Colors.white, fontSize: 23),
                   ),
                   color: Theme.of(context).primaryColor,
