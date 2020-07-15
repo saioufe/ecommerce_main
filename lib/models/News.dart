@@ -8,6 +8,8 @@ class News {
   final String textEnglish;
   final String image;
   final String date;
+  final String showPosts;
+
 
   News({
     this.id,
@@ -17,5 +19,6 @@ class News {
     this.textEnglish,
     this.image,
     this.date,
+    @required this.showPosts,
   });
 }

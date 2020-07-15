@@ -58,14 +58,18 @@ class _ProductImageViewerState extends State<ProductImageViewer> {
         ),
       ),
       body: ExtendedImageGesturePageView.builder(
+        
         itemBuilder: (BuildContext context, int index) {
+          
+          
           var item = widget.pics[index];
           Widget image = ExtendedImage.network(
             item,
             initGestureConfigHandler: (s) {
               return GestureConfig(
+               
                 inPageView: true, initialScale: 1.0,
-
+              
                 //you can cache gesture state even though page view page change.
                 //remember call clearGestureDetailsCache() method at the right time.(for example,this page dispose)
                 cacheGesture: true,
@@ -74,6 +78,7 @@ class _ProductImageViewerState extends State<ProductImageViewer> {
             fit: BoxFit.contain,
             mode: ExtendedImageMode.gesture,
             cache: true,
+
           );
           image = Container(
             child: image,

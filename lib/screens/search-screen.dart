@@ -117,6 +117,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               subCategories: item.subCategories,
                               isQuestion: item.isQuestion,
                               date: item.date,
+                              noColor: item.noColor,
                             ),
                             isMain: false,
                           );

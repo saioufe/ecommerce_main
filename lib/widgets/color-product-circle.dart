@@ -21,7 +21,8 @@ class _ColorProductCircleState extends State<ColorProductCircle> {
       onTap: () {
         setState(() {
           borderOn = !borderOn;
-
+          AllProviders.selectedDiscount = '';
+          AllProviders.selectedPercentage = 0.0;
           allposts.isAnyColorSelected(widget.color.toString());
 
           AllProviders.selectedSize = '';

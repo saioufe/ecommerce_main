@@ -95,56 +95,58 @@ class _CartItemState extends State<CartItem> {
                               fontSize: 19,
                               color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.bold)),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.grey.withOpacity(0.1),
-                                width: 4,
-                              ),
-                            ),
-                            child: Center(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: widget.cartItem.productColor,
-                                    shape: BoxShape.circle),
-                                child: SizedBox(
-                                  height: 10,
-                                  width: 10,
+                      widget.cartItem.product.noColor != "1"
+                          ? Row(
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.grey.withOpacity(0.1),
+                                      width: 4,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: widget.cartItem.productColor,
+                                          shape: BoxShape.circle),
+                                      child: SizedBox(
+                                        height: 10,
+                                        width: 10,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              border: Border.all(
-                                color: Colors.grey.withOpacity(0.1),
-                                width: 2,
-                              ),
-                            ),
-                            child: Center(
-                              child: Container(
-                                padding:
-                                    EdgeInsets.only(top: 8, left: 5, right: 5),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.rectangle),
-                                child: Center(
-                                    child: Text(
-                                  widget.cartItem.productSize,
-                                  style: TextStyle(fontSize: 13),
-                                  textAlign: TextAlign.center,
-                                )),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4)),
+                                    border: Border.all(
+                                      color: Colors.grey.withOpacity(0.1),
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                          top: 8, left: 5, right: 5),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.rectangle),
+                                      child: Center(
+                                          child: Text(
+                                        widget.cartItem.productSize,
+                                        style: TextStyle(fontSize: 13),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : SizedBox(),
                     ],
                   ),
                 ),

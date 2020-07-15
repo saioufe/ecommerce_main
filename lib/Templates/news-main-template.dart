@@ -15,14 +15,14 @@ class NewsTemplate extends StatelessWidget {
           children: allPosts.posts.map((item) {
         return Template(
           news: News(
-            id: item.id,
-            title: item.title,
-            titleEnglish: item.titleEnglish,
-            text: item.text,
-            textEnglish: item.textEnglish,
-            date: item.date,
-            image: item.image,
-          ),
+              id: item.id,
+              title: item.title,
+              titleEnglish: item.titleEnglish,
+              text: item.text,
+              textEnglish: item.textEnglish,
+              date: item.date,
+              image: item.image,
+              showPosts: item.showPosts),
         );
       }).toList()),
     );

@@ -41,13 +41,13 @@ class _MainScreenState extends State<MainScreen> {
 
     OneSignal.shared.setNotificationReceivedHandler((notification) {
       String data = notification.payload.additionalData['id'].toString();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PressedProduct(
-              isMain: true,
-            ),
-          ));
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => PressedProduct(
+      //         isMain: true,
+      //       ),
+      //     ));
       print("this is the data and the payload for the notification : $data");
     });
 
@@ -61,11 +61,11 @@ class _MainScreenState extends State<MainScreen> {
         CartScreen(controller: _controller),
         SearchScreen(),
         CategoriesScreen(),
-        HomeScreen(),
+        HomeScreen(controller: _controller),
       ];
     } else {
       return [
-        HomeScreen(),
+        HomeScreen(controller: _controller),
         CategoriesScreen(),
         SearchScreen(),
         CartScreen(controller: _controller),

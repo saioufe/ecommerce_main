@@ -135,14 +135,14 @@ class _NewsScreenState extends State<NewsScreen> {
                                       children: allposts.posts.map((item) {
                                     return PostsHomeTemplate(
                                       news: News(
-                                        id: item.id,
-                                        title: item.title,
-                                        text: item.text,
-                                        titleEnglish: item.titleEnglish,
-                                        textEnglish: item.textEnglish,
-                                        image: item.image,
-                                        date: item.date,
-                                      ),
+                                          id: item.id,
+                                          title: item.title,
+                                          text: item.text,
+                                          titleEnglish: item.titleEnglish,
+                                          textEnglish: item.textEnglish,
+                                          image: item.image,
+                                          date: item.date,
+                                          showPosts: item.showPosts),
                                     );
                                   }).toList());
                                 }
@@ -151,14 +151,14 @@ class _NewsScreenState extends State<NewsScreen> {
                               children: allposts.posts.map((item) {
                               return PostsHomeTemplate(
                                 news: News(
-                                  id: item.id,
-                                  title: item.title,
-                                  text: item.text,
-                                  titleEnglish: item.titleEnglish,
-                                  textEnglish: item.textEnglish,
-                                  image: item.image,
-                                  date: item.date,
-                                ),
+                                    id: item.id,
+                                    title: item.title,
+                                    text: item.text,
+                                    titleEnglish: item.titleEnglish,
+                                    textEnglish: item.textEnglish,
+                                    image: item.image,
+                                    date: item.date,
+                                    showPosts: item.showPosts),
                               );
                             }).toList()),
                     ),

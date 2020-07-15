@@ -14,15 +14,15 @@ import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
-//import 'package:onesignal_flutter/onesignal_flutter.dart';
-//import 'package:flutter_downloader/flutter_downloader.dart';
-// import 'package:provider/provider.dart';
-// import './providers/allProvider.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+
 // import 'package:flare_splash_screen/flare_splash_screen.dart';
 
 void main() async {
 //Remove this method to stop OneSignal Debugging
   WidgetsFlutterBinding.ensureInitialized();
+
   OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
   OneSignal.shared.init("0ae33daf-adcb-40b4-a128-f7a3fa6b2ea9", iOSSettings: {
@@ -48,6 +48,7 @@ void main() async {
         ChangeNotifierProxyProvider<AllProviders, CartProvider>(
           update: (context, allProviders, applicationProvider) =>
               CartProvider(allProviders),
+          create: (BuildContext context) => CartProvider(null),
         ),
         ChangeNotifierProvider.value(
           value: Languages(),
@@ -70,21 +71,28 @@ void main() async {
           create: (BuildContext context) => ApplicationProvider(null),
         ),
       ],
-      child: Consumer<ThemeManager>(builder: (context, manager, _) {
-        return MaterialApp(
+      child: Phoenix(
+        child: Consumer<ThemeManager>(builder: (context, manager, _) {
+          return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: manager.themeData,
             title: 'Ecommerce Creative Projects',
-            home: MainScreen(0));
-        // SplashScreen.navigate(
-        //   name: 'assets/images/hairderLab.flr',
-        //   next: (_) => MainScreen(0),
-        //   until: () => Future.delayed(Duration(seconds: 1)),
-        //   startAnimation: 'Untitled',
-        //   backgroundColor: Colors.white,
-        //   endAnimation: '1',
-        // ),
-      }),
+            home: MainScreen(0),
+            initialRoute: '/',
+            routes: {
+              MainScreen.routeName: (ctx) => MainScreen(0),
+            },
+          );
+          // SplashScreen.navigate(
+          //   name: 'assets/images/hairderLab.flr',
+          //   next: (_) => MainScreen(0),
+          //   until: () => Future.delayed(Duration(seconds: 1)),
+          //   startAnimation: 'Untitled',
+          //   backgroundColor: Colors.white,
+          //   endAnimation: '1',
+          // ),
+        }),
+      ),
     ),
   );
 }

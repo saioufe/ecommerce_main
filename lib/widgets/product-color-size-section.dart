@@ -42,129 +42,177 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
       ),
       child: Column(
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width / 1.7,
-                    child: Scrollbar(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: AllProviders.dataOfflineAllProductsColors == null
-                            ? FutureBuilder(
-                                future: allposts
-                                    .fetchDataProductColors(widget.product.id),
-                                builder: (ctx, authResultSnap) {
-                                  if (authResultSnap.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return CircularProgressIndicator();
-                                  } else if (authResultSnap.hasError) {
-                                    Center(
-                                      child: Text(
-                                        lang.translation['checkInternet']
-                                            [Languages.selectedLanguage],
-                                      ),
-                                    );
-                                    return RaisedButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          //other.getUserLocation();
-                                        });
-                                        print(authResultSnap.error.toString());
-                                      },
-                                      child: Text(
-                                          lang.translation['checkInternet']
-                                              [Languages.selectedLanguage],
-                                          style:
-                                              TextStyle(color: Colors.black)),
-                                    );
-                                  } else {
-                                    return Row(
+          widget.product.noColor != "1"
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width / 1.7,
+                            child: Scrollbar(
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: AllProviders
+                                            .dataOfflineAllProductsColors ==
+                                        null
+                                    ? FutureBuilder(
+                                        future: allposts.fetchDataProductColors(
+                                            widget.product.id),
+                                        builder: (ctx, authResultSnap) {
+                                          if (authResultSnap.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return CircularProgressIndicator();
+                                          } else if (authResultSnap.hasError) {
+                                            Center(
+                                              child: Text(
+                                                lang.translation[
+                                                        'checkInternet'][
+                                                    Languages.selectedLanguage],
+                                              ),
+                                            );
+                                            return RaisedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  //other.getUserLocation();
+                                                });
+                                                print(authResultSnap.error
+                                                    .toString());
+                                              },
+                                              child: Text(
+                                                  lang.translation[
+                                                          'checkInternet'][
+                                                      Languages
+                                                          .selectedLanguage],
+                                                  style: TextStyle(
+                                                      color: Colors.black)),
+                                            );
+                                          } else {
+                                            return Row(
+                                                children: allposts.colorList
+                                                    .map((item) {
+                                              final hexCode =
+                                                  item.replaceAll('#', '');
+                                              final color = Color(int.parse(
+                                                  'FF$hexCode',
+                                                  radix: 16));
+
+                                              return ColorProductCircle(
+                                                color: color,
+                                              );
+                                            }).toList());
+                                          }
+                                        })
+                                    : Row(
                                         children:
                                             allposts.colorList.map((item) {
-                                      final hexCode = item.replaceAll('#', '');
-                                      final color = Color(
-                                          int.parse('FF$hexCode', radix: 16));
+                                        final hexCode =
+                                            item.replaceAll('#', '');
+                                        final color = Color(
+                                            int.parse('FF$hexCode', radix: 16));
 
-                                      return ColorProductCircle(
-                                        color: color,
-                                      );
-                                    }).toList());
-                                  }
-                                })
-                            : Row(
-                                children: allposts.colorList.map((item) {
-                                final hexCode = item.replaceAll('#', '');
-                                final color =
-                                    Color(int.parse('FF$hexCode', radix: 16));
-
-                                return ColorProductCircle(
-                                  color: color,
-                                );
-                              }).toList()),
+                                        return ColorProductCircle(
+                                          color: color,
+                                        );
+                                      }).toList()),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        child: Center(
+                          child: Text(
+                            lang.translation['ColorTitle']
+                                [Languages.selectedLanguage],
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                fontFamily: 'tajawal',
+                                color: Theme.of(context).bottomAppBarColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ])
+              : FutureBuilder(
+                  future:
+                      allposts.setPriceAndQuantityForNoColor(widget.product),
+                  builder: (ctx, authResultSnap) {
+                    if (authResultSnap.connectionState ==
+                        ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (authResultSnap.hasError) {
+                      Center(
+                        child: Text(
+                          lang.translation['checkInternet']
+                              [Languages.selectedLanguage],
+                        ),
+                      );
+                      return RaisedButton(
+                        onPressed: () {
+                          setState(() {
+                            //other.getUserLocation();
+                          });
+                          print(authResultSnap.error.toString());
+                        },
+                        child: Text(
+                            lang.translation['checkInternet']
+                                [Languages.selectedLanguage],
+                            style: TextStyle(color: Colors.black)),
+                      );
+                    } else {
+                      return SizedBox();
+                    }
+                  }),
+          widget.product.noColor != "1"
+              ? Divider(
+                  endIndent: 40,
+                  indent: 40,
+                )
+              : SizedBox(),
+          widget.product.noColor != "1"
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.7,
+                          child: Scrollbar(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: allposts.getSizes(widget.product.id),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      child: Center(
+                        child: Text(
+                          lang.translation['sizeTitle']
+                              [Languages.selectedLanguage],
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              fontFamily: 'tajawal',
+                              color: Theme.of(context).bottomAppBarColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Container(
-                child: Center(
-                  child: Text(
-                    lang.translation['ColorTitle'][Languages.selectedLanguage],
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontFamily: 'tajawal',
-                        color: Theme.of(context).bottomAppBarColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Divider(
-            endIndent: 40,
-            indent: 40,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width / 1.7,
-                    child: Scrollbar(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: allposts.getSizes(widget.product.id),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Container(
-                child: Center(
-                  child: Text(
-                    lang.translation['sizeTitle'][Languages.selectedLanguage],
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontFamily: 'tajawal',
-                        color: Theme.of(context).bottomAppBarColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Divider(
-            endIndent: 40,
-            indent: 40,
-          ),
+                  ],
+                )
+              : SizedBox(),
+          widget.product.noColor != "1"
+              ? Divider(
+                  endIndent: 40,
+                  indent: 40,
+                )
+              : SizedBox(),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[

@@ -56,7 +56,7 @@ class _CategoryHomeTemplateState extends State<CategoryHomeTemplate> {
                     child: FadeInImage(
                       placeholder: AssetImage('assets/images/placeholder.png'),
                       height: 190,
-                      width: 200,
+                      width: 250,
                       image: NetworkImage(
                           "${AllProviders.hostName}/images/categories/${widget.category.image}"),
                       fit: BoxFit.cover,

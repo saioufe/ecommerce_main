@@ -6,6 +6,7 @@ import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.wid
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'allProviders.dart';
+import 'languages.dart';
 
 class UserProvider with ChangeNotifier {
   static bool isLogin = false;
@@ -104,7 +105,7 @@ class UserProvider with ChangeNotifier {
             password: item['password'],
             phone: item['phone'],
           ));
-          prefs.setInt('id',int.parse(item['id']));
+          prefs.setInt('id', int.parse(item['id']));
           prefs.setString('name', item['name']);
           prefs.setString('email', item['email']);
           prefs.setString('password', item['password']);
@@ -133,7 +134,9 @@ class UserProvider with ChangeNotifier {
     prefs.remove("phone");
     isLogin = false;
     //showInSnackBar("تم تسجيل الخروج", context);
-    pageController.jumpToTab(4);
+    Languages.selectedLanguage == 0
+        ? pageController.jumpToTab(4)
+        : pageController.jumpToTab(0);
   }
 
   bool once = false;

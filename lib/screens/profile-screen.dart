@@ -206,78 +206,92 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     )
                   : SizedBox(),
-              Container(
-                margin:
-                    EdgeInsets.only(right: 25, top: 15, bottom: 15, left: 25),
-                alignment: Languages.selectedLanguage == 0
-                    ? Alignment.centerRight
-                    : Alignment.centerLeft,
-                child: Text(
-                  lang.translation['accountTitle'][Languages.selectedLanguage],
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).bottomAppBarColor,
-                  ),
-                ),
-              ),
-              SettingTemplate(
-                title: lang.translation['FavoriteTitle']
-                    [Languages.selectedLanguage],
-                onTap: () {
-                  setState(() {
-                    allPro.NavBarShow(false);
-                  });
+              UserProvider.isLogin == true
+                  ? Container(
+                      margin: EdgeInsets.only(
+                          right: 25, top: 15, bottom: 15, left: 25),
+                      alignment: Languages.selectedLanguage == 0
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Text(
+                        lang.translation['accountTitle']
+                            [Languages.selectedLanguage],
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).bottomAppBarColor,
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
+              UserProvider.isLogin == true
+                  ? SettingTemplate(
+                      title: lang.translation['FavoriteTitle']
+                          [Languages.selectedLanguage],
+                      onTap: () {
+                        setState(() {
+                          allPro.NavBarShow(false);
+                        });
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FavoriteScreen(),
-                      ));
-                },
-                lastWidget: Icon(
-                  Languages.selectedLanguage == 0
-                      ? Icons.keyboard_arrow_left
-                      : Icons.keyboard_arrow_right,
-                  color: Theme.of(context).bottomAppBarColor,
-                ),
-                icon: Icons.favorite,
-                notiNumber: allPro.numOfFavorite,
-              ),
-              Divider(
-                indent: 50,
-                endIndent: 50,
-                color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
-              ),
-              SettingTemplate(
-                title: lang.translation['OrdersTitle']
-                    [Languages.selectedLanguage],
-                lastWidget: Icon(
-                  Languages.selectedLanguage == 0
-                      ? Icons.keyboard_arrow_left
-                      : Icons.keyboard_arrow_right,
-                  color: Theme.of(context).bottomAppBarColor,
-                ),
-                icon: EcommerceIcons.shopping_cart,
-                notiNumber:
-                    cartPro.cartItemNumber != null ? cartPro.cartItemNumber : 0,
-                onTap: () {
-                  setState(() {
-                    allPro.NavBarShow(false);
-                  });
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FavoriteScreen(),
+                            ));
+                      },
+                      lastWidget: Icon(
+                        Languages.selectedLanguage == 0
+                            ? Icons.keyboard_arrow_left
+                            : Icons.keyboard_arrow_right,
+                        color: Theme.of(context).bottomAppBarColor,
+                      ),
+                      icon: Icons.favorite,
+                      notiNumber: allPro.numOfFavorite,
+                    )
+                  : SizedBox(),
+              UserProvider.isLogin == true
+                  ? Divider(
+                      indent: 50,
+                      endIndent: 50,
+                      color:
+                          Theme.of(context).bottomAppBarColor.withOpacity(0.3),
+                    )
+                  : SizedBox(),
+              UserProvider.isLogin == true
+                  ? SettingTemplate(
+                      title: lang.translation['OrdersTitle']
+                          [Languages.selectedLanguage],
+                      lastWidget: Icon(
+                        Languages.selectedLanguage == 0
+                            ? Icons.keyboard_arrow_left
+                            : Icons.keyboard_arrow_right,
+                        color: Theme.of(context).bottomAppBarColor,
+                      ),
+                      icon: EcommerceIcons.shopping_cart,
+                      notiNumber: cartPro.cartItemNumber != null
+                          ? cartPro.cartItemNumber
+                          : 0,
+                      onTap: () {
+                        setState(() {
+                          allPro.NavBarShow(false);
+                        });
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OrderHistoryScreen(),
-                      ));
-                },
-              ),
-              Divider(
-                indent: 50,
-                endIndent: 50,
-                color: Theme.of(context).bottomAppBarColor.withOpacity(0.3),
-              ),
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OrderHistoryScreen(),
+                            ));
+                      },
+                    )
+                  : SizedBox(),
+              UserProvider.isLogin == true
+                  ? Divider(
+                      indent: 50,
+                      endIndent: 50,
+                      color:
+                          Theme.of(context).bottomAppBarColor.withOpacity(0.3),
+                    )
+                  : SizedBox(),
               Container(
                 margin:
                     EdgeInsets.only(right: 25, top: 15, bottom: 15, left: 25),

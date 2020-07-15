@@ -15,7 +15,8 @@ class ProductShow {
   final double discountPercentage;
   final String isQuestion;
   final String date;
-
+  final String noColor;
+  final String sliderId;
   ProductShow({
     this.id,
     this.title,
@@ -30,6 +31,8 @@ class ProductShow {
     this.discount,
     this.discountPercentage,
     this.isQuestion,
-    @required this.date
+    this.date,
+    this.noColor,
+    this.sliderId,
   });
 }

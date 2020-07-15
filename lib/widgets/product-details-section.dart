@@ -58,7 +58,7 @@ class ProductDetailsPressed extends StatelessWidget {
                       ),
                     ),
                   ),
-                  allposts.selectedPercentage != 0.0
+                  AllProviders.selectedPercentage != 0.0
                       ? Row(
                           children: <Widget>[
                             Container(
@@ -87,7 +87,7 @@ class ProductDetailsPressed extends StatelessWidget {
                               color: Colors.redAccent.withOpacity(0.3),
                               child: Center(
                                 child: Text(
-                                  "${allposts.selectedPercentage.toStringAsFixed(1)}%",
+                                  "${AllProviders.selectedPercentage.toStringAsFixed(1)}%",
                                   style: TextStyle(
                                     color: Colors.red,
                                     fontWeight: FontWeight.bold,

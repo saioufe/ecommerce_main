@@ -22,8 +22,7 @@ class OldOrderTemplate extends StatelessWidget {
           Container(
             margin: EdgeInsets.all(15),
             child: Text(
-              "تفاصيل الطلب",
-              lang.translation['checkInternet'][Languages.selectedLanguage],
+              lang.translation['orderDetails'][Languages.selectedLanguage],
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -56,11 +55,15 @@ class OldOrderTemplate extends StatelessWidget {
                     ),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: Languages.selectedLanguage == 0
+                        ? CrossAxisAlignment.end
+                        : CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("تفاصيل الطلب"),
-                      lang.translation['checkInternet']
-                          [Languages.selectedLanguage],
+                      Text(
+                        lang.translation['orderDetails']
+                            [Languages.selectedLanguage],
+                      ),
+
                       Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -111,9 +114,11 @@ class OldOrderTemplate extends StatelessWidget {
                       SizedBox(
                         height: 40,
                       ),
-                      Text("عنوان الطلب"),
-                      lang.translation['checkInternet']
-                          [Languages.selectedLanguage],
+                      Text(
+                        lang.translation['orderAddress']
+                            [Languages.selectedLanguage],
+                      ),
+
                       Divider(),
                       Text(
                         "${order.address}",
@@ -122,9 +127,11 @@ class OldOrderTemplate extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      Text("منتجات الطلب"),
-                      lang.translation['checkInternet']
-                          [Languages.selectedLanguage],
+                      Text(
+                        lang.translation['orderProducts']
+                            [Languages.selectedLanguage],
+                      ),
+
                       Divider(),
                       Column(
                           children: order.productsName
@@ -225,11 +232,14 @@ class OldOrderTemplate extends StatelessWidget {
                     // ),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: Languages.selectedLanguage == 0
+                        ? CrossAxisAlignment.end
+                        : CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("تتبع الطلب"),
-                      lang.translation['checkInternet']
-                          [Languages.selectedLanguage],
+                      Text(
+                        lang.translation['FollowOrder']
+                            [Languages.selectedLanguage],
+                      ),
                       Divider(),
                       Container(
                         margin: EdgeInsets.all(20),
@@ -251,9 +261,10 @@ class OldOrderTemplate extends StatelessWidget {
                       SizedBox(
                         height: 40,
                       ),
-                      Text("المزيد من التفاصيل"),
-                      lang.translation['checkInternet']
-                          [Languages.selectedLanguage],
+                      Text(
+                        lang.translation['moreDetails']
+                            [Languages.selectedLanguage],
+                      ),
                       Divider(),
                       SizedBox(
                         height: 10,
@@ -296,8 +307,9 @@ class OldOrderTemplate extends StatelessWidget {
             ),
           ],
         ),
-        Text("تم استلام طلبك"),
-        lang.translation['checkInternet'][Languages.selectedLanguage],
+        Text(Languages.selectedLanguage == 0
+            ? "تم استلام طلبك"
+            : 'Order is Pending'),
       ],
     ),
     Row(
@@ -319,8 +331,9 @@ class OldOrderTemplate extends StatelessWidget {
             ),
           ],
         ),
-        Text("الطلب قيد التجهيز"),
-        lang.translation['checkInternet'][Languages.selectedLanguage],
+        Text(Languages.selectedLanguage == 0
+            ? "الطلب قيد التجهيز"
+            : 'Processing Order'),
       ],
     ),
     Row(
@@ -342,7 +355,9 @@ class OldOrderTemplate extends StatelessWidget {
             ),
           ],
         ),
-        Text("الطلب قيد التسليم"),
+        Text(Languages.selectedLanguage == 0
+            ? "الطلب قيد التسليم"
+            : 'Delivering Order'),
       ],
     ),
     Row(
@@ -364,8 +379,7 @@ class OldOrderTemplate extends StatelessWidget {
             ),
           ],
         ),
-        Text("تم التسليم"),
-        lang.translation['checkInternet'][Languages.selectedLanguage],
+        Text(Languages.selectedLanguage == 0 ? "تم التسليم" : 'Delivered'),
       ],
     ),
     Row(
@@ -379,8 +393,9 @@ class OldOrderTemplate extends StatelessWidget {
             ),
           ],
         ),
-        Text("تم رفض الطلب"),
-        lang.translation['checkInternet'][Languages.selectedLanguage],
+        Text(Languages.selectedLanguage == 0
+            ? "تم رفض الطلب"
+            : 'order Rejected'),
       ],
     ),
   ];

@@ -3,11 +3,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Languages extends ChangeNotifier {
   List<int> langClicked = [1, 0];
-
+  bool onceChangeMain = false;
   Map<String, List<String>> translation = {
     'checkInternet': [
       'تفقد من الاتصال بلانترنت',
       'Check your internet connection !',
+    ],
+    'noInternetConeection': [
+      'ليس هنالك اتصال بلانترنت يرجى اعادة المحاولة',
+      'No internet connection , Please retry again!',
+    ],
+    'noInternetConeectionRetryButton': [
+      'اعد المحاولة',
+      'Retry',
     ],
     'LanguageTitle': [
       'اللغة',
@@ -37,11 +45,11 @@ class Languages extends ChangeNotifier {
       'الطلبات',
       'Orders history ',
     ],
-        'oldOrdersTitle': [
+    'oldOrdersTitle': [
       'الطلبات السابقة',
       'Last orders',
     ],
-        'recentOrdersTitle': [
+    'recentOrdersTitle': [
       'الطلبات الحالية',
       'Recent orders',
     ],
@@ -293,6 +301,10 @@ class Languages extends ChangeNotifier {
       'يرجى اختيار اللون والحجم',
       'Please select color and size',
     ],
+    'PleaseSignInFirst': [
+      'يرجى تسجيل الدخول اولا',
+      'Please Sign in first',
+    ],
     'similarProducts': [
       'منتجات مشابهة',
       'See More',
@@ -336,6 +348,78 @@ class Languages extends ChangeNotifier {
     'questionsTitle': [
       ' :  اسئلة',
       ': Questions',
+    ],
+    'orderDetails': [
+      'تفاصيل الطلب',
+      'Order History',
+    ],
+    'orderAddress': [
+      'عنوان الطلب',
+      'Order History',
+    ],
+    'orderProducts': [
+      'منتجات الطلب',
+      'Order Items',
+    ],
+    'FollowOrder': [
+      'تتبع الطلب',
+      'Track Order',
+    ],
+    'moreDetails': [
+      'المزيد من التفاصيل',
+      'More Details',
+    ],
+    'socialMedia': [
+      'وسائل التواصل',
+      'Follow Us',
+    ],
+    'orderDoneConti': [
+      'تمت العملية بنجاح يمكنك متابعة الطلب من الصفحة الشخصية',
+      'Order have been made successfully , you can track your order from settings screen',
+    ],
+    'OK': [
+      'حسنا',
+      'OK',
+    ],
+    'ConfirmeDate': [
+      'تاكد من المعلومات',
+      'Confirme Data',
+    ],
+    'CantApplyPromo': [
+      'لا يمكن تطبيق البروموكود',
+      'Can\'t Apply the promocode',
+    ],
+    'promocodeCorrect': [
+      'رمز البروموكود صحيح',
+      'promocode have been added',
+    ],
+    'wrongPromocode': [
+      'رمز البروموكود خطا',
+      'wrong promocode',
+    ],
+    'promocode': [
+      'بروموكود',
+      'Promocode',
+    ],
+    'price': [
+      ' : السعر',
+      ': Price',
+    ],
+    'delivery': [
+      ' : التوصيل',
+      'Delivery',
+    ],
+    'discount': [
+      ' : الخصم',
+      ': Discount',
+    ],
+    'total': [
+      ': المجموع',
+      ': Total',
+    ],
+    'confirmeTheBut': [
+      'تاكيد عملية الشراء',
+      'Confirme the process',
     ],
   };
   static int selectedLanguage = 0;

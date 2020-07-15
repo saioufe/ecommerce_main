@@ -358,13 +358,12 @@ class CartProvider with ChangeNotifier {
   String sizes = '';
   bool onceOrder = false;
   int index = 0;
-  Future<String> sendOrder(String promocode) async {
+  Future<void> sendOrder(String promocode) async {
     loadedAllCartItems.forEach((element2) {
       productNames += element2.product.title + ',';
       quantities += element2.productQuantity + ',';
       _allProviders.fetchDataProductColors(element2.product_id).then((value) {
         _allProviders.colors.forEach((element) async {
-          // loadedAllCartItems.forEach((element2) {
           final hexCode = element.color.replaceAll('#', '');
           final color = Color(int.parse('FF$hexCode', radix: 16));
 
@@ -375,8 +374,7 @@ class CartProvider with ChangeNotifier {
             sizes += element.size + ',';
             print(sizes);
             if (index == loadedAllCartItems.length) {
-              final respo = await http.post(
-                  '${AllProviders.hostName}/send-order-flutter.php',
+              await http.post('${AllProviders.hostName}/send-order-flutter.php',
                   body: {
                     'userId': UserProvider.userId.toString(),
                     'product_ids': productNames,
@@ -393,16 +391,63 @@ class CartProvider with ChangeNotifier {
                     'price': lastlastTotalPrice.toStringAsFixed(3),
                     'name': selectedAddress.name,
                   }).then((value) {
+                print(value);
                 if (value.body == 'done') {
                   isBuyed = true;
+                } else {
+                  isBuyed = false;
                 }
-                return value.body;
+                notifyListeners();
               });
             }
           }
-          //});
         });
       });
+    });
+  }
+
+  Future<void> sendOrder2(String promocode) async {
+    productNames = '';
+    colorsNames = '';
+    quantities = '';
+    sizes = '';
+    for (var i = 0; i < loadedAllCartItems.length; i++) {
+      productNames += loadedAllCartItems[i].product.title + ',';
+      quantities += loadedAllCartItems[i].productQuantity + ',';
+      sizes += loadedAllCartItems[i].productSize + ',';
+
+      String valueString = loadedAllCartItems[i]
+          .productColor
+          .toString()
+          .split('(0x')[1]
+          .split(')')[0]; // kind of hacky..
+
+      colorsNames += valueString + ',';
+    }
+
+    await http.post('${AllProviders.hostName}/send-order-flutter.php', body: {
+      'userId': UserProvider.userId.toString(),
+      'product_ids': productNames,
+      'colors': colorsNames,
+      'size': sizes,
+      'quantities': quantities,
+      'phone': selectedAddress.phone,
+      'address': selectedAddress.address +
+          ' ' +
+          selectedAddress.country +
+          ' ' +
+          selectedAddress.city,
+      'promocode': promocode,
+      'price': lastlastTotalPrice.toStringAsFixed(3),
+      'name': selectedAddress.name,
+    }).then((value) {
+      print(value);
+      if (value.body == 'done') {
+        isBuyed = true;
+      } else {
+        isBuyed = false;
+      }
+      notifyListeners();
     });
   }
 

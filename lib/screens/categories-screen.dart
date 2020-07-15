@@ -202,7 +202,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
+                        maxCrossAxisExtent:
+                            setPro.categories[0].mainCategoriesStyle == "type1"
+                                ? 300
+                                : 150,
                         childAspectRatio: 1 / 1.6,
                         crossAxisSpacing: 5.0,
                         mainAxisSpacing: 5.0,

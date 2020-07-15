@@ -40,6 +40,8 @@ dependencies:
   onesignal_flutter: ^2.4.1
   flushbar: ^1.10.4
   argon_buttons_flutter: ^1.0.5
+  connectivity: ^0.4.9
+  flutter_phoenix: ^0.1.0
 
 
 

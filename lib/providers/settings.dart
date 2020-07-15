@@ -44,6 +44,7 @@ class SettingsProvider extends ChangeNotifier {
               newsId['subCategoriesEnglish'].toString().split(","),
           showCategories: newsId['showCategories'],
           homeCategoriesStyle: newsId['homeCategoriesStyle'],
+          mainCategoriesStyle: newsId['mainCategoriesStyle'],
         ));
       });
       _categories = loadedAllCategories;

@@ -9,6 +9,7 @@ class Category {
   final List<String> subCategoriesEnglish;
   final String showCategories;
   final String homeCategoriesStyle;
+  final String mainCategoriesStyle;
 
   Category({
     this.id,
@@ -19,5 +20,6 @@ class Category {
     this.image,
     this.showCategories,
     this.homeCategoriesStyle,
+    @required  this.mainCategoriesStyle,
   });
 }

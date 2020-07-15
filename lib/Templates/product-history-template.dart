@@ -27,14 +27,14 @@ class _ProductHistoryTemplateState extends State<ProductHistoryTemplate> {
 
         // Navigator.of(context)
         //     .pushNamed(PressedProduct.routeName, arguments: widget.product);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PressedProduct(
-                product: widget.product,
-                isMain: widget.isMain,
-              ),
-            ));
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => PressedProduct(
+        //         product: widget.product,
+        //         isMain: widget.isMain,
+        //       ),
+        //     ));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(10)),

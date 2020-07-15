@@ -198,6 +198,7 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
                                             subCategories: item.subCategories,
                                             isQuestion: item.isQuestion,
                                             date: item.date,
+                                            noColor: item.noColor,
                                           ),
                                           isMain: false,
                                         );
@@ -235,6 +236,7 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
                                       subCategories: item.subCategories,
                                       isQuestion: item.isQuestion,
                                       date: item.date,
+                                      noColor: item.noColor,
                                     ),
                                     isMain: false,
                                   );

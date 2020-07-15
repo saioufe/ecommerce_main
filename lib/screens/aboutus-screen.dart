@@ -1,6 +1,7 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/application.dart';
+import 'package:ecommerce_template/providers/languages.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,12 +33,13 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final allPro = Provider.of<AllProviders>(context ,listen: false);
-    final application = Provider.of<ApplicationProvider>(context , listen: false);
+    final allPro = Provider.of<AllProviders>(context, listen: false);
+    final application =
+        Provider.of<ApplicationProvider>(context, listen: false);
+    final lang = Provider.of<Languages>(context);
 
     return WillPopScope(
       onWillPop: () {
-
         allPro.NavBarShow(true);
         return Future.value(true);
       },
@@ -49,7 +51,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               Container(
                 margin: EdgeInsets.all(16),
                 child: Text(
-                  "من نحن",
+                  lang.translation['aboutUs'][Languages.selectedLanguage],
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
@@ -66,7 +68,10 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   return CircularProgressIndicator();
                 } else if (authResultSnap.hasError) {
                   Center(
-                    child: Text("تفقد من الاتصال بلانترنت"),
+                    child: Text(
+                      lang.translation['checkInternet']
+                          [Languages.selectedLanguage],
+                    ),
                   );
                   return RaisedButton(
                     onPressed: () {
@@ -75,7 +80,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       });
                       print(authResultSnap.error.toString());
                     },
-                    child: Text("تفقد من الاتصال بلانترنت",
+                    child: Text(
+                        lang.translation['checkInternet']
+                            [Languages.selectedLanguage],
                         style: TextStyle(color: Colors.black)),
                   );
                 } else {
@@ -83,7 +90,10 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                     padding: EdgeInsets.all(20),
                     child: Column(
                       children: <Widget>[
-                        Text("من نحن"),
+                        Text(
+                          lang.translation['aboutUs']
+                              [Languages.selectedLanguage],
+                        ),
                         Divider(
                           endIndent: 100,
                           indent: 100,
@@ -110,7 +120,10 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                         Container(
                           child: Column(
                             children: <Widget>[
-                              Text("وسائل التواصل"),
+                              Text(
+                                lang.translation['socialMedia']
+                                    [Languages.selectedLanguage],
+                              ),
                               SizedBox(
                                 height: 20,
                               ),

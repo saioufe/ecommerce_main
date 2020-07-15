@@ -71,10 +71,64 @@ class AllProviders extends ChangeNotifier {
         discountPercentage: percentage2,
         isQuestion: newsId['isQuestion'],
         date: newsId['date'],
+        noColor: newsId['noColor'],
       ));
     });
-    fetchFavorites();
     _allProductsCategory = loadedAllProductsCategory;
+
+    notifyListeners();
+  }
+
+  List<ProductShow> _allProductsSimilar = [];
+  List<ProductShow> get allProductsSimilar {
+    return _allProductsSimilar;
+  }
+
+  List dataAllProductsSimilar = [];
+  List<ProductShow> loadedAllProductsSimilar;
+  static List<dynamic> dataOfflineAllProductsSimilar;
+  double percentage3;
+  Future<void> fetchDataAllProductsOnSimilar(
+      String category, String subCategory) async {
+    final response =
+        await http.post('$hostName/get-similar-products.php', body: {
+      'mainCategory': category,
+      'subCategory': subCategory,
+    });
+
+    dataAllProductsSimilar = json.decode(response.body);
+    final List<ProductShow> loadedAllProductsSimilar = [];
+    if (dataAllProductsSimilar == null) {
+      return;
+    }
+    //print(dataAllProductsSimilar);
+    dataOfflineAllProductsSimilar = dataAllProductsSimilar;
+    dataAllProductsSimilar.forEach((newsId) {
+      if (newsId['discount'] != "0") {
+        double first =
+            double.parse(newsId['discount']) - double.parse(newsId['price']);
+        double second = first / double.parse(newsId['price']);
+        percentage3 = second * 100;
+      }
+      loadedAllProductsSimilar.add(ProductShow(
+        id: newsId['id'],
+        image: newsId['image'],
+        title: newsId['title'],
+        titleEngilsh: newsId['titleEnglish'],
+        description: newsId['description'],
+        descriptionEnglish: newsId['descriptionEnglish'],
+        //favorite: productFavoritesIds.contains(newsId['id']) ? true : false,
+        mainCategory: newsId['mainCategory'],
+        subCategories: newsId['subCategories'].toString().split(","),
+        price: newsId['price'],
+        discount: newsId['discount'],
+        discountPercentage: percentage3,
+        isQuestion: newsId['isQuestion'],
+        date: newsId['date'],
+        noColor: newsId['noColor'],
+      ));
+    });
+    _allProductsSimilar = loadedAllProductsSimilar;
 
     notifyListeners();
   }
@@ -109,6 +163,7 @@ class AllProviders extends ChangeNotifier {
         textEnglish: newsId["textEnglish"],
         date: newsId["date"],
         image: newsId["image"],
+        showPosts: newsId["showPosts"],
       ));
     });
     _posts = loadedPosts;
@@ -123,8 +178,8 @@ class AllProviders extends ChangeNotifier {
   List data4 = [];
   List<SliderModel> loadedSlider;
   List<dynamic> dataOfflineSlider;
+
   Future<void> fetchDataSliders() async {
-    print(":s");
     final response = await http.post('$hostName/get-sliders-flutter.php');
 
     data4 = json.decode(response.body);
@@ -132,11 +187,13 @@ class AllProviders extends ChangeNotifier {
     if (data4 == null) {
       return;
     }
+
     dataOfflineSlider = data4;
     data4.forEach((newsId) {
       loadedSlider.add(SliderModel(
         image: newsId['image'],
         productid: newsId['url'],
+        hasProduct: newsId['hasProduct'] == "1" ? true : false,
       ));
     });
     _slider = loadedSlider;
@@ -184,6 +241,7 @@ class AllProviders extends ChangeNotifier {
   List<ProductShow> loadedAllProducts;
   List<dynamic> dataOfflineAllProducts;
   double percentage;
+  int theNumberOfShowsIntheMain;
   Future<void> fetchDataAllProducts() async {
     final response = await http.post('$hostName/get-all-products.php');
 
@@ -216,12 +274,83 @@ class AllProviders extends ChangeNotifier {
         discountPercentage: percentage,
         isQuestion: newsId['isQuestion'],
         date: newsId['date'],
+        noColor: newsId['noColor'],
       ));
     });
+
+    if(loadedAllProducts.length > 2){
+      theNumberOfShowsIntheMain = 2 ;
+    }else {
+      theNumberOfShowsIntheMain = 1;
+    }
     fetchFavorites();
     _allProducts = loadedAllProducts;
 
     notifyListeners();
+  }
+
+  List<ProductShow> _allProductsOne = [];
+  List<ProductShow> get allProductsOne {
+    return _allProductsOne;
+  }
+
+  List dataAllProductsOne = [];
+  List<ProductShow> loadedAllProductsOne;
+  List<dynamic> dataOfflineAllProductsOne;
+  double percentageOne;
+  bool onceOneProduct = false;
+  List<String> listOfSlidersId = [];
+  Future<void> fetchDataOneProducts() async {
+    if (onceOneProduct == false) {
+      onceOneProduct = true;
+      final response = await http.post('$hostName/get-one-product-slider.php');
+
+      dataAllProductsOne = json.decode(response.body);
+      // print(response.body);
+      final List<ProductShow> loadedAllProductsOne = [];
+      if (dataAllProductsOne == null) {
+        return;
+      }
+
+      dataOfflineAllProductsOne = dataAllProductsOne;
+      dataAllProductsOne.forEach((newsId) {
+        listOfSlidersId.add(newsId['sliderId']);
+
+        if (dataOfflineSlider != null) {
+          if (newsId['discount'] != "0") {
+            double first = double.parse(newsId['discount']) -
+                double.parse(newsId['price']);
+            double second = first / double.parse(newsId['price']);
+            percentageOne = second * 100;
+          }
+          loadedAllProductsOne.add(
+            ProductShow(
+              id: newsId['id'],
+              image: newsId['image'],
+              title: newsId['title'],
+              titleEngilsh: newsId['titleEnglish'],
+              description: newsId['description'],
+              descriptionEnglish: newsId['descriptionEnglish'],
+              //favorite: productFavoritesIds.contains(newsId['id']) ? true : false,
+              mainCategory: newsId['mainCategory'],
+              subCategories: newsId['subCategories'].toString().split(","),
+              price: newsId['price'],
+              discount: newsId['discount'],
+              discountPercentage: percentageOne,
+              isQuestion: newsId['isQuestion'],
+              date: newsId['date'],
+              noColor: newsId['noColor'],
+              sliderId: newsId['sliderId'],
+            ),
+          );
+        }
+      });
+
+      fetchFavorites();
+      _allProductsOne = loadedAllProductsOne;
+
+      notifyListeners();
+    }
   }
 
   static bool getOnceImage = false;
@@ -315,7 +444,7 @@ class AllProviders extends ChangeNotifier {
     // selectedPrice = '';
     // selectedDiscount = '';
 
-    selectedPercentage = 0.0;
+    //selectedPercentage = 0.0;
     selectedProductId = productId;
 
     colors.forEach((item) {
@@ -375,7 +504,7 @@ class AllProviders extends ChangeNotifier {
 
   static String selectedPrice = '';
   static String selectedDiscount = '';
-  double selectedPercentage = 0.0;
+  static double selectedPercentage = 0.0;
   String selectedQuantity = '';
   static int selectedQuintity2 = 1;
   List<ProductColors> colorsForProduct2 = List<ProductColors>();
@@ -405,12 +534,39 @@ class AllProviders extends ChangeNotifier {
         }
       }
     });
-    // print("selected price : $selectedPrice");
-    // print("selected discount : $selectedDiscount");
-    // print("selected Percentage : $selectedPercentage");
-    // print("selected Quantity : $selectedQuintity2");
-    // print("selected Color : $selectedColor");
+
     notifyListeners();
+  }
+
+  static bool onceNoColor = false;
+  List dataAllcolorsNoColors = [];
+  Future<void> setPriceAndQuantityForNoColor(ProductShow productNoColor) async {
+    if (onceNoColor == false) {
+      onceNoColor = true;
+      selectedDiscount = '';
+
+      await http.post('$hostName/get-color-for-noColor.php', body: {
+        'product_id': productNoColor.id,
+      }).then((value) {
+        //print(value.body);
+        dataAllcolorsNoColors = json.decode(value.body);
+        dataAllcolorsNoColors.forEach((newsId) {
+          selectedPrice = newsId['price'];
+          selectedQuantity = newsId['quantity'];
+          selectedColor = "Color(0xffff0000)";
+          selectedSize = '';
+          if (newsId['discount'] != "0") {
+            selectedDiscount = newsId['discount'];
+            double first =
+                double.parse(newsId['discount']) - double.parse(selectedPrice);
+            double second = first / double.parse(selectedPrice);
+            percentage = second * 100;
+            selectedPercentage = percentage;
+          }
+        });
+      });
+      notifyListeners();
+    }
   }
 
   List<String> colorList = [];

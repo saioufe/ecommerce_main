@@ -3,6 +3,7 @@ import 'package:ecommerce_template/models/product_question.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/providers/languages.dart';
+import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/product-image-viewer.dart';
 import 'package:ecommerce_template/widgets/product-color-size-section.dart';
 import 'package:ecommerce_template/widgets/product-details-section.dart';
@@ -33,6 +34,7 @@ class PressedProduct extends StatefulWidget {
 List<String> pics = [];
 List<ProductQuestion> questions = [];
 int currentIndex = 0;
+int imageIndex = 1;
 
 Future<bool> requestPop() {
   print("saif");
@@ -50,7 +52,10 @@ class _PressedProductState extends State<PressedProduct> {
     AllProviders.selectedColor = '';
     AllProviders.selectedQuintity2 = 1;
     AllProviders.getOnceImage = false;
+    AllProviders.onceNoColor = false;
     AllProviders.getOnceQuestion = false;
+    AllProviders.selectedPercentage = 0.0;
+    AllProviders.dataOfflineAllProductsSimilar = null;
     if (AllProviders.dataOfflineAllProductsQuestion != null) {
       AllProviders.dataOfflineAllProductsQuestion = null;
     }
@@ -155,46 +160,75 @@ class _PressedProductState extends State<PressedProduct> {
                           ),
                         ));
                   },
-                  child: ExtendedImageGesturePageView.builder(
-                    itemBuilder: (BuildContext context, int index) {
-                      var item = pics[index];
-                      Widget image = ExtendedImage.network(
-                        item,
-                        enableLoadState: true,
-                        initGestureConfigHandler: (s) {
-                          return GestureConfig(
-                            inPageView: true, initialScale: 1.0,
+                  child: Stack(
+                    children: <Widget>[
+                      ExtendedImageGesturePageView.builder(
+                        itemBuilder: (BuildContext context, int index) {
+                          var item = pics[index];
+                          Widget image = ExtendedImage.network(
+                            item,
+                            enableLoadState: true,
+                            initGestureConfigHandler: (s) {
+                              return GestureConfig(
+                                inPageView: true, initialScale: 1.0,
 
-                            //you can cache gesture state even though page view page change.
-                            //remember call clearGestureDetailsCache() method at the right time.(for example,this page dispose)
-                            cacheGesture: true,
+                                //you can cache gesture state even though page view page change.
+                                //remember call clearGestureDetailsCache() method at the right time.(for example,this page dispose)
+                                cacheGesture: true,
+                              );
+                            },
+                            fit: BoxFit.cover,
+                            mode: ExtendedImageMode.gesture,
+                            cache: true,
                           );
+                          image = Container(
+                            child: image,
+                          );
+                          if (index == currentIndex) {
+                            return Hero(
+                              tag: item + index.toString(),
+                              child: image,
+                            );
+                          } else {
+                            return image;
+                          }
                         },
-                        fit: BoxFit.cover,
-                        mode: ExtendedImageMode.gesture,
-                        cache: true,
-                      );
-                      image = Container(
-                        child: image,
-                      );
-                      if (index == currentIndex) {
-                        return Hero(
-                          tag: item + index.toString(),
-                          child: image,
-                        );
-                      } else {
-                        return image;
-                      }
-                    },
-                    itemCount: pics.length,
-                    onPageChanged: (int index) {
-                      currentIndex = index;
-                      //    rebuild.add(index);
-                    },
-                    controller: PageController(
-                      initialPage: currentIndex,
-                    ),
-                    scrollDirection: Axis.horizontal,
+                        itemCount: pics.length,
+                        onPageChanged: (int index) {
+                          currentIndex = index;
+                          setState(() {
+                            imageIndex = index+1;
+                          });
+
+                          //    rebuild.add(index);
+                        },
+                        controller: PageController(
+                          initialPage: currentIndex,
+                        ),
+                        scrollDirection: Axis.horizontal,
+                      ),
+                      Container(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5),
+                            ),
+                            color: Colors.white.withOpacity(0.4),
+                          ),
+                          child: Text(
+                            "$imageIndex / ${pics.length}",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -254,60 +288,68 @@ class _PressedProductState extends State<PressedProduct> {
                       ),
                     ),
                     onPressed: () {
-                      print("price : ${AllProviders.selectedPrice}");
-                      print("discount : ${AllProviders.selectedDiscount}");
-                      print("size : ${AllProviders.selectedSize}");
-                      print("size : ${AllProviders.selectedQuintity2}");
+                      if (UserProvider.isLogin == true) {
+                        print("price : ${AllProviders.selectedPrice}");
+                        print("discount : ${AllProviders.selectedDiscount}");
+                        print("size : ${AllProviders.selectedSize}");
+                        print("size : ${AllProviders.selectedQuintity2}");
 
-                      if (AllProviders.selectedPrice != '' &&
-                          AllProviders.selectedSize != '') {
-                        String thePrice;
-                        if (int.tryParse(AllProviders.selectedPrice) is int) {
-                          thePrice = "0.${AllProviders.selectedPrice}";
-                        } else {
-                          thePrice = AllProviders.selectedPrice;
-                        }
-
-                        String theDiscount;
-                        if (int.tryParse(AllProviders.selectedDiscount)
-                                is int &&
-                            AllProviders.selectedDiscount != '') {
-                          theDiscount = "0.${AllProviders.selectedDiscount}";
-                          print("integer");
-                        } else if (AllProviders.selectedDiscount != '') {
-                          theDiscount =
-                              double.parse(AllProviders.selectedDiscount)
-                                  .toStringAsFixed(3);
-                          print("double");
-                        }
-
-                        // print(AllProviders.selectedPrice);
-                        allCart
-                            .addItemToCart(
-                          widget.product,
-                          thePrice,
-                          theDiscount,
-                          AllProviders.selectedSize,
-                          AllProviders.selectedColor,
-                          AllProviders.selectedQuintity2,
-                        )
-                            .then((value) {
-                          if (value != "0") {
-                            allCart.loadedAllCartItems = null;
-                            allCart.incressCartItemsBadgeNumber();
-                            showInSnackBar(
-                                lang.translation['haveBeenAddedToCart']
-                                    [Languages.selectedLanguage]);
+                        if (AllProviders.selectedPrice != '' &&
+                                AllProviders.selectedSize != '' ||
+                            widget.product.noColor == "1") {
+                          String thePrice;
+                          if (int.tryParse(AllProviders.selectedPrice) is int) {
+                            thePrice = "0.${AllProviders.selectedPrice}";
                           } else {
-                            showInSnackBar(
-                              lang.translation['alreadyinTheCart']
-                                  [Languages.selectedLanguage],
-                            );
+                            thePrice = AllProviders.selectedPrice;
                           }
-                        });
+
+                          String theDiscount;
+                          if (int.tryParse(AllProviders.selectedDiscount)
+                                  is int &&
+                              AllProviders.selectedDiscount != '') {
+                            theDiscount = "0.${AllProviders.selectedDiscount}";
+                            print("integer");
+                          } else if (AllProviders.selectedDiscount != '') {
+                            theDiscount =
+                                double.parse(AllProviders.selectedDiscount)
+                                    .toStringAsFixed(3);
+                            print("double");
+                          }
+
+                          // print(AllProviders.selectedPrice);
+                          allCart
+                              .addItemToCart(
+                            widget.product,
+                            thePrice,
+                            theDiscount,
+                            AllProviders.selectedSize,
+                            AllProviders.selectedColor,
+                            AllProviders.selectedQuintity2,
+                          )
+                              .then((value) {
+                            if (value != "0") {
+                              allCart.loadedAllCartItems = null;
+                              allCart.incressCartItemsBadgeNumber();
+                              showInSnackBar(
+                                  lang.translation['haveBeenAddedToCart']
+                                      [Languages.selectedLanguage]);
+                            } else {
+                              showInSnackBar(
+                                lang.translation['alreadyinTheCart']
+                                    [Languages.selectedLanguage],
+                              );
+                            }
+                          });
+                        } else {
+                          showInSnackBar(
+                            lang.translation['PleaseSelectColor']
+                                [Languages.selectedLanguage],
+                          );
+                        }
                       } else {
                         showInSnackBar(
-                          lang.translation['PleaseSelectColor']
+                          lang.translation['PleaseSignInFirst']
                               [Languages.selectedLanguage],
                         );
                       }
@@ -326,7 +368,7 @@ class _PressedProductState extends State<PressedProduct> {
                     style: TextStyle(fontSize: 23),
                   ),
                 ),
-                SimilarItems(),
+                SimilarItems(widget.product),
                 // SizedBox(
                 //   height: 25,
                 // ),

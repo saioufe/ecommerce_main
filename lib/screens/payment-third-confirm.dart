@@ -1,6 +1,8 @@
 import 'package:ecommerce_template/Templates/address-order-template.dart';
 import 'package:ecommerce_template/ecommerce_icons_icons.dart';
 import 'package:ecommerce_template/providers/cart.dart';
+import 'package:ecommerce_template/providers/languages.dart';
+import 'package:ecommerce_template/screens/are-you-sure.dart';
 import 'package:ecommerce_template/screens/order-done-screen.dart';
 import 'package:ecommerce_template/widgets/cart-item-last.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,8 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
   @override
   Widget build(BuildContext context) {
     final cartPro = Provider.of<CartProvider>(context, listen: true);
+    final lang = Provider.of<Languages>(context);
+
     return Scaffold(
       key: _scaffoldKey2,
       body: Container(
@@ -34,7 +38,9 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Text("تاكد من المعلومات"),
+              Text(
+                lang.translation['ConfirmeDate'][Languages.selectedLanguage],
+              ),
               Divider(
                 endIndent: 100,
                 indent: 100,
@@ -65,7 +71,8 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                         size: 20,
                       ),
                       Text(
-                        "السلة",
+                        lang.translation['cartTitle']
+                            [Languages.selectedLanguage],
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 19),
@@ -112,7 +119,8 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                         size: 20,
                       ),
                       Text(
-                        "عنوان السكن",
+                        lang.translation['shippingAddressTitle']
+                            [Languages.selectedLanguage],
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 19),
@@ -142,7 +150,8 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                       padding: EdgeInsets.all(5),
                       child: Center(
                         child: Text(
-                          "تاكيد",
+                          lang.translation['Confirmation']
+                              [Languages.selectedLanguage],
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -166,7 +175,8 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                                     color: Colors.red,
                                   ),
                                   Text(
-                                    "لا يمكن تطبيق البروموكود",
+                                    lang.translation['CantApplyPromo']
+                                        [Languages.selectedLanguage],
                                     textAlign: TextAlign.center,
                                   ),
                                 ],
@@ -188,7 +198,8 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                                       color: Colors.green,
                                     ),
                                     Text(
-                                      "رمز البروموكود صحيح",
+                                      lang.translation['promocodeCorrect']
+                                          [Languages.selectedLanguage],
                                       textAlign: TextAlign.center,
                                     ),
                                   ],
@@ -210,7 +221,8 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                                     ),
                                     Container(
                                       child: Text(
-                                        "رمز البروموكود خطا",
+                                        lang.translation['wrongPromocode']
+                                            [Languages.selectedLanguage],
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
@@ -248,7 +260,8 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                       ),
                       decoration: new InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'بروموكود',
+                          hintText: lang.translation['promocode']
+                              [Languages.selectedLanguage],
                           hintStyle: TextStyle(
                             color: Theme.of(context).bottomAppBarColor,
                           ),
@@ -278,7 +291,7 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                           ),
                         ),
                         Text(
-                          " : السعر",
+                          lang.translation['price'][Languages.selectedLanguage],
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w300),
                         ),
@@ -299,7 +312,8 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                           ),
                         ),
                         Text(
-                          " : التوصيل",
+                          lang.translation['delivery']
+                              [Languages.selectedLanguage],
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w300),
                         ),
@@ -323,7 +337,8 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                           ),
                         ),
                         Text(
-                          " : الخصم",
+                          lang.translation['discount']
+                              [Languages.selectedLanguage],
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w300),
                         ),
@@ -348,7 +363,7 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                           ),
                         ),
                         Text(
-                          " : المجموع",
+                          lang.translation['total'][Languages.selectedLanguage],
                           style: TextStyle(
                               fontSize: 23, fontWeight: FontWeight.bold),
                         ),
@@ -372,7 +387,8 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                     period: Duration(milliseconds: 800),
                     child: isLoading == false
                         ? Text(
-                            "تاكيد عملية الشراء ",
+                            lang.translation['confirmeTheBut']
+                                [Languages.selectedLanguage],
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -387,17 +403,31 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                     isLoading = true;
                   });
 
-                  cartPro.sendOrder(cartPro.promocodeValue).then((value) {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => AreYouSure(
+                  //         controller: widget.controller,
+                  //       ),
+                  //     ));
+
+                  cartPro.sendOrder2(cartPro.promocodeValue).then((value) {
                     buttonWidth = 1.1;
                     isLoading = false;
-                    cartPro.isBuyed = true;
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OrderDone(
-                            controller: widget.controller,
-                          ),
-                        ));
+
+                    if (cartPro.isBuyed == true) {
+                      cartPro.isBuyed = false;
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OrderDone(
+                              controller: widget.controller,
+                            ),
+                          ));
+                    } else {
+                      print("suck it");
+                    }
+
                     //widget.controller.jumpToTab(4);
                   });
                 },

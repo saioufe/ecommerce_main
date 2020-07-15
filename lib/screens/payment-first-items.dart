@@ -1,5 +1,6 @@
 import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/providers/languages.dart';
+import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/widgets/cart-item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,9 +50,36 @@ class _PaymentFirstItemsState extends State<PaymentFirstItems> {
                 ),
               ),
               onPressed: () {
-                widget.c.animateToPage(1,
-                    duration: Duration(milliseconds: 300),
-                    curve: Curves.easeIn);
+                if (UserProvider.isLogin == true) {
+                  widget.c.animateToPage(1,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeIn);
+                } else {
+                  showDialog(
+                    context: context,
+                    child: AlertDialog(
+                      content: Text(
+                        lang.translation['PleaseSignInFirst']
+                            [Languages.selectedLanguage],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 35),
+                      ),
+                      title: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.warning,
+                              color: Colors.redAccent,
+                              size: 40,
+                            ),
+                          ],
+                        ),
+                      ),
+                      elevation: 2,
+                    ),
+                  );
+                }
               },
               color: Theme.of(context).primaryColor,
             ),

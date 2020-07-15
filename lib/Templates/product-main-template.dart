@@ -36,16 +36,16 @@ class _ProductMainTemplateState extends State<ProductMainTemplate> {
           allPro.NavBarShow(false);
         });
 
-        // Navigator.of(context)
-        //     .pushNamed(PressedProduct.routeName, arguments: widget.product);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PressedProduct(
-                product: widget.product,
-                isMain: widget.isMain,
-              ),
-            ));
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PressedProduct(
+              product: widget.product,
+              isMain: widget.isMain,
+            ),
+          ),
+          ModalRoute.withName('/'),
+        );
       },
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(10)),
