@@ -133,7 +133,9 @@ class AllProviders extends ChangeNotifier {
     notifyListeners();
   }
 
-  static const String hostName = "http://10.0.2.2/ecommerceTemplate";
+  static const String hostName = "https://www.creative-projects.me/hanoot";
+
+  //static const String hostName = "http://10.0.2.2/ecommerceTemplate";
   //static const String hostName = "http://app.creative-projects.co";
 
   static bool hasLogin;
@@ -156,7 +158,7 @@ class AllProviders extends ChangeNotifier {
     newsDataOffline = data;
     data.forEach((newsId) {
       loadedPosts.add(News(
-        id: newsId["id"],
+        id: newsId["id"]+"posts",
         title: newsId["title"],
         text: newsId["text"],
         titleEnglish: newsId["titleEnglish"],
@@ -201,35 +203,39 @@ class AllProviders extends ChangeNotifier {
   }
 
   int numOfFavorite = 0;
+  bool onceFavorite = false;
   Map<String, bool> favoriteList = new Map<String, bool>();
   Future<void> fetchFavorites() async {
-    numOfFavorite = 0;
-    productFavoritesIds = [];
-    final response =
-        await http.post('$hostName/get-favorites-products.php', body: {
-      'userId': UserProvider.userId.toString(),
-    });
+    if (onceFavorite == false) {
+      onceFavorite = true;
+      numOfFavorite = 0;
+      productFavoritesIds = [];
+      final response =
+          await http.post('$hostName/get-favorites-products.php', body: {
+        'userId': UserProvider.userId.toString(),
+      });
 
-    dataAllProductFavorite = json.decode(response.body);
+      dataAllProductFavorite = json.decode(response.body);
 
-    dataAllProductFavorite.forEach((newsId) {
-      productFavoritesIds.add(
-        newsId['product_id'],
-      );
-    });
+      dataAllProductFavorite.forEach((newsId) {
+        productFavoritesIds.add(
+          newsId['product_id'],
+        );
+      });
 
-    allProducts.forEach((element) {
-      if (productFavoritesIds.contains(element.id)) {
-        favoriteList[element.id] = true;
-        numOfFavorite += 1;
-      } else {
-        favoriteList[element.id] = false;
-      }
-    });
-    notifyListeners();
-    // favoriteList.forEach((key, value) {
-    //   print("product id : $key      value : $value");
-    // });
+      allProducts.forEach((element) {
+        if (productFavoritesIds.contains(element.id)) {
+          favoriteList[element.id] = true;
+          numOfFavorite += 1;
+        } else {
+          favoriteList[element.id] = false;
+        }
+      });
+      notifyListeners();
+      // favoriteList.forEach((key, value) {
+      //   print("product id : $key      value : $value");
+      // });
+    }
   }
 
   List<ProductShow> _allProducts = [];
@@ -278,9 +284,9 @@ class AllProviders extends ChangeNotifier {
       ));
     });
 
-    if(loadedAllProducts.length > 2){
-      theNumberOfShowsIntheMain = 2 ;
-    }else {
+    if (loadedAllProducts.length > 2) {
+      theNumberOfShowsIntheMain = 2;
+    } else {
       theNumberOfShowsIntheMain = 1;
     }
     fetchFavorites();
@@ -307,7 +313,7 @@ class AllProviders extends ChangeNotifier {
 
       dataAllProductsOne = json.decode(response.body);
       // print(response.body);
-      final List<ProductShow> loadedAllProductsOne = [];
+      loadedAllProductsOne = [];
       if (dataAllProductsOne == null) {
         return;
       }
@@ -650,6 +656,7 @@ class AllProviders extends ChangeNotifier {
           newsId['product_id'],
         );
       });
+      onceFavorite = false;
       fetchFavorites();
     }
 

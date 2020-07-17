@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
-// import 'package:flare_splash_screen/flare_splash_screen.dart';
+import 'package:flare_splash_screen/flare_splash_screen.dart';
 
 void main() async {
 //Remove this method to stop OneSignal Debugging
@@ -76,21 +76,21 @@ void main() async {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: manager.themeData,
+            color: Colors.redAccent,
             title: 'Ecommerce Creative Projects',
-            home: MainScreen(0),
+            home: SplashScreen.navigate(
+              name: 'assets/iraq3d.flr',
+              next: (_) => MainScreen(0),
+              until: () => Future.delayed(Duration(seconds: 1)),
+              startAnimation: 'Untitled',
+              backgroundColor: Color(0xff215a7d),
+              endAnimation: '1',
+            ),
             initialRoute: '/',
             routes: {
               MainScreen.routeName: (ctx) => MainScreen(0),
             },
           );
-          // SplashScreen.navigate(
-          //   name: 'assets/images/hairderLab.flr',
-          //   next: (_) => MainScreen(0),
-          //   until: () => Future.delayed(Duration(seconds: 1)),
-          //   startAnimation: 'Untitled',
-          //   backgroundColor: Colors.white,
-          //   endAnimation: '1',
-          // ),
         }),
       ),
     ),

@@ -197,7 +197,7 @@ class _PressedProductState extends State<PressedProduct> {
                         onPageChanged: (int index) {
                           currentIndex = index;
                           setState(() {
-                            imageIndex = index+1;
+                            imageIndex = index + 1;
                           });
 
                           //    rebuild.add(index);
@@ -261,100 +261,187 @@ class _PressedProductState extends State<PressedProduct> {
                 ),
                 Container(
                   child: FlatButton(
-                    color: Theme.of(context).primaryColor,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(15),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.add_shopping_cart,
-                              color: Colors.white,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              lang.translation['addToCart']
-                                  [Languages.selectedLanguage],
-                              textAlign: TextAlign.right,
-                              style:
-                                  TextStyle(fontSize: 23, color: Colors.white),
-                            ),
-                          ],
+                      color: Theme.of(context).primaryColor,
+                      disabledColor: Colors.grey,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.all(15),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.add_shopping_cart,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                lang.translation['addToCart']
+                                    [Languages.selectedLanguage],
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontSize: 23, color: Colors.white),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    onPressed: () {
-                      if (UserProvider.isLogin == true) {
-                        print("price : ${AllProviders.selectedPrice}");
-                        print("discount : ${AllProviders.selectedDiscount}");
-                        print("size : ${AllProviders.selectedSize}");
-                        print("size : ${AllProviders.selectedQuintity2}");
+                      onPressed: allPro.selectedQuantity != ""
+                          ? int.parse(allPro.selectedQuantity) > 0
+                              ? () {
+                                  if (UserProvider.isLogin == true) {
+                                    print(
+                                        "price : ${AllProviders.selectedPrice}");
+                                    print(
+                                        "discount : ${AllProviders.selectedDiscount}");
+                                    print(
+                                        "size : ${AllProviders.selectedSize}");
+                                    print(
+                                        "size : ${AllProviders.selectedQuintity2}");
 
-                        if (AllProviders.selectedPrice != '' &&
-                                AllProviders.selectedSize != '' ||
-                            widget.product.noColor == "1") {
-                          String thePrice;
-                          if (int.tryParse(AllProviders.selectedPrice) is int) {
-                            thePrice = "0.${AllProviders.selectedPrice}";
-                          } else {
-                            thePrice = AllProviders.selectedPrice;
-                          }
+                                    if (AllProviders.selectedPrice != '' &&
+                                            AllProviders.selectedSize != '' ||
+                                        widget.product.noColor == "1") {
+                                      String thePrice;
+                                      if (int.tryParse(
+                                          AllProviders.selectedPrice) is int) {
+                                        thePrice =
+                                            "0.${AllProviders.selectedPrice}";
+                                      } else {
+                                        thePrice = AllProviders.selectedPrice;
+                                      }
 
-                          String theDiscount;
-                          if (int.tryParse(AllProviders.selectedDiscount)
-                                  is int &&
-                              AllProviders.selectedDiscount != '') {
-                            theDiscount = "0.${AllProviders.selectedDiscount}";
-                            print("integer");
-                          } else if (AllProviders.selectedDiscount != '') {
-                            theDiscount =
-                                double.parse(AllProviders.selectedDiscount)
-                                    .toStringAsFixed(3);
-                            print("double");
-                          }
+                                      String theDiscount;
+                                      if (int.tryParse(
+                                                  AllProviders.selectedDiscount)
+                                              is int &&
+                                          AllProviders.selectedDiscount != '') {
+                                        theDiscount =
+                                            "0.${AllProviders.selectedDiscount}";
+                                        print("integer");
+                                      } else if (AllProviders
+                                              .selectedDiscount !=
+                                          '') {
+                                        theDiscount = double.parse(
+                                                AllProviders.selectedDiscount)
+                                            .toStringAsFixed(3);
+                                        print("double");
+                                      }
 
-                          // print(AllProviders.selectedPrice);
-                          allCart
-                              .addItemToCart(
-                            widget.product,
-                            thePrice,
-                            theDiscount,
-                            AllProviders.selectedSize,
-                            AllProviders.selectedColor,
-                            AllProviders.selectedQuintity2,
-                          )
-                              .then((value) {
-                            if (value != "0") {
-                              allCart.loadedAllCartItems = null;
-                              allCart.incressCartItemsBadgeNumber();
-                              showInSnackBar(
-                                  lang.translation['haveBeenAddedToCart']
-                                      [Languages.selectedLanguage]);
-                            } else {
-                              showInSnackBar(
-                                lang.translation['alreadyinTheCart']
-                                    [Languages.selectedLanguage],
-                              );
-                            }
-                          });
-                        } else {
-                          showInSnackBar(
-                            lang.translation['PleaseSelectColor']
-                                [Languages.selectedLanguage],
-                          );
-                        }
-                      } else {
-                        showInSnackBar(
-                          lang.translation['PleaseSignInFirst']
-                              [Languages.selectedLanguage],
-                        );
-                      }
-                    },
-                  ),
+                                      // print(AllProviders.selectedPrice);
+                                      allCart
+                                          .addItemToCart(
+                                        widget.product,
+                                        thePrice,
+                                        theDiscount,
+                                        AllProviders.selectedSize,
+                                        AllProviders.selectedColor,
+                                        AllProviders.selectedQuintity2,
+                                      )
+                                          .then((value) {
+                                        if (value != "0") {
+                                          allCart.loadedAllCartItems = null;
+                                          allCart.incressCartItemsBadgeNumber();
+                                          showInSnackBar(lang.translation[
+                                                  'haveBeenAddedToCart']
+                                              [Languages.selectedLanguage]);
+                                        } else {
+                                          showInSnackBar(
+                                            lang.translation['alreadyinTheCart']
+                                                [Languages.selectedLanguage],
+                                          );
+                                        }
+                                      });
+                                    } else {
+                                      showInSnackBar(
+                                        lang.translation['PleaseSelectColor']
+                                            [Languages.selectedLanguage],
+                                      );
+                                    }
+                                  } else {
+                                    showInSnackBar(
+                                      lang.translation['PleaseSignInFirst']
+                                          [Languages.selectedLanguage],
+                                    );
+                                  }
+                                }
+                              : null
+                          : () {
+                              if (UserProvider.isLogin == true) {
+                                print("price : ${AllProviders.selectedPrice}");
+                                print(
+                                    "discount : ${AllProviders.selectedDiscount}");
+                                print("size : ${AllProviders.selectedSize}");
+                                print(
+                                    "size : ${AllProviders.selectedQuintity2}");
+
+                                if (AllProviders.selectedPrice != '' &&
+                                        AllProviders.selectedSize != '' ||
+                                    widget.product.noColor == "1") {
+                                  String thePrice;
+                                  if (int.tryParse(AllProviders.selectedPrice)
+                                      is int) {
+                                    thePrice =
+                                        "0.${AllProviders.selectedPrice}";
+                                  } else {
+                                    thePrice = AllProviders.selectedPrice;
+                                  }
+
+                                  String theDiscount;
+                                  if (int.tryParse(
+                                              AllProviders.selectedDiscount)
+                                          is int &&
+                                      AllProviders.selectedDiscount != '') {
+                                    theDiscount =
+                                        "0.${AllProviders.selectedDiscount}";
+                                    print("integer");
+                                  } else if (AllProviders.selectedDiscount !=
+                                      '') {
+                                    theDiscount = double.parse(
+                                            AllProviders.selectedDiscount)
+                                        .toStringAsFixed(3);
+                                    print("double");
+                                  }
+
+                                  // print(AllProviders.selectedPrice);
+                                  allCart
+                                      .addItemToCart(
+                                    widget.product,
+                                    thePrice,
+                                    theDiscount,
+                                    AllProviders.selectedSize,
+                                    AllProviders.selectedColor,
+                                    AllProviders.selectedQuintity2,
+                                  )
+                                      .then((value) {
+                                    if (value != "0") {
+                                      allCart.loadedAllCartItems = null;
+                                      allCart.incressCartItemsBadgeNumber();
+                                      showInSnackBar(lang.translation[
+                                              'haveBeenAddedToCart']
+                                          [Languages.selectedLanguage]);
+                                    } else {
+                                      showInSnackBar(
+                                        lang.translation['alreadyinTheCart']
+                                            [Languages.selectedLanguage],
+                                      );
+                                    }
+                                  });
+                                } else {
+                                  showInSnackBar(
+                                    lang.translation['PleaseSelectColor']
+                                        [Languages.selectedLanguage],
+                                  );
+                                }
+                              } else {
+                                showInSnackBar(
+                                  lang.translation['PleaseSignInFirst']
+                                      [Languages.selectedLanguage],
+                                );
+                              }
+                            }),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 1.1,
@@ -365,7 +452,7 @@ class _PressedProductState extends State<PressedProduct> {
                     textAlign: Languages.selectedLanguage == 0
                         ? TextAlign.right
                         : TextAlign.left,
-                    style: TextStyle(fontSize: 23),
+                    style: TextStyle(fontSize: 23 , color: Theme.of(context).bottomAppBarColor),
                   ),
                 ),
                 SimilarItems(widget.product),

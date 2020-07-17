@@ -19,6 +19,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController myController = TextEditingController();
 
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final lang = Provider.of<Languages>(context);
@@ -54,12 +55,16 @@ class _SearchScreenState extends State<SearchScreen> {
               width: MediaQuery.of(context).size.width / 1.1,
               child: TextField(
                 controller: myController,
+                textInputAction: TextInputAction.search,
                 onSubmitted: (value) {
-                  appProvider.search(value, context,lang);
+                  isLoading = true;
+                  appProvider.search(value, context, lang).then((value) {
+                    isLoading = false;
+                  });
                 },
                 onChanged: (value) {
                   if (value == "") {
-                    appProvider.search(value, context,lang);
+                    appProvider.search(value, context, lang);
                   }
                 },
                 onEditingComplete: () {
@@ -77,11 +82,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       color: Theme.of(context).bottomAppBarColor,
                     ),
                     labelStyle: TextStyle(fontSize: 23),
-                    prefixIcon: Icon(
+                    prefixIcon:isLoading == false ? Icon(
                       EcommerceIcons.magnifying_glass,
                       color: Theme.of(context).bottomAppBarColor,
                       size: 20,
-                    ),
+                    ) : CircularProgressIndicator(),
                     suffixStyle:
                         TextStyle(color: Theme.of(context).primaryColor)),
               ),

@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 
 class PostsHomeTemplate extends StatefulWidget {
   final News news;
-  PostsHomeTemplate({this.news});
+  final bool home;
+  PostsHomeTemplate({this.news, @required this.home});
 
   @override
   _PostsHomeTemplateState createState() => _PostsHomeTemplateState();
@@ -41,7 +42,11 @@ class _PostsHomeTemplateState extends State<PostsHomeTemplate> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textDirection: TextDirection.rtl,
-                      style: TextStyle(fontSize: 18, color: Colors.black87),
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: widget.home == true
+                              ? Colors.black87
+                              : Colors.blueGrey),
                     ),
                   ),
                   Container(

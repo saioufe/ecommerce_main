@@ -252,6 +252,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   Icon(
                                                     Icons.keyboard_arrow_right,
                                                     size: 18,
+                                                    color: Theme.of(context)
+                                                        .bottomAppBarColor,
                                                   ),
                                                   Text(
                                                     lang.translation[
@@ -340,6 +342,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               Icon(
                                                 Icons.keyboard_arrow_left,
                                                 size: 18,
+                                                color: Theme.of(context)
+                                                    .bottomAppBarColor,
                                               ),
                                               Text(
                                                 lang.translation['moreTitle'][
@@ -615,9 +619,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .bottomAppBarColor,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 15),
                                                         ),
                                                       ),
@@ -632,8 +635,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      color: Theme.of(context)
-                                                          .bottomAppBarColor,
+                                                      color: Colors.black,
                                                       fontSize: 20),
                                                 ),
                                               ]
@@ -646,8 +648,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      color: Theme.of(context)
-                                                          .bottomAppBarColor,
+                                                      color: Colors.black,
                                                       fontSize: 20),
                                                 ),
                                                 InkWell(
@@ -678,9 +679,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .bottomAppBarColor,
+                                                              color:
+                                                                  Colors.black,
                                                               fontSize: 15),
                                                         ),
                                                       ),
@@ -688,6 +688,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         Icons
                                                             .keyboard_arrow_right,
                                                         size: 18,
+                                                        color: Colors.black,
                                                       ),
                                                     ],
                                                   ),
@@ -714,6 +715,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           date: item.date,
                                           showPosts: item.showPosts,
                                         ),
+                                        home: true,
                                       );
                                     }).toList()),
                                   ],
@@ -746,6 +748,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   Icon(
                                                     Icons.keyboard_arrow_left,
                                                     size: 18,
+                                                    color: Colors.black,
                                                   ),
                                                   InkWell(
                                                     onTap: () {
@@ -766,9 +769,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .bottomAppBarColor,
+                                                          color: Colors.black,
                                                           fontSize: 15),
                                                     ),
                                                   ),
@@ -781,8 +782,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .bottomAppBarColor,
+                                                  color: Colors.black,
                                                   fontSize: 20),
                                             ),
                                           ]
@@ -793,8 +793,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                      .bottomAppBarColor,
+                                                  color: Colors.black,
                                                   fontSize: 20),
                                             ),
                                             InkWell(
@@ -823,15 +822,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .bottomAppBarColor,
+                                                          color: Colors.black,
                                                           fontSize: 15),
                                                     ),
                                                   ),
                                                   Icon(
                                                     Icons.keyboard_arrow_right,
                                                     size: 18,
+                                                    color: Colors.black,
                                                   ),
                                                 ],
                                               ),
@@ -854,6 +852,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         image: item.image,
                                         date: item.date,
                                         showPosts: item.showPosts),
+                                    home: true,
                                   );
                                 }).toList()),
                               ],

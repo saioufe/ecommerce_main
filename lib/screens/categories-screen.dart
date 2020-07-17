@@ -217,9 +217,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             // setState(() {
                             //   selectedCategory = index;
                             // });
+                            print(setPro.categories[index]
+                                .subCategoriesEnglish.isEmpty);
+
+
                             setPro.setCat(index);
                             if (setPro.categories[setPro.selectedCat]
-                                .subCategories.isEmpty) {
+                                    .subCategoriesEnglish[0] == "" ) {
                               setState(() {
                                 allPro.NavBarShow(false);
                               });

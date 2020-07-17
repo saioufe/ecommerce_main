@@ -88,7 +88,9 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                     child: Text(
                       "اللغة العربية",
                       textAlign: TextAlign.right,
-                      style: TextStyle(fontSize: 24),
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Theme.of(context).bottomAppBarColor),
                     ),
                   ),
                 ),
@@ -109,7 +111,9 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                     child: Text(
                       "English Language",
                       textAlign: TextAlign.right,
-                      style: TextStyle(fontSize: 24),
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Theme.of(context).bottomAppBarColor),
                     ),
                   ),
                 ),

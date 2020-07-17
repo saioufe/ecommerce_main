@@ -51,7 +51,7 @@ class ProductDetailsPressed extends StatelessWidget {
                         textAlign: TextAlign.right,
                         style: TextStyle(
                             fontFamily: 'tajawal',
-                            color: Theme.of(context).bottomAppBarColor,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 25),
                         overflow: TextOverflow.ellipsis,
@@ -71,7 +71,7 @@ class ProductDetailsPressed extends StatelessWidget {
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontFamily: 'tajawal',
-                                    color: Theme.of(context).bottomAppBarColor,
+                                    color: Colors.black54,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 19,
                                     decoration: TextDecoration.lineThrough,
@@ -136,7 +136,7 @@ class ProductDetailsPressed extends StatelessWidget {
                       : TextAlign.left,
                   style: TextStyle(
                       fontFamily: 'tajawal',
-                      color: Theme.of(context).bottomAppBarColor,
+                      color: Colors.black87,
                       fontWeight: FontWeight.w300,
                       fontSize: 25),
                   textDirection: TextDirection.rtl,

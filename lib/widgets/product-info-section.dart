@@ -124,7 +124,7 @@ class _ProductInfoPressedState extends State<ProductInfoPressed> {
                     textAlign: TextAlign.right,
                     style: TextStyle(
                         fontFamily: 'tajawal',
-                        color: Theme.of(context).bottomAppBarColor,
+                        color: Colors.black87,
                         fontWeight: FontWeight.w600,
                         fontSize: 20),
                     overflow: TextOverflow.ellipsis,
@@ -220,7 +220,7 @@ class _ProductInfoPressedState extends State<ProductInfoPressed> {
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontFamily: 'tajawal',
-                              color: Theme.of(context).bottomAppBarColor,
+                              color: Colors.black87,
                               fontWeight: FontWeight.w600,
                               fontSize: 20),
                           overflow: TextOverflow.ellipsis,

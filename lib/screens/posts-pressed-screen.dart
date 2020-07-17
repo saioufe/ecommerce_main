@@ -117,7 +117,7 @@ class _PostPressedScreenState extends State<PostPressedScreen> {
                                   style: TextStyle(
                                       fontFamily: 'tajawal',
                                       color:
-                                          Theme.of(context).bottomAppBarColor,
+                                           Colors.black,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),
                                   overflow: TextOverflow.ellipsis,
@@ -144,7 +144,7 @@ class _PostPressedScreenState extends State<PostPressedScreen> {
                           style: TextStyle(
                               fontFamily: 'tajawal',
                               fontSize: 20,
-                              color: Theme.of(context).bottomAppBarColor,
+                              color:  Colors.blueGrey,
                               height: 1.5),
                         ),
                       ],

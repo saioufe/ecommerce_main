@@ -68,7 +68,7 @@ class OrderHistoryItem extends StatelessWidget {
                     "Order #${order.id}",
                     style: TextStyle(
                         fontSize: 18,
-                        color: Theme.of(context).bottomAppBarColor,
+                        color: Colors.black54,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -92,7 +92,7 @@ class OrderHistoryItem extends StatelessWidget {
                   "view the ${order.productsName.length -1} items",
                   style: TextStyle(
                     fontSize: 18,
-                    color: Colors.greenAccent,
+                    color: Colors.black54,
                   ),
                 ),
                 Text(

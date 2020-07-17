@@ -26,7 +26,7 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-bool notification = false;
+bool notification = true;
 bool darkTheme = false;
 int preferredTheme;
 

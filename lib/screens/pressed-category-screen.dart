@@ -34,6 +34,7 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
   @override
   void initState() {
     super.initState();
+    AllProviders.dataOfflineAllProductsCategory = null;
     BackButtonInterceptor.add(myInterceptor);
   }
 
@@ -135,7 +136,8 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
                               ? "${widget.category.mainCategory}"
                               : "${widget.category.mainCategoryEnglish}",
                           textAlign: Languages.selectedLanguage == 0
-                              ?  TextAlign.right : TextAlign.left ,
+                              ? TextAlign.right
+                              : TextAlign.left,
                           style: TextStyle(
                               fontSize: 28,
                               color: Theme.of(context).bottomAppBarColor,
@@ -145,9 +147,12 @@ class _PressedCategoryScreenState extends State<PressedCategoryScreen> {
                     ),
                     AllProviders.dataOfflineAllProductsCategory == null
                         ? FutureBuilder(
-                            future: allPro.fetchDataAllProductsOnCategory(
-                                widget.category.mainCategory,
-                                _selectedChoice.title),
+                            future: widget.subCat == null
+                                ? allPro.fetchDataAllProductsOnCategory(
+                                    widget.category.mainCategory,
+                                    _selectedChoice.title)
+                                : allPro.fetchDataAllProductsOnCategory(
+                                    widget.subCat, _selectedChoice.title),
                             builder: (ctx, authResultSnap) {
                               if (authResultSnap.connectionState ==
                                   ConnectionState.waiting) {

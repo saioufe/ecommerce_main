@@ -35,7 +35,7 @@ class SettingsProvider extends ChangeNotifier {
       dataOfflineAllCategories = dataAllCategories;
       dataAllCategories.forEach((newsId) {
         loadedAllCategories.add(Category(
-          id: newsId['id'],
+          id: newsId['id']+"category",
           image: newsId['image'],
           mainCategory: newsId['mainCategory'],
           mainCategoryEnglish: newsId['mainCategoryEnglish'],

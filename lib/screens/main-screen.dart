@@ -1,5 +1,6 @@
 import 'package:ecommerce_template/ecommerce_icons_icons.dart';
 import 'package:ecommerce_template/providers/allProviders.dart';
+import 'package:ecommerce_template/providers/application.dart';
 import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/cart-screen.dart';
@@ -17,6 +18,7 @@ import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.wid
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 import 'package:badges/badges.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //import 'package:provider/provider.dart';
 //import 'package:google_fonts/google_fonts.dart';
@@ -206,28 +208,53 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final allPro = Provider.of<AllProviders>(context);
     final cartPro = Provider.of<CartProvider>(context, listen: false);
-
+    final application =
+        Provider.of<ApplicationProvider>(context, listen: false);
     Provider.of<Languages>(context, listen: false).readLanguageIndex();
 
-    return PersistentTabView(
-        navBarHeight: allPro.showNavBar == true ? 60 : 0,
-        navBarCurveRadius: 15,
-        iconSize: 22,
-        navBarCurve: NavBarCurve.upperCorners,
-        controller: _controller,
-        screens: _buildScreens(),
-        items: _navBarsItems(
-            cartPro), // Redundant here but defined to demonstrate for other than custom style
-        confineInSafeArea: true,
-        backgroundColor: Colors.white,
-        handleAndroidBackButtonPress: true,
-        onItemSelected: (int) {
-          setState(
-              () {}); // This is required to update the nav bar if Android back button is pressed
-        },
-        itemCount: 4,
-        navBarStyle:
-            NavBarStyle.style5 // Choose the nav bar style with this property
-        );
+    // if (application.once == false) {
+    //   print("saif");
+    //   application.fetchDataAboutUs();
+    // }
+
+    return Scaffold(
+      floatingActionButton: application.whatsup != ""
+          ? Padding(
+              padding: EdgeInsets.only(bottom: 50),
+              child: FloatingActionButton(
+                child: Image.asset("assets/images/what.png"),
+                backgroundColor: Colors.transparent,
+                onPressed: () async {
+                  final url = "https://wa.me/943${application.whatsup}";
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                },
+              ),
+            )
+          : SizedBox(),
+      body: PersistentTabView(
+          navBarHeight: allPro.showNavBar == true ? 60 : 0,
+          navBarCurveRadius: 15,
+          iconSize: 22,
+          navBarCurve: NavBarCurve.upperCorners,
+          controller: _controller,
+          screens: _buildScreens(),
+          items: _navBarsItems(
+              cartPro), // Redundant here but defined to demonstrate for other than custom style
+          confineInSafeArea: true,
+          backgroundColor: Colors.white,
+          handleAndroidBackButtonPress: true,
+          onItemSelected: (int) {
+            setState(
+                () {}); // This is required to update the nav bar if Android back button is pressed
+          },
+          itemCount: 4,
+          navBarStyle:
+              NavBarStyle.style5 // Choose the nav bar style with this property
+          ),
+    );
   }
 }

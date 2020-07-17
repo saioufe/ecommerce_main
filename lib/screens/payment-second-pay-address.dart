@@ -27,8 +27,11 @@ class _PaymentSecondPayAddressState extends State<PaymentSecondPayAddress> {
       child: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Text(lang.translation['shippingAddressTitle']
-                [Languages.selectedLanguage]),
+            Text(
+              lang.translation['shippingAddressTitle']
+                  [Languages.selectedLanguage],
+              style: TextStyle(color: Theme.of(context).bottomAppBarColor),
+            ),
             Divider(
               endIndent: 100,
               indent: 100,
@@ -68,7 +71,8 @@ class _PaymentSecondPayAddressState extends State<PaymentSecondPayAddress> {
             SizedBox(
               height: 20,
             ),
-            Text(lang.translation['PaymentTitle'][Languages.selectedLanguage]),
+            Text(lang.translation['PaymentTitle'][Languages.selectedLanguage],
+                style: TextStyle(color: Theme.of(context).bottomAppBarColor)),
             Divider(
               endIndent: 100,
               indent: 100,
@@ -81,9 +85,10 @@ class _PaymentSecondPayAddressState extends State<PaymentSecondPayAddress> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Text(
-                        lang.translation['payOnDelivered']
-                            [Languages.selectedLanguage],
-                      ),
+                          lang.translation['payOnDelivered']
+                              [Languages.selectedLanguage],
+                          style: TextStyle(
+                              color: Theme.of(context).bottomAppBarColor)),
                       Radio(
                         value: lang.translation['continue']
                             [Languages.selectedLanguage],

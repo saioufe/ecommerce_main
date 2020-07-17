@@ -15,31 +15,40 @@ class ApplicationProvider extends ChangeNotifier {
   AllProviders _allProviders;
   ApplicationProvider(this._allProviders);
 
-  static const String hostName = "http://10.0.2.2/ecommerceTemplate";
+  //static const String hostName = "http://10.0.2.2/ecommerceTemplate";
 
   String aboutus = '';
   String facebook = '';
   String insta = '';
   String twitter = '';
   String youtube = '';
+  String whatsup = '';
   List data = [];
+  List offlieContactUs;
+  bool once = false;
   Future<void> fetchDataAboutUs() async {
-    final response = await http.post('$hostName/get-aboutus-flutter.php');
+    if (once == false) {
+      final response =
+          await http.post('${AllProviders.hostName}/get-aboutus-flutter.php');
 
-    data = json.decode(response.body);
-    if (data == null) {
-      return;
+      data = json.decode(response.body);
+      if (data == null) {
+        return;
+      }
+      offlieContactUs = data;
+      data.forEach((newsId) {
+        aboutus = newsId['aboutus'];
+        facebook = newsId['facebook'];
+        insta = newsId['instagram'];
+        twitter = newsId['twitter'];
+        youtube = newsId['youtube'];
+        whatsup = newsId['whatsup'];
+      });
+
+      notifyListeners();
+
+      once = true;
     }
-
-    data.forEach((newsId) {
-      aboutus = newsId['aboutus'];
-      facebook = newsId['facebook'];
-      insta = newsId['instagram'];
-      twitter = newsId['twitter'];
-      youtube = newsId['youtube'];
-    });
-
-    notifyListeners();
   }
 
   List data2 = [];
@@ -75,7 +84,8 @@ class ApplicationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> search(String searchText, BuildContext context , Languages lang) async {
+  Future<void> search(
+      String searchText, BuildContext context, Languages lang) async {
     tempSearch = '';
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -83,17 +93,17 @@ class ApplicationProvider extends ChangeNotifier {
     searchProducts = [];
     searchResultEmply = false;
     if (searchText != "") {
-      final response = await http.post('$hostName/search.php', body: {
+      final response =
+          await http.post('${AllProviders.hostName}/search.php', body: {
         'searchText': searchText,
       });
 
       data2 = json.decode(response.body);
       if (data2.length == 0) {
         Flushbar(
-          title: lang.translation['noSearchResult']
-                  [Languages.selectedLanguage],
+          title: lang.translation['noSearchResult'][Languages.selectedLanguage],
           message: lang.translation['researchAgain']
-                  [Languages.selectedLanguage],
+              [Languages.selectedLanguage],
           barBlur: 0.4,
           duration: Duration(milliseconds: 3000),
           backgroundColor: Theme.of(context).primaryColor,

@@ -143,6 +143,7 @@ class _NewsScreenState extends State<NewsScreen> {
                                           image: item.image,
                                           date: item.date,
                                           showPosts: item.showPosts),
+                                      home: false,
                                     );
                                   }).toList());
                                 }
@@ -159,6 +160,7 @@ class _NewsScreenState extends State<NewsScreen> {
                                     image: item.image,
                                     date: item.date,
                                     showPosts: item.showPosts),
+                                home: false,
                               );
                             }).toList()),
                     ),

@@ -44,7 +44,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      child: Icon(Icons.arrow_back_ios),
+                      child: Icon(Icons.arrow_back_ios,color: Theme.of(context).bottomAppBarColor,),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 25, bottom: 20, right: 20),
@@ -89,12 +89,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       hintText: lang.translation['usernameEnter']
                           [Languages.selectedLanguage],
                       hintStyle: TextStyle(
-                        color: Theme.of(context).bottomAppBarColor,
+                        color: Colors.black87,
                       ),
                       labelStyle: TextStyle(fontSize: 23),
                       prefixIcon: Icon(
                         Icons.account_circle,
-                        color: Theme.of(context).bottomAppBarColor,
+                        color: Colors.black87,
                         size: 20,
                       ),
                       suffixStyle:
@@ -130,12 +130,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       hintText: lang.translation['phoneTitleEnter']
                           [Languages.selectedLanguage],
                       hintStyle: TextStyle(
-                        color: Theme.of(context).bottomAppBarColor,
+                        color: Colors.black87,
                       ),
                       labelStyle: TextStyle(fontSize: 23),
                       prefixIcon: Icon(
                         Icons.phone_android,
-                        color: Theme.of(context).bottomAppBarColor,
+                        color: Colors.black87,
                         size: 20,
                       ),
                       suffixStyle:
@@ -170,12 +170,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       hintText: lang.translation['areOrKeyPlease']
                           [Languages.selectedLanguage],
                       hintStyle: TextStyle(
-                        color: Theme.of(context).bottomAppBarColor,
+                        color: Colors.black87,
                       ),
                       labelStyle: TextStyle(fontSize: 23),
                       prefixIcon: Icon(
                         Icons.pin_drop,
-                        color: Theme.of(context).bottomAppBarColor,
+                        color: Colors.black87,
                         size: 20,
                       ),
                       suffixStyle:
@@ -188,7 +188,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               Container(
                 child: Text(
                   lang.translation['conutryTitle'][Languages.selectedLanguage],
-                  style: TextStyle(fontSize: 19),
+                  style: TextStyle(fontSize: 19,color: Theme.of(context).bottomAppBarColor),
                 ),
               ),
               Divider(),
@@ -242,7 +242,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                       .map((Country value) {
                                     return new DropdownMenuItem<String>(
                                       value: value.nameArabic,
+                                      
                                       child: Container(
+                                        color: Colors.white,
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width /
@@ -279,7 +281,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               child: Text(
                                 lang.translation['cityTitle']
                                     [Languages.selectedLanguage],
-                                style: TextStyle(fontSize: 19),
+                                style: TextStyle(fontSize: 19,color: Theme.of(context).bottomAppBarColor),
                               ),
                             ),
                             Divider(),
@@ -305,6 +307,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                     return new DropdownMenuItem<String>(
                                       value: value.nameArabic,
                                       child: Container(
+                                         color: Colors.white,
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width /

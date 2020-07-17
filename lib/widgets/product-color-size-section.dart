@@ -128,7 +128,7 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 fontFamily: 'tajawal',
-                                color: Theme.of(context).bottomAppBarColor,
+                                color:Colors.black87,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20),
                             overflow: TextOverflow.ellipsis,
@@ -197,7 +197,7 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontFamily: 'tajawal',
-                              color: Theme.of(context).bottomAppBarColor,
+                              color: Colors.black87,
                               fontWeight: FontWeight.w600,
                               fontSize: 20),
                           overflow: TextOverflow.ellipsis,
@@ -224,7 +224,19 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
                       Container(
                         padding: EdgeInsets.only(right: 15, top: 13),
                         child: Text(
-                            "${lang.translation['remainsTitle'][Languages.selectedLanguage]} ${allposts.selectedQuantity}"),
+                          allposts.selectedQuantity != ""
+                              ? int.parse(allposts.selectedQuantity) > 0
+                                  ? "${lang.translation['remainsTitle'][Languages.selectedLanguage]} ${allposts.selectedQuantity}"
+                                  : "${lang.translation['outOfStock'][Languages.selectedLanguage]}"
+                              : "${lang.translation['remainsTitle'][Languages.selectedLanguage]} ${allposts.selectedQuantity}",
+                          style: TextStyle(
+                            color: allposts.selectedQuantity != ""
+                                ? int.parse(allposts.selectedQuantity) > 0
+                                    ? Colors.blueGrey
+                                    : Colors.redAccent
+                                : Colors.blueGrey,
+                          ),
+                        ),
                       ),
                       Container(
                           margin: EdgeInsets.only(right: 40),
@@ -264,7 +276,7 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
                                 style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).bottomAppBarColor),
+                                    color: Colors.black87),
                               ),
                               SizedBox(
                                 width: 10,
@@ -338,7 +350,7 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
                     textAlign: TextAlign.right,
                     style: TextStyle(
                         fontFamily: 'tajawal',
-                        color: Theme.of(context).bottomAppBarColor,
+                        color: Colors.black87,
                         fontWeight: FontWeight.w600,
                         fontSize: 20),
                     overflow: TextOverflow.ellipsis,

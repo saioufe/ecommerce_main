@@ -321,6 +321,10 @@ class Languages extends ChangeNotifier {
       'متبقي',
       'Remains',
     ],
+    'outOfStock': [
+      'غير متبقي',
+      'Out of stock',
+    ],
     'quantityTitle': [
       ' : الكمية',
       ': Quantity',

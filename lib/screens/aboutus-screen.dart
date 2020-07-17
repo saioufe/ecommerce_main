@@ -93,10 +93,13 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                         Text(
                           lang.translation['aboutUs']
                               [Languages.selectedLanguage],
+                          style: TextStyle(
+                              color: Theme.of(context).bottomAppBarColor),
                         ),
                         Divider(
                           endIndent: 100,
                           indent: 100,
+                          color: Theme.of(context).bottomAppBarColor,
                         ),
                         Container(
                           padding: EdgeInsets.all(10),
@@ -106,13 +109,13 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                               Radius.circular(12),
                             ),
                           ),
-                          child: Text(
+                          child: SelectableText(
                             application.aboutus,
                             textAlign: TextAlign.justify,
                             textDirection: TextDirection.rtl,
                             style: TextStyle(
                                 fontSize: 23,
-                                color: Theme.of(context).bottomAppBarColor,
+                                color: Colors.blueGrey,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
@@ -123,6 +126,8 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                               Text(
                                 lang.translation['socialMedia']
                                     [Languages.selectedLanguage],
+                                style: TextStyle(
+                                    color: Theme.of(context).bottomAppBarColor),
                               ),
                               SizedBox(
                                 height: 20,
@@ -130,6 +135,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                               Divider(
                                 endIndent: 100,
                                 indent: 100,
+                                color: Theme.of(context).bottomAppBarColor,
                               ),
                               SizedBox(
                                 height: 20,

@@ -356,6 +356,7 @@ class CartProvider with ChangeNotifier {
   String colorsNames = '';
   String quantities = '';
   String sizes = '';
+  String productIds = '';
   bool onceOrder = false;
   int index = 0;
   Future<void> sendOrder(String promocode) async {
@@ -411,23 +412,26 @@ class CartProvider with ChangeNotifier {
     colorsNames = '';
     quantities = '';
     sizes = '';
+    productIds = '';
     for (var i = 0; i < loadedAllCartItems.length; i++) {
       productNames += loadedAllCartItems[i].product.title + ',';
       quantities += loadedAllCartItems[i].productQuantity + ',';
       sizes += loadedAllCartItems[i].productSize + ',';
-
+      productIds += loadedAllCartItems[i].product_id + ',';
+    
       String valueString = loadedAllCartItems[i]
           .productColor
           .toString()
-          .split('(0x')[1]
+          .split('(0xff')[1]
           .split(')')[0]; // kind of hacky..
 
-      colorsNames += valueString + ',';
+      colorsNames += '#' + valueString + ',';
     }
 
     await http.post('${AllProviders.hostName}/send-order-flutter.php', body: {
       'userId': UserProvider.userId.toString(),
       'product_ids': productNames,
+      'idss': productIds,
       'colors': colorsNames,
       'size': sizes,
       'quantities': quantities,
@@ -441,7 +445,7 @@ class CartProvider with ChangeNotifier {
       'price': lastlastTotalPrice.toStringAsFixed(3),
       'name': selectedAddress.name,
     }).then((value) {
-      print(value);
+      print(value.body);
       if (value.body == 'done') {
         isBuyed = true;
       } else {

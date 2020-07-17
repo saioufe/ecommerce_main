@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   final kHintTextStyle = TextStyle(
-    color: Color.fromRGBO(55, 195, 134, 1),
+    color: Colors.black54,
     fontFamily: 'OpenSans',
   );
 
@@ -288,85 +288,93 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
-      child: isLoading == false
-          ? RaisedButton(
-              elevation: 5.0,
-              onPressed: () {
-                if (isRegister == true) {
-                  if (nameController.text == "" ||
-                      emailController.text == "" ||
-                      passwordController.text == "" ||
-                      phoneController.text == "") {
-                    showInSnackBar(lang.translation['pleaseFillAllRecords']
-                        [Languages.selectedLanguage]);
-                  } else if (emailController.text.indexOf("@") == -1) {
-                    showInSnackBar(lang.translation['pleaseFillEmail']
-                        [Languages.selectedLanguage]);
-                  } else {
-                    isLoading = true;
-                    uPro
-                        .register(
-                          nameController.text,
-                          emailController.text,
-                          passwordController.text,
-                          phoneController.text,
-                          context,
-                          showInSnackBar,
-                          allprov,
-                        )
-                        .then((value) => isLoading = false);
-                  }
-                  //  uPro.register(name, email, password, phone, context, pageController);
-
-                } else {
-                  if (emailController.text == "" ||
-                      passwordController.text == "") {
-                    showInSnackBar(lang.translation['pleaseFillAllRecords']
-                        [Languages.selectedLanguage]);
-                  } else if (emailController.text.indexOf("@") == -1) {
-                    showInSnackBar(lang.translation['pleaseFillEmail']
-                        [Languages.selectedLanguage]);
-                  } else {
-                    isLoading = true;
-                    uPro
-                        .login(
-                          emailController.text,
-                          passwordController.text,
-                          context,
-                          showInSnackBar,
-                          allprov,
-                        )
-                        .then((value) => isLoading = false);
-                  }
-                }
-              },
-              padding: EdgeInsets.all(15.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              color: Colors.white,
-              child: isRegister == false
-                  ? Text(
-                      lang.translation['signinTitle']
-                          [Languages.selectedLanguage],
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        letterSpacing: 1.5,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+      child: RaisedButton(
+        elevation: 5.0,
+        onPressed: () {
+          setState(() {
+            if (isRegister == true) {
+              if (nameController.text == "" ||
+                  emailController.text == "" ||
+                  passwordController.text == "" ||
+                  phoneController.text == "") {
+                showInSnackBar(lang.translation['pleaseFillAllRecords']
+                    [Languages.selectedLanguage]);
+              } else if (emailController.text.indexOf("@") == -1) {
+                showInSnackBar(lang.translation['pleaseFillEmail']
+                    [Languages.selectedLanguage]);
+              } else {
+                isLoading = true;
+                uPro
+                    .register(
+                      nameController.text,
+                      emailController.text,
+                      passwordController.text,
+                      phoneController.text,
+                      context,
+                      showInSnackBar,
+                      allprov,
                     )
-                  : Text(
-                      lang.translation['registerTitle']
-                          [Languages.selectedLanguage],
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        letterSpacing: 1.5,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ))
-          : CircularProgressIndicator(),
+                    .then((value) => isLoading = false);
+              }
+              //  uPro.register(name, email, password, phone, context, pageController);
+
+            } else {
+              if (emailController.text == "" || passwordController.text == "") {
+                showInSnackBar(lang.translation['pleaseFillAllRecords']
+                    [Languages.selectedLanguage]);
+              } else if (emailController.text.indexOf("@") == -1) {
+                showInSnackBar(lang.translation['pleaseFillEmail']
+                    [Languages.selectedLanguage]);
+              } else {
+                isLoading = true;
+                uPro
+                    .login(
+                      emailController.text,
+                      passwordController.text,
+                      context,
+                      showInSnackBar,
+                      allprov,
+                    )
+                    .then((value) => isLoading = false);
+              }
+            }
+          });
+        },
+        padding: EdgeInsets.all(15.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        color: Colors.white,
+        child: isRegister == false
+            ? Container(
+                child: isLoading == false
+                    ? Text(
+                        lang.translation['signinTitle']
+                            [Languages.selectedLanguage],
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          letterSpacing: 1.5,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : CircularProgressIndicator(),
+              )
+            : Container(
+                child: isLoading == false
+                    ? Text(
+                        lang.translation['registerTitle']
+                            [Languages.selectedLanguage],
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          letterSpacing: 1.5,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : CircularProgressIndicator(),
+              ),
+      ),
     );
   }
 

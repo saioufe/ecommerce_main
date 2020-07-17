@@ -82,7 +82,7 @@ class _FavoriteItemTemplateState extends State<FavoriteItemTemplate> {
                               style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).bottomAppBarColor),
+                                  color: Colors.black87,),
                             ),
                           ),
                         ),

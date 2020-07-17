@@ -417,13 +417,15 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
 
                     if (cartPro.isBuyed == true) {
                       cartPro.isBuyed = false;
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OrderDone(
-                              controller: widget.controller,
-                            ),
-                          ));
+                      cartPro.getCartItems().then((value) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OrderDone(
+                                controller: widget.controller,
+                              ),
+                            ));
+                      });
                     } else {
                       print("suck it");
                     }
