@@ -78,13 +78,17 @@ void main() async {
             theme: manager.themeData,
             color: Colors.redAccent,
             title: 'Ecommerce Creative Projects',
-            home: SplashScreen.navigate(
-              name: 'assets/iraq3d.flr',
-              next: (_) => MainScreen(0),
-              until: () => Future.delayed(Duration(seconds: 1)),
+            home: SplashScreen(
+              'assets/hanoot.flr',
+              (context) {
+                return MainScreen(0);
+              },
+              // Future.delayed(Duration(milliseconds: 1)),
               startAnimation: 'Untitled',
-              backgroundColor: Color(0xff215a7d),
-              endAnimation: '1',
+              backgroundColor: Colors.white,
+              isLoading: true,
+
+              // backgroundColor: Color(0xff215a7d),
             ),
             initialRoute: '/',
             routes: {

@@ -97,7 +97,9 @@ class _ProductInfoPressedState extends State<ProductInfoPressed> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(20),
                                     child: Text(
-                                      widget.product.description,
+                                      Languages.selectedLanguage == 0
+                                          ? widget.product.description
+                                          : widget.product.descriptionEnglish,
                                       textAlign: TextAlign.justify,
                                       textDirection: TextDirection.rtl,
                                       style: TextStyle(
