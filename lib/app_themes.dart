@@ -11,8 +11,9 @@ final appThemeData = {
   AppTheme.White: ThemeData(
     fontFamily: 'tajawal',
     canvasColor: Color.fromRGBO(243, 248, 253, 1),
-    primaryColor: Color.fromRGBO(250, 179, 48, 1),
-    accentColor: Color.fromRGBO(255, 189, 67, 1),
+    primaryColor: Color(0xff215a7d),
+    //accentColor: Color.fromRGBO(255, 189, 67, 1),
+    accentColor: Color(0xff215a7d),
     bottomAppBarColor: Color(0xff313e4b),
     appBarTheme: AppBarTheme(
       color: Color(0xFF37d2b3),
@@ -27,8 +28,8 @@ final appThemeData = {
   AppTheme.Dark: ThemeData(
     fontFamily: 'tajawal',
     canvasColor: Color(0xff222324),
-    primaryColor: Color.fromRGBO(250, 179, 48, 1),
-    accentColor: Color.fromRGBO(255, 189, 67, 1),
+    primaryColor: Color(0xff215a7d),
+    accentColor: Color(0xff215a7d),
     bottomAppBarColor: Colors.white,
     appBarTheme: AppBarTheme(
       color: Color(0xFF37d2b3),

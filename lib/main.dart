@@ -25,7 +25,7 @@ void main() async {
 
   OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
-  OneSignal.shared.init("0ae33daf-adcb-40b4-a128-f7a3fa6b2ea9", iOSSettings: {
+  OneSignal.shared.init("265e0969-9fdf-4f47-aed6-028a67bb28e9", iOSSettings: {
     OSiOSSettings.autoPrompt: false,
     OSiOSSettings.inAppLaunchUrl: false
   });
@@ -79,16 +79,16 @@ void main() async {
             color: Colors.redAccent,
             title: 'Ecommerce Creative Projects',
             home: SplashScreen(
-              'assets/hanoot.flr',
+              'assets/iraq3d.flr',
               (context) {
                 return MainScreen(0);
               },
               // Future.delayed(Duration(milliseconds: 1)),
               startAnimation: 'Untitled',
-              backgroundColor: Colors.white,
+              //backgroundColor: Colors.white,
               isLoading: true,
 
-              // backgroundColor: Color(0xff215a7d),
+              backgroundColor: Color(0xff215a7d),
             ),
             initialRoute: '/',
             routes: {

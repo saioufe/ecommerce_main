@@ -215,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 60.0,
           child: TextField(
             controller: phoneController,
-            obscureText: true,
+           // obscureText: true,
             keyboardType: TextInputType.number,
             style: TextStyle(
               color: Colors.black,

@@ -45,9 +45,11 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
     controller.addListener(() {
       // print(controller.index);
       if (controller.index == 0) {
+        orderPro.once = false;
         controllerPage.animateToPage(0,
             duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
       } else if (controller.index == 1) {
+        orderPro.once = false;
         controllerPage.animateToPage(1,
             duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
       }
@@ -84,19 +86,18 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
               ),
             ],
           ),
-          actions: <Widget>[
-            Container(
-              margin: EdgeInsets.all(16),
-              child: Text(
-                lang.translation['OrdersTitle'][Languages.selectedLanguage],
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
+          centerTitle: true,
+          title: Container(
+            margin: EdgeInsets.all(16),
+            child: Text(
+              lang.translation['OrdersTitle'][Languages.selectedLanguage],
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
               ),
             ),
-          ],
+          ),
         ),
         body: Container(
           height: MediaQuery.of(context).size.height -

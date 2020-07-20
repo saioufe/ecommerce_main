@@ -46,19 +46,18 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
           iconTheme: IconThemeData(color: Colors.white),
-          actions: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 20, right: 20),
-              child: Text(
-                lang.translation['LanguageTitle'][Languages.selectedLanguage],
-                style: TextStyle(
-                  fontSize: 23,
-                  //fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
+          centerTitle: true,
+          title: Container(
+            margin: EdgeInsets.only(top: 20, right: 20),
+            child: Text(
+              lang.translation['LanguageTitle'][Languages.selectedLanguage],
+              style: TextStyle(
+                fontSize: 23,
+                //fontWeight: FontWeight.w600,
+                color: Colors.white,
               ),
             ),
-          ],
+          ),
         ),
         body: Container(
           width: MediaQuery.of(context).size.width,

@@ -13,8 +13,7 @@ class CartItem extends StatefulWidget {
 }
 
 class _CartItemState extends State<CartItem> {
-  String _selectedQuintity = "1";
-
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final carPro = Provider.of<CartProvider>(context, listen: false);
@@ -48,19 +47,27 @@ class _CartItemState extends State<CartItem> {
                       Container(
                         // alignment: Alignment.topRight,
                         child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              carPro.deleteCartItems(
-                                  widget.cartItem.product.id,
-                                  widget.cartItem.productColor.toString(),
-                                  widget.cartItem.productSize);
-                            });
-                          },
-                          child: Icon(
-                            Icons.remove_circle_outline,
-                            color: Colors.red,
-                          ),
-                        ),
+                            onTap: () {
+                              isLoading = true;
+                              setState(() {
+                                carPro
+                                    .deleteCartItems(
+                                        widget.cartItem.product.id,
+                                        widget.cartItem.productColor.toString(),
+                                        widget.cartItem.productSize)
+                                    .then((value) {
+                                  isLoading = false;
+                                });
+                              });
+                            },
+                            child: isLoading == false
+                                ? Icon(
+                                    Icons.remove_circle_outline,
+                                    color: Colors.red,
+                                  )
+                                : CircularProgressIndicator(
+                                    backgroundColor: Colors.redAccent,
+                                  )),
                       ),
                       Text("${widget.cartItem.productQuantity} x"),
                     ],

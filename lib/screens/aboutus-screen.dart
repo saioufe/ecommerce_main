@@ -47,19 +47,18 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
             iconTheme: IconThemeData(color: Colors.white),
-            actions: <Widget>[
-              Container(
-                margin: EdgeInsets.all(16),
-                child: Text(
-                  lang.translation['aboutUs'][Languages.selectedLanguage],
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
+            centerTitle: true,
+            title: Container(
+              margin: EdgeInsets.all(16),
+              child: Text(
+                lang.translation['aboutUs'][Languages.selectedLanguage],
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
-            ],
+            ),
           ),
           body: FutureBuilder(
               future: application.fetchDataAboutUs(),

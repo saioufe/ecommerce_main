@@ -4,6 +4,8 @@ import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/providers/user.dart';
+import 'package:ecommerce_template/screens/home-screen.dart';
+import 'package:ecommerce_template/screens/login-screen.dart';
 import 'package:ecommerce_template/screens/product-image-viewer.dart';
 import 'package:ecommerce_template/widgets/product-color-size-section.dart';
 import 'package:ecommerce_template/widgets/product-details-section.dart';
@@ -35,7 +37,7 @@ List<String> pics = [];
 List<ProductQuestion> questions = [];
 int currentIndex = 0;
 int imageIndex = 1;
-
+bool isLoading = false;
 Future<bool> requestPop() {
   print("saif");
   return new Future.value(true);
@@ -55,6 +57,7 @@ class _PressedProductState extends State<PressedProduct> {
     AllProviders.onceNoColor = false;
     AllProviders.getOnceQuestion = false;
     AllProviders.selectedPercentage = 0.0;
+
     AllProviders.dataOfflineAllProductsSimilar = null;
     if (AllProviders.dataOfflineAllProductsQuestion != null) {
       AllProviders.dataOfflineAllProductsQuestion = null;
@@ -90,6 +93,36 @@ class _PressedProductState extends State<PressedProduct> {
     FocusScope.of(context).requestFocus(new FocusNode());
     _scaffoldKey.currentState?.removeCurrentSnackBar();
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(
+        value,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+        ),
+      ),
+      backgroundColor: Theme.of(context).primaryColor,
+      duration: Duration(seconds: 3),
+    ));
+  }
+
+  void showInSnackBarForSignIn(String value) {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    _scaffoldKey.currentState?.removeCurrentSnackBar();
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      action: UserProvider.isLogin == false
+          ? SnackBarAction(
+              label: "Sign in",
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    )).then((value) {});
+              },
+            )
+          : SizedBox(),
       content: new Text(
         value,
         textAlign: TextAlign.center,
@@ -277,13 +310,17 @@ class _PressedProductState extends State<PressedProduct> {
                               SizedBox(
                                 width: 20,
                               ),
-                              Text(
-                                lang.translation['addToCart']
-                                    [Languages.selectedLanguage],
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    fontSize: 23, color: Colors.white),
-                              ),
+                              isLoading == false
+                                  ? Text(
+                                      lang.translation['addToCart']
+                                          [Languages.selectedLanguage],
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          fontSize: 23, color: Colors.white),
+                                    )
+                                  : CircularProgressIndicator(
+                                      backgroundColor: Colors.white,
+                                    )
                             ],
                           ),
                         ),
@@ -331,6 +368,10 @@ class _PressedProductState extends State<PressedProduct> {
                                       }
 
                                       // print(AllProviders.selectedPrice);
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+
                                       allCart
                                           .addItemToCart(
                                         widget.product,
@@ -341,6 +382,10 @@ class _PressedProductState extends State<PressedProduct> {
                                         AllProviders.selectedQuintity2,
                                       )
                                           .then((value) {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+
                                         if (value != "0") {
                                           allCart.loadedAllCartItems = null;
                                           allCart.incressCartItemsBadgeNumber();
@@ -361,7 +406,7 @@ class _PressedProductState extends State<PressedProduct> {
                                       );
                                     }
                                   } else {
-                                    showInSnackBar(
+                                    showInSnackBarForSignIn(
                                       lang.translation['PleaseSignInFirst']
                                           [Languages.selectedLanguage],
                                     );
@@ -452,7 +497,9 @@ class _PressedProductState extends State<PressedProduct> {
                     textAlign: Languages.selectedLanguage == 0
                         ? TextAlign.right
                         : TextAlign.left,
-                    style: TextStyle(fontSize: 23 , color: Theme.of(context).bottomAppBarColor),
+                    style: TextStyle(
+                        fontSize: 23,
+                        color: Theme.of(context).bottomAppBarColor),
                   ),
                 ),
                 SimilarItems(widget.product),

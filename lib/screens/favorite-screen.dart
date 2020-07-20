@@ -45,19 +45,18 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
           iconTheme: IconThemeData(color: Colors.white),
-          actions: <Widget>[
-            Container(
-              margin: EdgeInsets.all(16),
-              child: Text(
-                lang.translation['FavoriteTitle'][Languages.selectedLanguage],
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
+          centerTitle: true,
+          title: Container(
+            margin: EdgeInsets.all(16),
+            child: Text(
+              lang.translation['FavoriteTitle'][Languages.selectedLanguage],
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
               ),
             ),
-          ],
+          ),
         ),
         body: allPro.numOfFavorite == 0
             ? Center(

@@ -58,10 +58,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        // centerTitle: true,
         actions: <Widget>[
           Center(
             child: Container(
-              margin: EdgeInsets.all(15),
+              width: MediaQuery.of(context).size.width,
+              alignment: Languages.selectedLanguage == 1
+                  ? Alignment.centerLeft
+                  : Alignment.centerRight,
+              padding: Languages.selectedLanguage == 1
+                  ? EdgeInsets.only(left: 15)
+                  : EdgeInsets.only(right: 15),
               child: Text(
                 lang.translation['SettingsTitle'][Languages.selectedLanguage],
                 textAlign: TextAlign.right,

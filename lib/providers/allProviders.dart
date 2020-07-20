@@ -133,8 +133,8 @@ class AllProviders extends ChangeNotifier {
     notifyListeners();
   }
 
-  static const String hostName = "https://www.creative-projects.me/hanoot";
-
+  //static const String hostName = "http://hanoot.creativeprojects.host";
+  static const String hostName = "http://iraq3d.creativeprojects.host";
   //static const String hostName = "http://10.0.2.2/ecommerceTemplate";
   //static const String hostName = "http://app.creative-projects.co";
 
@@ -283,6 +283,7 @@ class AllProviders extends ChangeNotifier {
         noColor: newsId['noColor'],
       ));
     });
+
 
     if (loadedAllProducts.length > 2) {
       theNumberOfShowsIntheMain = 2;

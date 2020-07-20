@@ -35,6 +35,7 @@ class HomeScreen extends StatefulWidget {
 ScrollController controller = ScrollController();
 
 class _HomeScreenState extends State<HomeScreen> {
+
   @override
   Widget build(BuildContext context) {
     final allposts = Provider.of<AllProviders>(context, listen: false);
@@ -886,9 +887,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               allposts.dataOfflineAllProducts == null
                   ? FutureBuilder(
-                      future: allposts.fetchDataAllProducts().then((value) {
-                        cartPro.getCartItems();
-                      }),
+                      future: allposts.fetchDataAllProducts(),
                       builder: (ctx, authResultSnap) {
                         if (authResultSnap.connectionState ==
                             ConnectionState.waiting) {

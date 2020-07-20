@@ -247,9 +247,17 @@ class _MainScreenState extends State<MainScreen> {
           confineInSafeArea: true,
           backgroundColor: Colors.white,
           handleAndroidBackButtonPress: true,
-          onItemSelected: (int) {
-            setState(
-                () {}); // This is required to update the nav bar if Android back button is pressed
+          onItemSelected: (int s) {
+            setState(() {
+              // if (Languages.selectedLanguage == 0 && s == 1) {
+              //   return;
+              // } else if (Languages.selectedLanguage == 1 && s == 3) {
+              //   return;
+              // }
+
+              // allPro.dataOfflineAllProducts = null;
+              allPro.allProducts.shuffle();
+            }); // This is required to update the nav bar if Android back button is pressed
           },
           itemCount: 4,
           navBarStyle:
