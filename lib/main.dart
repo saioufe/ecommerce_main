@@ -29,12 +29,29 @@ void main() async {
     OSiOSSettings.autoPrompt: false,
     OSiOSSettings.inAppLaunchUrl: false
   });
+
   OneSignal.shared
       .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
 // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 6)
   await OneSignal.shared
       .promptUserForPushNotificationPermission(fallbackToSettings: true);
+
+
+
+  // OneSignal.shared
+  //     .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+  //   // a notification has been opened
+  //   Navigator.pus(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => PressedProduct(
+  //           isMain: true,
+  //         ),
+  //       ));
+  //   print(
+  //       "${result.notification.payload.additionalData} this is the data of the notification");
+  // });
 
   runApp(
     MultiProvider(

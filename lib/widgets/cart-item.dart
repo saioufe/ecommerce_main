@@ -47,27 +47,28 @@ class _CartItemState extends State<CartItem> {
                       Container(
                         // alignment: Alignment.topRight,
                         child: InkWell(
-                            onTap: () {
-                              isLoading = true;
-                              setState(() {
-                                carPro
-                                    .deleteCartItems(
-                                        widget.cartItem.product.id,
-                                        widget.cartItem.productColor.toString(),
-                                        widget.cartItem.productSize)
-                                    .then((value) {
-                                  isLoading = false;
-                                });
+                          onTap: () {
+                            isLoading = true;
+                            setState(() {
+                              carPro
+                                  .deleteCartItems(
+                                      widget.cartItem.product.id,
+                                      widget.cartItem.productColor.toString(),
+                                      widget.cartItem.productSize)
+                                  .then((value) {
+                                isLoading = false;
                               });
-                            },
-                            child: isLoading == false
-                                ? Icon(
-                                    Icons.remove_circle_outline,
-                                    color: Colors.red,
-                                  )
-                                : CircularProgressIndicator(
-                                    backgroundColor: Colors.redAccent,
-                                  )),
+                            });
+                          },
+                          child: isLoading == false
+                              ? Icon(
+                                  Icons.remove_circle_outline,
+                                  color: Colors.red,
+                                )
+                              : CircularProgressIndicator(
+                                  backgroundColor: Colors.redAccent,
+                                ),
+                        ),
                       ),
                       Text("${widget.cartItem.productQuantity} x"),
                     ],
@@ -97,7 +98,9 @@ class _CartItemState extends State<CartItem> {
                           ),
                         ),
                       ),
-                      Text(widget.cartItem.productPrice,
+                      Text(
+                          AllProviders.numToString(
+                              widget.cartItem.productPrice),
                           style: TextStyle(
                               fontSize: 19,
                               color: Theme.of(context).primaryColor,

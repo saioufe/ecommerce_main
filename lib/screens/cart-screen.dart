@@ -11,15 +11,11 @@ import 'package:provider/provider.dart';
 
 import '../ecommerce_icons_icons.dart';
 
-class CartScreen extends StatefulWidget {
+class CartScreen extends StatelessWidget {
   final PersistentTabController controller;
 
   CartScreen({this.controller});
-  @override
-  _CartScreenState createState() => _CartScreenState();
-}
 
-class _CartScreenState extends State<CartScreen> {
   PageController c = new PageController();
 
   String thePage = "البيانات";
@@ -27,15 +23,15 @@ class _CartScreenState extends State<CartScreen> {
 
   void setThePageSetUppers(int page) {
     pageNumber = page;
-    setState(() {
-      if (page == 0) {
-        thePage = "السلة";
-      } else if (page == 1) {
-        thePage = "العنوان والدفع";
-      } else {
-        thePage = "التاكيد";
-      }
-    });
+    // setState(() {
+    //   if (page == 0) {
+    //     thePage = "السلة";
+    //   } else if (page == 1) {
+    //     thePage = "العنوان والدفع";
+    //   } else {
+    //     thePage = "التاكيد";
+    //   }
+    // });
   }
 
   @override
@@ -51,10 +47,10 @@ class _CartScreenState extends State<CartScreen> {
       PaymentSecondPayAddress(
         c: c,
       ),
-      PaymentThirdConfirm(c: c, controller: widget.controller),
+      PaymentThirdConfirm(c: c, controller: controller),
     ];
 
-    return carPro.loadedAllCartItems == null
+    return carPro.loadedAllCartItems == null || carPro.loadedAllCartItems == []
         ? FutureBuilder(
             future: carPro.getCartItems(),
             builder: (ctx, authResultSnap) {
@@ -73,9 +69,9 @@ class _CartScreenState extends State<CartScreen> {
                 );
                 return RaisedButton(
                   onPressed: () {
-                    setState(() {
-                      //other.getUserLocation();
-                    });
+                    // setState(() {
+                    //   //other.getUserLocation();
+                    // });
                     print(authResultSnap.error.toString());
                   },
                   child: Text(
@@ -173,6 +169,7 @@ class _CartScreenState extends State<CartScreen> {
                             physics: NeverScrollableScrollPhysics(),
                             children: theGoldCarsWidget,
                             onPageChanged: (page) {
+                              print(carPro.loadedAllCartItems);
                               setThePageSetUppers(page);
                             },
                           ),
@@ -188,7 +185,9 @@ class _CartScreenState extends State<CartScreen> {
                 );
               }
             })
-        : carPro.numOfCartItems != 0
+        : // (carPro.loadedAllCartItems != null ||
+        //             carPro.loadedAllCartItems != []) &&
+        carPro.numOfCartItems != 0 && carPro.numOfCartItems != null
             ? SafeArea(
                 child: SingleChildScrollView(
                   child: Column(
@@ -198,11 +197,10 @@ class _CartScreenState extends State<CartScreen> {
                         width: MediaQuery.of(context).size.width / 1.1,
                         //alignment: Alignment.centerRight,
                         child: Text(
+                          //carPro.cartItemNumber.toString(),
                           lang.translation['shoppingBasket']
                               [Languages.selectedLanguage],
-                          textAlign: Languages.selectedLanguage == 0
-                              ? TextAlign.right
-                              : TextAlign.left,
+                          textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -277,9 +275,10 @@ class _CartScreenState extends State<CartScreen> {
                         child: PageView(
                           scrollDirection: Axis.horizontal,
                           controller: c,
-                          physics: new NeverScrollableScrollPhysics(),
+                          physics: NeverScrollableScrollPhysics(),
                           children: theGoldCarsWidget,
                           onPageChanged: (page) {
+                            print(carPro.loadedAllCartItems);
                             setThePageSetUppers(page);
                           },
                         ),
@@ -294,7 +293,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               )
             : CartNoProducts(
-                controller: widget.controller,
+                controller: controller,
               );
   }
 }

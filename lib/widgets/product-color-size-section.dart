@@ -128,7 +128,7 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 fontFamily: 'tajawal',
-                                color:Colors.black87,
+                                color: Colors.black87,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20),
                             overflow: TextOverflow.ellipsis,
@@ -283,6 +283,7 @@ class _ProductColorSizePressedState extends State<ProductColorSizePressed> {
                               ),
                               InkWell(
                                 onTap: () {
+                                  
                                   setState(() {
                                     if (AllProviders.selectedQuintity2 != 1) {
                                       AllProviders.selectedQuintity2 -= 1;

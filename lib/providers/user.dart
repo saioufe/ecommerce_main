@@ -22,7 +22,6 @@ class UserProvider with ChangeNotifier {
   List<UserModel> loadedUser = [];
   Future<void> register(
     String name,
-    String email,
     String password,
     String phone,
     BuildContext contextExit,
@@ -33,7 +32,6 @@ class UserProvider with ChangeNotifier {
 
     await http.post("${AllProviders.hostName}/insert-user.php", body: {
       "name": name,
-      "email": email,
       "password": password,
       "phone": phone,
     }).then((respon) {
@@ -52,13 +50,11 @@ class UserProvider with ChangeNotifier {
         loadedUser.add(UserModel(
           id: userData[0][1],
           name: name,
-          email: email,
           password: password,
           phone: phone,
         ));
         prefs.setString('name', name);
         prefs.setInt('id', userData[0][1]);
-        prefs.setString('email', email);
         prefs.setString('password', password);
         prefs.setString('phone', phone);
         userName = name;
@@ -79,7 +75,7 @@ class UserProvider with ChangeNotifier {
 
   List userData2 = [];
   Future<void> login(
-    String email,
+    String phone,
     String password,
     BuildContext contextExit,
     Function snackBar,
@@ -88,7 +84,7 @@ class UserProvider with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     await http.post("${AllProviders.hostName}/login-user.php", body: {
-      "email": email,
+      "phone": phone,
       "password": password,
     }).then((respon) {
       userData2 = json.decode(respon.body);
@@ -101,13 +97,11 @@ class UserProvider with ChangeNotifier {
           loadedUser.add(UserModel(
             id: int.parse(item['id']),
             name: item['name'],
-            email: item['email'],
             password: item['password'],
             phone: item['phone'],
           ));
           prefs.setInt('id', int.parse(item['id']));
           prefs.setString('name', item['name']);
-          prefs.setString('email', item['email']);
           prefs.setString('password', item['password']);
           prefs.setString('phone', item['phone']);
           userName = item['name'];
@@ -129,7 +123,6 @@ class UserProvider with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("id");
     prefs.remove("name");
-    prefs.remove("email");
     prefs.remove("password");
     prefs.remove("phone");
     isLogin = false;
@@ -145,13 +138,12 @@ class UserProvider with ChangeNotifier {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       //prefs.clear();
-      if (prefs.containsKey('email') && prefs.containsKey("password")) {
+      if (prefs.containsKey('phone') && prefs.containsKey("password")) {
         isLogin = true;
         loadedUser = [
           UserModel(
             id: prefs.getInt("id"),
             name: prefs.getString("name"),
-            email: prefs.getString("email"),
             password: prefs.getString("password"),
             phone: prefs.getString("phone"),
           )

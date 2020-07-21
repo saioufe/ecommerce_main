@@ -19,6 +19,14 @@ import 'package:provider/provider.dart';
 class AllProviders extends ChangeNotifier {
   bool showNavBar = true;
 
+  static RegExp reg = new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  static Function mathFunc = (Match match) => '${match[1]},';
+
+  static String numToString(String string){
+    String result = string.replaceAllMapped(reg, mathFunc);
+    return result;
+  }
+
   void NavBarShow(bool show) {
     showNavBar = show;
     notifyListeners();
@@ -133,8 +141,8 @@ class AllProviders extends ChangeNotifier {
     notifyListeners();
   }
 
-  //static const String hostName = "http://hanoot.creativeprojects.host";
-  static const String hostName = "http://iraq3d.creativeprojects.host";
+  //static const String hostName = "https://hanoot.creativeprojects.host";
+  static const String hostName = "https://iraq3d.creativeprojects.host";
   //static const String hostName = "http://10.0.2.2/ecommerceTemplate";
   //static const String hostName = "http://app.creative-projects.co";
 

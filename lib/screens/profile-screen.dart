@@ -49,10 +49,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //int notinumber;
   @override
   Widget build(BuildContext context) {
-    final allPro = Provider.of<AllProviders>(context);
-    final userPro = Provider.of<UserProvider>(context);
-    final cartPro = Provider.of<CartProvider>(context);
-    final lang = Provider.of<Languages>(context);
+    final allPro = Provider.of<AllProviders>(context, listen: false);
+    final userPro = Provider.of<UserProvider>(context, listen: false);
+    final cartPro = Provider.of<CartProvider>(context, listen: false);
+    final lang = Provider.of<Languages>(context, listen: false);
     cartPro.getNumCartItem();
 
     return Scaffold(

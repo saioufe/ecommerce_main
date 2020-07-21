@@ -6,6 +6,7 @@ import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/cart-screen.dart';
 import 'package:ecommerce_template/screens/categories-screen.dart';
 import 'package:ecommerce_template/screens/home-screen.dart';
+import 'package:ecommerce_template/screens/pressed-product-notification.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:ecommerce_template/screens/profile-screen.dart';
 import 'package:ecommerce_template/screens/search-screen.dart';
@@ -41,17 +42,17 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
 
-    OneSignal.shared.setNotificationReceivedHandler((notification) {
-      String data = notification.payload.additionalData['id'].toString();
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => PressedProduct(
-      //         isMain: true,
-      //       ),
-      //     ));
-      print("this is the data and the payload for the notification : $data");
-    });
+    // OneSignal.shared.setNotificationReceivedHandler((notification) {
+    //   String data = notification.payload.additionalData['id'].toString();
+    //   Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => PressedProduct(
+    //           isMain: true,
+    //         ),
+    //       ));
+    //   print("this is the data and the payload for the notification : $data");
+    // });
 
     _controller = PersistentTabController(initialIndex: 4);
   }
@@ -249,11 +250,13 @@ class _MainScreenState extends State<MainScreen> {
           handleAndroidBackButtonPress: true,
           onItemSelected: (int s) {
             setState(() {
-              // if (Languages.selectedLanguage == 0 && s == 1) {
-              //   return;
-              // } else if (Languages.selectedLanguage == 1 && s == 3) {
-              //   return;
-              // }
+              if (Languages.selectedLanguage == 0 && s != 1) {
+                cartPro.getNumCartItem();
+                return;
+              } else if (Languages.selectedLanguage == 1 && s != 3) {
+                cartPro.getNumCartItem();
+                return;
+              }
 
               // allPro.dataOfflineAllProducts = null;
               allPro.allProducts.shuffle();

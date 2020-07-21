@@ -150,8 +150,8 @@ class _ProductMainTemplateState extends State<ProductMainTemplate> {
                       margin: EdgeInsets.only(top: 10),
                       child: Text(
                         widget.product.discount == '0'
-                            ? "${widget.product.price} IQD"
-                            : "${widget.product.discount} IQD",
+                            ? "${AllProviders.numToString(widget.product.price)} IQD"
+                            : "${AllProviders.numToString(widget.product.discount)} IQD",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 20,

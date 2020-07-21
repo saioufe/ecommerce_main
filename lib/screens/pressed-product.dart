@@ -179,7 +179,7 @@ class _PressedProductState extends State<PressedProduct> {
               backgroundColor: Colors.transparent,
               expandedHeight: 300,
               pinned: false,
-              iconTheme: IconThemeData(color: Colors.white),
+              iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
               flexibleSpace: FlexibleSpaceBar(
                 background: InkWell(
                   onTap: () {
@@ -342,32 +342,14 @@ class _PressedProductState extends State<PressedProduct> {
                                             AllProviders.selectedSize != '' ||
                                         widget.product.noColor == "1") {
                                       String thePrice;
-                                      if (int.tryParse(
-                                          AllProviders.selectedPrice) is int) {
-                                        thePrice =
-                                            "0.${AllProviders.selectedPrice}";
-                                      } else {
-                                        thePrice = AllProviders.selectedPrice;
-                                      }
+
+                                      thePrice = AllProviders.selectedPrice;
 
                                       String theDiscount;
-                                      if (int.tryParse(
-                                                  AllProviders.selectedDiscount)
-                                              is int &&
-                                          AllProviders.selectedDiscount != '') {
-                                        theDiscount =
-                                            "0.${AllProviders.selectedDiscount}";
-                                        print("integer");
-                                      } else if (AllProviders
-                                              .selectedDiscount !=
-                                          '') {
-                                        theDiscount = double.parse(
-                                                AllProviders.selectedDiscount)
-                                            .toStringAsFixed(3);
-                                        print("double");
-                                      }
 
-                                      // print(AllProviders.selectedPrice);
+                                      theDiscount =
+                                          AllProviders.selectedDiscount;
+
                                       setState(() {
                                         isLoading = true;
                                       });
@@ -426,29 +408,12 @@ class _PressedProductState extends State<PressedProduct> {
                                         AllProviders.selectedSize != '' ||
                                     widget.product.noColor == "1") {
                                   String thePrice;
-                                  if (int.tryParse(AllProviders.selectedPrice)
-                                      is int) {
-                                    thePrice =
-                                        "0.${AllProviders.selectedPrice}";
-                                  } else {
-                                    thePrice = AllProviders.selectedPrice;
-                                  }
+
+                                  thePrice = AllProviders.selectedPrice;
 
                                   String theDiscount;
-                                  if (int.tryParse(
-                                              AllProviders.selectedDiscount)
-                                          is int &&
-                                      AllProviders.selectedDiscount != '') {
-                                    theDiscount =
-                                        "0.${AllProviders.selectedDiscount}";
-                                    print("integer");
-                                  } else if (AllProviders.selectedDiscount !=
-                                      '') {
-                                    theDiscount = double.parse(
-                                            AllProviders.selectedDiscount)
-                                        .toStringAsFixed(3);
-                                    print("double");
-                                  }
+
+                                  theDiscount = AllProviders.selectedDiscount;
 
                                   // print(AllProviders.selectedPrice);
                                   allCart

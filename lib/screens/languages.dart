@@ -44,21 +44,72 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          iconTheme: IconThemeData(color: Colors.white),
-          centerTitle: true,
-          title: Container(
-            margin: EdgeInsets.only(top: 20, right: 20),
-            child: Text(
-              lang.translation['LanguageTitle'][Languages.selectedLanguage],
-              style: TextStyle(
-                fontSize: 23,
-                //fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
+        backgroundColor: Theme.of(context).primaryColor,
+        iconTheme: IconThemeData(color: Colors.white),
+        leading: new Container(),
+        actions: <Widget>[
+          Languages.selectedLanguage == 0
+              ? Container(
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          allPro.NavBarShow(true);
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                      ),
+                      Text(
+                        lang.translation['LanguageTitle']
+                            [Languages.selectedLanguage],
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ))
+              : Container(
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        lang.translation['LanguageTitle']
+                            [Languages.selectedLanguage],
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          allPro.NavBarShow(true);
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                      ),
+                    ],
+                  ))
+        ],
+      ),
+
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,

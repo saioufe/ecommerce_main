@@ -1,4 +1,5 @@
 import 'package:ecommerce_template/models/cartItemModel.dart';
+import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:flutter/material.dart';
 
 class CartItemLast extends StatelessWidget {
@@ -37,7 +38,7 @@ class CartItemLast extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  cartItem.productPrice,
+                  AllProviders.numToString(cartItem.productPrice),
                   style: TextStyle(
                       fontSize: 23,
                       color: Colors.black45,

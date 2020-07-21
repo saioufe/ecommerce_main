@@ -11,6 +11,7 @@ import 'package:ecommerce_template/providers/settings.dart';
 import 'package:ecommerce_template/providers/user.dart';
 import 'package:ecommerce_template/screens/news-screen.dart';
 import 'package:ecommerce_template/screens/posts-pressed-screen.dart';
+import 'package:ecommerce_template/screens/pressed-product-notification.dart';
 import 'package:ecommerce_template/screens/pressed-product.dart';
 import 'package:ecommerce_template/widgets/categories-home-screen.dart';
 import 'package:ecommerce_template/Templates/category-home-template.dart';
@@ -20,6 +21,7 @@ import 'package:ecommerce_template/widgets/slider-widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -35,6 +37,29 @@ class HomeScreen extends StatefulWidget {
 ScrollController controller = ScrollController();
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    Future.delayed(Duration(milliseconds: 2000), () {
+      OneSignal.shared
+          .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+        // a notification has been opened
+        if (result.notification.payload.additionalData['id'] != '') {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PressedProductNotification(
+                  controller: widget.controller,
+                  id: result.notification.payload.additionalData['id'],
+                  isMain: true,
+                ),
+              ));
+        }
+
+        print('this is ${result.notification.payload.additionalData['id']}');
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -574,7 +599,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         [Languages.selectedLanguage],
                                     style: TextStyle(color: Colors.black)),
                               );
-                            } else {
+                            } else if (allposts.posts.isEmpty != true) {
                               if (allposts.posts[0].showPosts == "1") {
                                 return Column(
                                   children: <Widget>[
@@ -728,139 +753,157 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                             }
                           })
-                      : allposts.posts[0].showPosts == "1"
-                          ? Column(
-                              children: <Widget>[
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.1,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: Languages.selectedLanguage == 0
-                                        ? <Widget>[
-                                            InkWell(
-                                              onTap: () {},
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  Icon(
-                                                    Icons.keyboard_arrow_left,
-                                                    size: 18,
-                                                    color: Colors.black,
+                      : allposts.posts.isEmpty != true
+                          ? allposts.posts[0].showPosts == "1"
+                              ? Column(
+                                  children: <Widget>[
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.1,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: Languages.selectedLanguage ==
+                                                0
+                                            ? <Widget>[
+                                                InkWell(
+                                                  onTap: () {},
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: <Widget>[
+                                                      Icon(
+                                                        Icons
+                                                            .keyboard_arrow_left,
+                                                        size: 18,
+                                                        color: Colors.black,
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        NewsScreen(),
+                                                              ));
+                                                        },
+                                                        child: Text(
+                                                          lang.translation[
+                                                                  'moreTitle'][
+                                                              Languages
+                                                                  .selectedLanguage],
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 15),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                NewsScreen(),
-                                                          ));
-                                                    },
-                                                    child: Text(
-                                                      lang.translation[
-                                                              'moreTitle'][
-                                                          Languages
-                                                              .selectedLanguage],
-                                                      textAlign:
-                                                          TextAlign.right,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Colors.black,
-                                                          fontSize: 15),
-                                                    ),
+                                                ),
+                                                Text(
+                                                  lang.translation['latestNews']
+                                                      [Languages
+                                                          .selectedLanguage],
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black,
+                                                      fontSize: 20),
+                                                ),
+                                              ]
+                                            : <Widget>[
+                                                Text(
+                                                  lang.translation['latestNews']
+                                                      [Languages
+                                                          .selectedLanguage],
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black,
+                                                      fontSize: 20),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {},
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: <Widget>[
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        NewsScreen(),
+                                                              ));
+                                                        },
+                                                        child: Text(
+                                                          lang.translation[
+                                                                  'moreTitle'][
+                                                              Languages
+                                                                  .selectedLanguage],
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 15),
+                                                        ),
+                                                      ),
+                                                      Icon(
+                                                        Icons
+                                                            .keyboard_arrow_right,
+                                                        size: 18,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                            Text(
-                                              lang.translation['latestNews']
-                                                  [Languages.selectedLanguage],
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
-                                                  fontSize: 20),
-                                            ),
-                                          ]
-                                        : <Widget>[
-                                            Text(
-                                              lang.translation['latestNews']
-                                                  [Languages.selectedLanguage],
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
-                                                  fontSize: 20),
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  InkWell(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                NewsScreen(),
-                                                          ));
-                                                    },
-                                                    child: Text(
-                                                      lang.translation[
-                                                              'moreTitle'][
-                                                          Languages
-                                                              .selectedLanguage],
-                                                      textAlign:
-                                                          TextAlign.right,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Colors.black,
-                                                          fontSize: 15),
-                                                    ),
-                                                  ),
-                                                  Icon(
-                                                    Icons.keyboard_arrow_right,
-                                                    size: 18,
-                                                    color: Colors.black,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                  ),
-                                ),
-                                Column(
-                                    children: allposts.posts
-                                        .sublist(0,
-                                            allposts.posts.length > 2 ? 2 : 1)
-                                        .map((item) {
-                                  return PostsHomeTemplate(
-                                    news: News(
-                                        id: item.id,
-                                        title: item.title,
-                                        text: item.text,
-                                        titleEnglish: item.titleEnglish,
-                                        textEnglish: item.textEnglish,
-                                        image: item.image,
-                                        date: item.date,
-                                        showPosts: item.showPosts),
-                                    home: true,
-                                  );
-                                }).toList()),
-                              ],
-                            )
-                          : SizedBox(
-                              height: sizeBetweenWidgets,
-                            )),
+                                                ),
+                                              ],
+                                      ),
+                                    ),
+                                    Column(
+                                        children: allposts.posts
+                                            .sublist(
+                                                0,
+                                                allposts.posts.length > 2
+                                                    ? 2
+                                                    : 1)
+                                            .map((item) {
+                                      return PostsHomeTemplate(
+                                        news: News(
+                                            id: item.id,
+                                            title: item.title,
+                                            text: item.text,
+                                            titleEnglish: item.titleEnglish,
+                                            textEnglish: item.textEnglish,
+                                            image: item.image,
+                                            date: item.date,
+                                            showPosts: item.showPosts),
+                                        home: true,
+                                      );
+                                    }).toList()),
+                                  ],
+                                )
+                              : SizedBox(
+                                  height: sizeBetweenWidgets,
+                                )
+                          : SizedBox()),
               SizedBox(
                 height: sizeBetweenWidgets,
               ),

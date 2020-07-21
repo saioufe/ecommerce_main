@@ -1,5 +1,6 @@
 import 'package:ecommerce_template/Templates/address-order-template.dart';
 import 'package:ecommerce_template/ecommerce_icons_icons.dart';
+import 'package:ecommerce_template/providers/allProviders.dart';
 import 'package:ecommerce_template/providers/cart.dart';
 import 'package:ecommerce_template/providers/languages.dart';
 import 'package:ecommerce_template/screens/are-you-sure.dart';
@@ -283,7 +284,7 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          "${cartPro.lastTotalPrice.toStringAsFixed(3)} IQD",
+                          "${AllProviders.numToString(cartPro.lastTotalPrice.toString())} IQD",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w300,
@@ -304,7 +305,7 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          cartPro.selectedShipPrice,
+                          AllProviders.numToString(cartPro.selectedShipPrice),
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w300,
@@ -352,10 +353,9 @@ class _PaymentThirdConfirmState extends State<PaymentThirdConfirm> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          cartPro
-                              .getTotalPrice(
-                                  double.parse(cartPro.promocodeValue))
-                              .toStringAsFixed(3),
+                          AllProviders.numToString(cartPro
+                              .getTotalPrice(num.parse(cartPro.promocodeValue))
+                              .toString()),
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

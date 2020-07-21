@@ -47,7 +47,7 @@ class ProductDetailsPressed extends StatelessWidget {
                   Container(
                     child: Center(
                       child: Text(
-                        allposts.getThePrice(product),
+                        AllProviders.numToString(allposts.getThePrice(product)),
                         textAlign: TextAlign.right,
                         style: TextStyle(
                             fontFamily: 'tajawal',
@@ -66,8 +66,8 @@ class ProductDetailsPressed extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   AllProviders.selectedDiscount == ''
-                                      ? "${product.price} IQD"
-                                      : "${AllProviders.selectedPrice}",
+                                      ? "${AllProviders.numToString(product.price)} IQD"
+                                      : "${AllProviders.numToString(AllProviders.selectedPrice)}",
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     fontFamily: 'tajawal',

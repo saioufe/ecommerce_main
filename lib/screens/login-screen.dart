@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  TextEditingController emailController = new TextEditingController();
+  // TextEditingController emailController = new TextEditingController();
   TextEditingController nameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextEditingController phoneController = new TextEditingController();
@@ -120,44 +120,44 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildEmailTF(Languages lang) {
-    return Column(
-      crossAxisAlignment: Languages.selectedLanguage == 0
-          ? CrossAxisAlignment.end
-          : CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          lang.translation['emailTitle'][Languages.selectedLanguage],
-          style: kLabelStyle,
-        ),
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.email,
-                color: Theme.of(context).primaryColor,
-              ),
-              hintText: lang.translation['enterEmail']
-                  [Languages.selectedLanguage],
-              hintStyle: kHintTextStyle,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _buildEmailTF(Languages lang) {
+  //   return Column(
+  //     crossAxisAlignment: Languages.selectedLanguage == 0
+  //         ? CrossAxisAlignment.end
+  //         : CrossAxisAlignment.start,
+  //     children: <Widget>[
+  //       Text(
+  //         lang.translation['emailTitle'][Languages.selectedLanguage],
+  //         style: kLabelStyle,
+  //       ),
+  //       SizedBox(height: 10.0),
+  //       Container(
+  //         alignment: Alignment.centerLeft,
+  //         decoration: kBoxDecorationStyle,
+  //         height: 60.0,
+  //         child: TextField(
+  //           controller: emailController,
+  //           keyboardType: TextInputType.emailAddress,
+  //           style: TextStyle(
+  //             color: Colors.black,
+  //             fontFamily: 'OpenSans',
+  //           ),
+  //           decoration: InputDecoration(
+  //             border: InputBorder.none,
+  //             contentPadding: EdgeInsets.only(top: 14.0),
+  //             prefixIcon: Icon(
+  //               Icons.email,
+  //               color: Theme.of(context).primaryColor,
+  //             ),
+  //             hintText: lang.translation['enterEmail']
+  //                 [Languages.selectedLanguage],
+  //             hintStyle: kHintTextStyle,
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _buildPasswordTF(Languages lang) {
     return Column(
@@ -294,20 +294,15 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             if (isRegister == true) {
               if (nameController.text == "" ||
-                  emailController.text == "" ||
                   passwordController.text == "" ||
                   phoneController.text == "") {
                 showInSnackBar(lang.translation['pleaseFillAllRecords']
                     [Languages.selectedLanguage]);
-              } else if (emailController.text.indexOf("@") == -1) {
-                showInSnackBar(lang.translation['pleaseFillEmail']
-                    [Languages.selectedLanguage]);
-              } else {
+              }  else {
                 isLoading = true;
                 uPro
                     .register(
                       nameController.text,
-                      emailController.text,
                       passwordController.text,
                       phoneController.text,
                       context,
@@ -319,17 +314,14 @@ class _LoginScreenState extends State<LoginScreen> {
               //  uPro.register(name, email, password, phone, context, pageController);
 
             } else {
-              if (emailController.text == "" || passwordController.text == "") {
+              if (phoneController.text == "" || passwordController.text == "") {
                 showInSnackBar(lang.translation['pleaseFillAllRecords']
                     [Languages.selectedLanguage]);
-              } else if (emailController.text.indexOf("@") == -1) {
-                showInSnackBar(lang.translation['pleaseFillEmail']
-                    [Languages.selectedLanguage]);
-              } else {
+              }  else {
                 isLoading = true;
                 uPro
                     .login(
-                      emailController.text,
+                      phoneController.text,
                       passwordController.text,
                       context,
                       showInSnackBar,
@@ -449,7 +441,6 @@ class _LoginScreenState extends State<LoginScreen> {
       onTap: () {
         setState(() {
           nameController.text = '';
-          emailController.text = '';
           phoneController.text = '';
           passwordController.text = '';
 
@@ -487,7 +478,6 @@ class _LoginScreenState extends State<LoginScreen> {
       onTap: () {
         setState(() {
           nameController.text = '';
-          emailController.text = '';
           phoneController.text = '';
           passwordController.text = '';
           isRegister = false;
@@ -597,13 +587,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 30.0),
                         isRegister == true ? _buildUserName(lang) : SizedBox(),
                         SizedBox(height: 30.0),
-                        _buildEmailTF(lang),
-                        SizedBox(
-                          height: 30.0,
-                        ),
+                        // _buildEmailTF(lang),
+                        // SizedBox(
+                        //   height: 30.0,
+                        // ),
+                       _buildPhone(lang) ,
                         _buildPasswordTF(lang),
                         SizedBox(height: 30.0),
-                        isRegister == true ? _buildPhone(lang) : SizedBox(),
+                        
                         // isRegister == false
                         //     ? _buildForgotPasswordBtn()
                         //     : SizedBox(),

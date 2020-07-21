@@ -18,18 +18,18 @@ class CartProvider with ChangeNotifier {
   AllProviders _allProviders;
   CartProvider(this._allProviders);
   static String mainTitle = 'سلة المشتريات';
-  double lastTotalPrice = 0.0;
-  double lastlastTotalPrice = 0.0;
+  num lastTotalPrice = 0;
+  num lastlastTotalPrice = 0;
   bool isBuyed = false;
   BuildContext contextDone;
 
-  double getTotalPrice(double promocode) {
-    if (promocode != 0.0 && promocode < lastTotalPrice) {
+  num getTotalPrice(num promocode) {
+    if (promocode != 0 && promocode < lastTotalPrice) {
       lastlastTotalPrice =
-          (lastTotalPrice + double.parse(selectedShipPrice)) - promocode;
+          (lastTotalPrice + num.parse(selectedShipPrice)) - promocode;
       return lastlastTotalPrice;
     } else {
-      lastlastTotalPrice = lastTotalPrice + double.parse(selectedShipPrice);
+      lastlastTotalPrice = lastTotalPrice + num.parse(selectedShipPrice);
       return lastlastTotalPrice;
     }
   }
@@ -42,15 +42,15 @@ class CartProvider with ChangeNotifier {
     String productColor,
     int productQuantity,
   ) async {
-    double price;
+    num price;
 
     print("this price : $productPrice");
     print("this discount : $productDiscount");
 
-    if (productDiscount != null) {
-      price = double.parse(productDiscount) * productQuantity;
+    if (productDiscount != '') {
+      price = num.parse(productDiscount) * productQuantity;
     } else {
-      price = double.parse(productPrice) * productQuantity;
+      price = num.parse(productPrice) * productQuantity;
     }
 
     // if (price < 1000) {
@@ -63,8 +63,7 @@ class CartProvider with ChangeNotifier {
         await http.post("${AllProviders.hostName}/insert-cart-item.php", body: {
       "productId": product.id,
       "userId": UserProvider.userId.toString(),
-      "productPrice":
-          price > 1000 ? price.toStringAsFixed(3) : price.toString(),
+      "productPrice": price.toString(),
       "productSize": productSize,
       "productColor": productColor,
       "productQuantity": productQuantity.toString(),
@@ -86,7 +85,7 @@ class CartProvider with ChangeNotifier {
   Future<void> getCartItems() async {
     loadedAllCartItems = [];
     numOfCartItems = 0;
-    lastTotalPrice = 0.0;
+    lastTotalPrice = 0;
     final response = await http
         .post('${AllProviders.hostName}/get-cart-items-flutter.php', body: {
       'userId': UserProvider.userId.toString(),
@@ -97,7 +96,7 @@ class CartProvider with ChangeNotifier {
     // print(dataAllCartItems);
 
     dataAllCartItems.forEach((newsId) {
-      lastTotalPrice += double.parse(newsId['productPrice']);
+      lastTotalPrice += num.parse(newsId['productPrice']);
       numOfCartItems += 1;
       ProductShow theProduct;
       _allProviders.allProducts.forEach((element) {
@@ -110,7 +109,7 @@ class CartProvider with ChangeNotifier {
           theProduct = element;
         }
       });
-
+      notifyListeners();
       loadedAllCartItems.add(CartItemModel(
         id: newsId['id'],
         product_id: newsId['product_id'],
@@ -121,8 +120,9 @@ class CartProvider with ChangeNotifier {
         productQuantity: newsId['productQuantity'],
       ));
     });
+    print(loadedAllCartItems);
     _cartItems = loadedAllCartItems;
-    //notifyListeners();
+    notifyListeners();
   }
 
   int cartItemNumber;
@@ -357,6 +357,7 @@ class CartProvider with ChangeNotifier {
   String quantities = '';
   String sizes = '';
   String productIds = '';
+  String noColor = '';
   bool onceOrder = false;
   int index = 0;
   Future<void> sendOrder(String promocode) async {
@@ -389,7 +390,7 @@ class CartProvider with ChangeNotifier {
                         ' ' +
                         selectedAddress.city,
                     'promocode': promocode,
-                    'price': lastlastTotalPrice.toStringAsFixed(3),
+                    'price': lastlastTotalPrice,
                     'name': selectedAddress.name,
                   }).then((value) {
                 print(value);
@@ -413,12 +414,15 @@ class CartProvider with ChangeNotifier {
     quantities = '';
     sizes = '';
     productIds = '';
+    noColor = '';
+
     for (var i = 0; i < loadedAllCartItems.length; i++) {
       productNames += loadedAllCartItems[i].product.title + ',';
       quantities += loadedAllCartItems[i].productQuantity + ',';
       sizes += loadedAllCartItems[i].productSize + ',';
       productIds += loadedAllCartItems[i].product_id + ',';
-    
+      noColor += loadedAllCartItems[i].product.noColor + ',';
+
       String valueString = loadedAllCartItems[i]
           .productColor
           .toString()
@@ -427,7 +431,7 @@ class CartProvider with ChangeNotifier {
 
       colorsNames += '#' + valueString + ',';
     }
-
+    print(quantities[0]);
     await http.post('${AllProviders.hostName}/send-order-flutter.php', body: {
       'userId': UserProvider.userId.toString(),
       'product_ids': productNames,
@@ -435,6 +439,7 @@ class CartProvider with ChangeNotifier {
       'colors': colorsNames,
       'size': sizes,
       'quantities': quantities,
+      'noColor': noColor,
       'phone': selectedAddress.phone,
       'address': selectedAddress.address +
           ' ' +
@@ -442,7 +447,7 @@ class CartProvider with ChangeNotifier {
           ' ' +
           selectedAddress.city,
       'promocode': promocode,
-      'price': lastlastTotalPrice.toStringAsFixed(3),
+      'price': lastlastTotalPrice.toString(),
       'name': selectedAddress.name,
     }).then((value) {
       print(value.body);

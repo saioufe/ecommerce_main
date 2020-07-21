@@ -45,21 +45,73 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
       },
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            iconTheme: IconThemeData(color: Colors.white),
-            centerTitle: true,
-            title: Container(
-              margin: EdgeInsets.all(16),
-              child: Text(
-                lang.translation['aboutUs'][Languages.selectedLanguage],
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
+        backgroundColor: Theme.of(context).primaryColor,
+        iconTheme: IconThemeData(color: Colors.white),
+        leading: new Container(),
+        actions: <Widget>[
+          Languages.selectedLanguage == 0
+              ? Container(
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          allPro.NavBarShow(true);
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                      ),
+                      Text(
+                        lang.translation['aboutUs']
+                            [Languages.selectedLanguage],
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ))
+              : Container(
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        lang.translation['aboutUs']
+                            [Languages.selectedLanguage],
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          allPro.NavBarShow(true);
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                      ),
+                    ],
+                  ))
+        ],
+      ),
+      
+ 
           body: FutureBuilder(
               future: application.fetchDataAboutUs(),
               builder: (ctx, authResultSnap) {

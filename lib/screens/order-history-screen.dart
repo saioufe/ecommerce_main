@@ -86,18 +86,68 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
               ),
             ],
           ),
-          centerTitle: true,
-          title: Container(
-            margin: EdgeInsets.all(16),
-            child: Text(
-              lang.translation['OrdersTitle'][Languages.selectedLanguage],
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            ),
-          ),
+          leading: new Container(),
+          actions: <Widget>[
+            Languages.selectedLanguage == 0
+                ? Container(
+                    width: MediaQuery.of(context).size.width / 1.1,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        InkWell(
+                          onTap: () {
+                            allPro.NavBarShow(true);
+                            Navigator.pop(context);
+                          },
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                        Text(
+                          lang.translation['oldOrdersTitle']
+                              [Languages.selectedLanguage],
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ))
+                : Container(
+                    width: MediaQuery.of(context).size.width / 1.1,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          lang.translation['oldOrdersTitle']
+                              [Languages.selectedLanguage],
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            allPro.NavBarShow(true);
+                            Navigator.pop(context);
+                          },
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                            size: 25,
+                          ),
+                        ),
+                      ],
+                    ))
+          ],
         ),
         body: Container(
           height: MediaQuery.of(context).size.height -
@@ -109,94 +159,102 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
             physics: new NeverScrollableScrollPhysics(),
             controller: controllerPage,
             children: <Widget>[
-              SingleChildScrollView(
+              RefreshIndicator(
+                onRefresh: _refresh,
+                child: SingleChildScrollView(
                   child: FutureBuilder(
-                      future: orderPro.getOrders(),
-                      builder: (ctx, authResultSnap) {
-                        if (authResultSnap.connectionState ==
-                            ConnectionState.waiting) {
-                          return Container(
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        } else if (authResultSnap.hasError) {
-                          Center(
-                            child: Text(
-                              lang.translation['checkInternet']
-                                  [Languages.selectedLanguage],
-                            ),
-                          );
-                          return RaisedButton(
-                            onPressed: () {
-                              setState(() {
-                                //other.getUserLocation();
-                              });
-                              print(authResultSnap.error.toString());
-                            },
-                            child: Text(
-                                lang.translation['checkInternet']
-                                    [Languages.selectedLanguage],
-                                style: TextStyle(color: Colors.black)),
-                          );
-                        } else {
-                          return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: orderPro.allorders.map((item) {
-                                if (item.status != 'Pending') {
-                                  return OrderHistoryItem(
-                                    order: item,
-                                  );
-                                } else {
-                                  return SizedBox();
-                                }
-                              }).toList());
-                        }
-                      })),
-              SingleChildScrollView(
-                child: FutureBuilder(
-                  future: orderPro.getOrders(),
-                  builder: (ctx, authResultSnap) {
-                    if (authResultSnap.connectionState ==
-                        ConnectionState.waiting) {
-                      return Container(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    } else if (authResultSnap.hasError) {
-                      Center(
-                        child: Text(
-                          lang.translation['checkInternet']
-                              [Languages.selectedLanguage],
-                        ),
-                      );
-                      return RaisedButton(
-                        onPressed: () {
-                          setState(() {
-                            //other.getUserLocation();
-                          });
-                          print(authResultSnap.error.toString());
-                        },
-                        child: Text(
+                    future: orderPro.getOrders(),
+                    builder: (ctx, authResultSnap) {
+                      if (authResultSnap.connectionState ==
+                          ConnectionState.waiting) {
+                        return Container(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      } else if (authResultSnap.hasError) {
+                        Center(
+                          child: Text(
                             lang.translation['checkInternet']
                                 [Languages.selectedLanguage],
-                            style: TextStyle(color: Colors.black)),
-                      );
-                    } else {
-                      return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: orderPro.allorders.map((item) {
-                            if (item.status == 'Pending') {
-                              return OrderHistoryItem(
-                                order: item,
-                              );
-                            } else {
-                              return SizedBox();
-                            }
-                          }).toList());
-                    }
-                  },
+                          ),
+                        );
+                        return RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              //other.getUserLocation();
+                            });
+                            print(authResultSnap.error.toString());
+                          },
+                          child: Text(
+                              lang.translation['checkInternet']
+                                  [Languages.selectedLanguage],
+                              style: TextStyle(color: Colors.black)),
+                        );
+                      } else {
+                        return Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: orderPro.allorders.map((item) {
+                              if (item.status != 'Pending') {
+                                return OrderHistoryItem(
+                                  order: item,
+                                );
+                              } else {
+                                return SizedBox();
+                              }
+                            }).toList());
+                      }
+                    },
+                  ),
+                ),
+              ),
+              RefreshIndicator(
+                onRefresh: _refresh,
+                child: SingleChildScrollView(
+                  child: FutureBuilder(
+                    future: orderPro.getOrders(),
+                    builder: (ctx, authResultSnap) {
+                      if (authResultSnap.connectionState ==
+                          ConnectionState.waiting) {
+                        return Container(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      } else if (authResultSnap.hasError) {
+                        Center(
+                          child: Text(
+                            lang.translation['checkInternet']
+                                [Languages.selectedLanguage],
+                          ),
+                        );
+                        return RaisedButton(
+                          onPressed: () {
+                            setState(() {
+                              //other.getUserLocation();
+                            });
+                            print(authResultSnap.error.toString());
+                          },
+                          child: Text(
+                              lang.translation['checkInternet']
+                                  [Languages.selectedLanguage],
+                              style: TextStyle(color: Colors.black)),
+                        );
+                      } else {
+                        return Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: orderPro.allorders.map((item) {
+                              if (item.status == 'Pending') {
+                                return OrderHistoryItem(
+                                  order: item,
+                                );
+                              } else {
+                                return SizedBox();
+                              }
+                            }).toList());
+                      }
+                    },
+                  ),
                 ),
               ),
             ],
@@ -204,5 +262,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
         ),
       ),
     );
+  }
+
+  Future<void> _refresh() async {
+    setState(() {});
   }
 }

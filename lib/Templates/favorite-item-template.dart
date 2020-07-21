@@ -49,80 +49,159 @@ class _FavoriteItemTemplateState extends State<FavoriteItemTemplate> {
         borderRadius: BorderRadius.all(Radius.circular(10)),
         clipBehavior: Clip.antiAlias,
         child: Container(
-          margin: EdgeInsets.only(bottom: 14),
-          width: MediaQuery.of(context).size.width / 1.1,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-          child: Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    height: 150,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            width: 120,
-                            child: Text(
-                              Languages.selectedLanguage == 0
-                                  ? widget.product.title
-                                  : widget.product.titleEngilsh,
-                              textAlign: TextAlign.center,
-                              textDirection: Languages.selectedLanguage == 0
-                                  ? TextDirection.rtl
-                                  : TextDirection.ltr,
-                              maxLines: 5,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,),
+            margin: EdgeInsets.only(bottom: 14),
+            width: MediaQuery.of(context).size.width / 1.1,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Languages.selectedLanguage == 0
+                ? Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            height: 150,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Container(
+                                    width: 120,
+                                    child: Text(
+                                      Languages.selectedLanguage == 0
+                                          ? widget.product.title
+                                          : widget.product.titleEngilsh,
+                                      textAlign: TextAlign.center,
+                                      textDirection:
+                                          Languages.selectedLanguage == 0
+                                              ? TextDirection.rtl
+                                              : TextDirection.ltr,
+                                      maxLines: 5,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                LikeButton(
+                                  size: 30,
+                                  isLiked:
+                                      allPro.favoriteList[widget.product.id],
+                                  onTap: onLikeButtonTapped,
+                                  circleColor: CircleColor(
+                                      start: Theme.of(context).primaryColor,
+                                      end: Theme.of(context).primaryColor),
+                                  bubblesColor: BubblesColor(
+                                    dotPrimaryColor:
+                                        Theme.of(context).primaryColor,
+                                    dotSecondaryColor:
+                                        Theme.of(context).primaryColor,
+                                  ),
+                                  likeBuilder: (bool isLiked) {
+                                    return Icon(
+                                      Icons.favorite,
+                                      color: isLiked
+                                          ? Theme.of(context).primaryColor
+                                          : Colors.grey.withOpacity(0.4),
+                                      size: 40,
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        LikeButton(
-                          size: 30,
-                          isLiked: allPro.favoriteList[widget.product.id],
-                          onTap: onLikeButtonTapped,
-                          circleColor: CircleColor(
-                              start: Theme.of(context).primaryColor,
-                              end: Theme.of(context).primaryColor),
-                          bubblesColor: BubblesColor(
-                            dotPrimaryColor: Theme.of(context).primaryColor,
-                            dotSecondaryColor: Theme.of(context).primaryColor,
+                          FadeInImage(
+                            placeholder:
+                                AssetImage('assets/images/placeholder.png'),
+                            height: 120,
+                            width: 200,
+                            image: NetworkImage(
+                                "${AllProviders.hostName}/images/products/${widget.product.image}"),
+                            fit: BoxFit.cover,
                           ),
-                          likeBuilder: (bool isLiked) {
-                            return Icon(
-                              Icons.favorite,
-                              color: isLiked
-                                  ? Theme.of(context).primaryColor
-                                  : Colors.grey.withOpacity(0.4),
-                              size: 40,
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  FadeInImage(
-                    placeholder: AssetImage('assets/images/placeholder.png'),
-                    height: 120,
-                    width: 200,
-                    image: NetworkImage(
-                        "${AllProviders.hostName}/images/products/${widget.product.image}"),
-                    fit: BoxFit.cover,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+                        ],
+                      ),
+                    ],
+                  )
+                : Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          FadeInImage(
+                            placeholder:
+                                AssetImage('assets/images/placeholder.png'),
+                            height: 120,
+                            width: 200,
+                            image: NetworkImage(
+                                "${AllProviders.hostName}/images/products/${widget.product.image}"),
+                            fit: BoxFit.cover,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            height: 150,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  child: Container(
+                                    width: 120,
+                                    child: Text(
+                                      Languages.selectedLanguage == 0
+                                          ? widget.product.title
+                                          : widget.product.titleEngilsh,
+                                      textAlign: TextAlign.center,
+                                      textDirection:
+                                          Languages.selectedLanguage == 0
+                                              ? TextDirection.rtl
+                                              : TextDirection.ltr,
+                                      maxLines: 5,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                LikeButton(
+                                  size: 30,
+                                  isLiked:
+                                      allPro.favoriteList[widget.product.id],
+                                  onTap: onLikeButtonTapped,
+                                  circleColor: CircleColor(
+                                      start: Theme.of(context).primaryColor,
+                                      end: Theme.of(context).primaryColor),
+                                  bubblesColor: BubblesColor(
+                                    dotPrimaryColor:
+                                        Theme.of(context).primaryColor,
+                                    dotSecondaryColor:
+                                        Theme.of(context).primaryColor,
+                                  ),
+                                  likeBuilder: (bool isLiked) {
+                                    return Icon(
+                                      Icons.favorite,
+                                      color: isLiked
+                                          ? Theme.of(context).primaryColor
+                                          : Colors.grey.withOpacity(0.4),
+                                      size: 40,
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
       ),
     );
   }
